@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    >
+
+    <data>
+        <variable
+            name="lang"
+            type="String" />
+    </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:scrollbars="none"
+        tools:context=".activities_fragments.activity_sign_in.SignInActivity"
+        android:background="@color/white"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/flLogo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/top_bg"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/signup"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/flLogo"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/signup"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="80dp"
+                    android:layout_marginRight="80dp"
+                    android:background="@color/gray6">
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/green" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/ll1"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@id/ll3"
+
+
+                >
+                <LinearLayout
+                    android:id="@+id/llClient"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:background="@drawable/btn_as_provider"
+
+                    >
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_user"
+                        android:tint="@color/white"
+                        android:padding="8dp"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:text="@string/as_client"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llProvider"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:background="@drawable/btn_as_client"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+
+                    >
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_bag"
+                        android:tint="@color/white"
+                        android:padding="8dp"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:text="@string/as_provider"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="bold"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        />
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@id/ll2"
+                android:layout_marginBottom="5dp"
+
+                >
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight=".75"
+                    android:background="@color/gray6"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:gravity="center"
+                    android:text="@string/member_in_sheari"
+                    />
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight=".75"
+                    android:background="@color/gray6"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="vertical"
+                android:background="@color/gray1"
+                >
+
+
+                <FrameLayout
+                    android:id="@+id/flChangeLanguage"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/btn_lang"
+                    android:layout_gravity="center_horizontal"
+                    >
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:clickable="false"
+                        android:longClickable="false"
+
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{lang.equals("ar")?"English":"العربية"}'
+                            android:textSize="13sp"
+                            android:textColor="@color/gray6"
+                            />
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ic_language"
+                            android:tint="@color/gray6"
+                            android:padding="10dp"/>
+
+
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/btnSignIn"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/btn_as_client"
+                    android:text="@string/sign_in"/>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

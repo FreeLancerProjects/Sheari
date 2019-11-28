@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">برانش سائق</string>
+    <string name="map_api_key">AIzaSyCbc2Y5AIwZ8uUeHRUXiozGN3CnpjKT0oI</string>
+    <string name="log_in">تسجيل الدخول</string>
+    <string name="password">كلمة المرور</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="signup">إنشاء حساب جديد</string>
+    <string name="are_you_forgot_password">نسيت كلمة المرور؟</string>
+
+    <string name="user_name">الإسم</string>
+    <string name="phone">رقم الجوال</string>
+    <string name="you_already_have_an_account_log_in">لدي حساب بالفعل ! سجل الدخول</string>
+    <string name="home">الرئيسية</string>
+    <string name="notifications">الاشعارات</string>
+    <string name="more">المزيد</string>
+    <string name="bank_account"> الحسابات البنكية </string>
+    <string name="terms_and_conditions">الشروط والاحكام</string>
+    <string name="about_app">عن التطبيق</string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="skip">تخطي</string>
+
+    <string name="field_req">الحقل مطلوب</string>
+    <string name="inv_email">البريد الالكتروني غير صحيح</string>
+    <string name="back">رجوع</string>
+    <string name="since">منذ</string>
+    <string name="wait">إنتظر قليلا...</string>
+    <string name="inv_em_ps">البريد الالكتروني او كلمة المرور غير صحيحة</string>
+    <string name="failed">فشل حاول مرة اخرى لاحقا</string>
+    <string name="something">تحقق من الاتصال بالانترنت</string>
+    <string name="em_exist">البريد الالكتروني او رقم الجوال موجود مسبقا</string>
+    <string name="profile">حسابي</string>
+    <string name="general_settings">الإعدادت العامة</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="language_settings">إعدادات اللغة</string>
+    <string name="no_details">لا توجد تفاصيل</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="please_sign_in_or_sign_up">برجاء تسجيل الدخول أو إنشاء حساب جديد.</string>
+    <string name="cancel">إلغاء</string>
+    <string name="suc">تم بنجاح</string>
+    <string name="bank_name">إسم البنك</string>
+    <string name="account_name">إسم الحساب</string>
+    <string name="account_iban">الايبان</string>
+    <string name="account_number">رقم الحساب</string>
+    <string name="ok">حسنا!</string>
+    <string name="select_location_on_map">حدد موقعك على الخريطة</string>
+    <string name="upload_picture">إرفع صورة</string>
+    <string name="select_a_picture_to_upload">إختر صورة لرفعها</string>
+    <string name="camera">كاميرا</string>
+    <string name="gallery">البوم صور</string>
+    <string name="perm_image_denied">الوصول لصور غير مسموح</string>
+    <string name="done">تم</string>
+
+    <string name="change_language">تغير اللغة</string>
+
+    <string name="next">التالى</string>
+
+    <string name="name">الاسم</string>
+
+    <string name="call">اتصال</string>
+    <string name="message">رسالة</string>
+    <string name="location">موقع</string>
+    <string name="share">شارك</string>
+    <string name="edit">تعديل</string>
+    <string name="price">سعر</string>
+    <string name="delete">حذف</string>
+
+    <string name="detials">تفاصيل</string>
+    <string name="register">سجل</string>
+    <string name="upload_image">اضف الصوره</string>
+    <string name="ads_photos">صور الاعلان</string>
+
+    <string name="about">حول</string>
+    <string name="time">الوقت</string>
+    <string name="map">الخريطه</string>
+
+
+    <string name="share_in">مشاركه فى  </string>
+
+    <string name="blokced">تم حظر المستخدم</string>
+    <string name="enter_code">أدخل الرمز</string>
+    <string name="we_ll_never_share_or_sell_your_phone_number_your_privacy_is_100_guaranteed">بياناتك في الحفظ والصون لدينا، ماراح نشارك بياناتك مع اي احد ولأي سبب.</string>
+    <string name="enter_the_sms_verification_code_below_that_was_sent_to_your_mobile_phone">أرجو منك إدخال الرمز المرسل إلى هاتفك الجوال.</string>
+    <string name="inc_code_verification">رمز التحقق غير صحيح</string>
+    <string name="you_will_receive_4_digit">ارسلنا لك رمز التفعيل على جوالك نرجو منك إدخال الرمز.</string>
+    <string name="resend">أعد الارسال</string>
+    <string name="confirm">تحقق</string>
+    <string name="inc_code">رمز التحقق غير صحيح</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="send">إرسال</string>
+    <string name="no_name">لا يوجد إسم</string>
+    <string name="more_details">للمزيد من التفاصيل :</string>
+
+    <string name="no_search_result">نتائج البحث فارغة</string>
+    <string name="search_results">نتائج البحث</string>
+    <string name="result">النتائج</string>
+    <string name="from">من</string>
+    <string name="no_categories_to_display">لا توجد فئات لعرضها</string>
+
+    <string name="sms">رسالة</string>
+    <string name="sign_out">تسجيل الخروج</string>
+
+
+    <string name="wil_rev_req">سوف يتم مراجعة طلبك من الادارة والرد عليكم يسعدنا استخدامك لتطبيق حراج الاول.</string>
+    <string name="add_photo">أضف صورة</string>
+    <string name="category">قسم الإعلان</string>
+
+    <string name="city">المدينة :</string>
+    <string name="ch_city">إختر المدينة</string>
+    <string name="ch">إختر</string>
+    <string name="select">تحديد</string>
+    <string name="select_picture">إختر الصور</string>
+    <string name="approved">تم إعتماد</string>
+    <string name="no_notifications_to_display">لا يوجد إشعارات لعرضها</string>
+    <string name="just_now">الان</string>
+    <string name="a_minute_ago">منذ دقيقة</string>
+    <string name="min">دقيقة</string>
+    <string name="an_hour_ago">منذ ساعة</string>
+    <string name="hs">ساعة</string>
+    <string name="yesterday">امس</string>
+    <string name="day">يوم</string>
+    <string name="type_a_message">إكتب رسالة....</string>
+    <string name="img_sent">تم إرسال صورة لك</string>
+    <string name="pass_short">كلمة المرور قصيرة جدا</string>
+    <string name="code">الكود</string>
+    <string name="create_an_account">إنشاء حساب جديد</string>
+    <string name="about_me">عني</string>
+    <string name="accept_terms_and_conditions">الموافقة على الشروط والاحكام</string>
+    <string name="ch_exper">إختر الخبرة</string>
+    <string name="ch_dept">إختر القسم</string>
+    <string name="cnt_sign_accept">لا يمكنك إنشاء حساب دون الموافقة على الشروط والاحكام</string>
+    <string name="services">الخدمات</string>
+    <string name="no_service">لا توجد خدمات</string>
+    <string name="no_orders">لا توجد طلبات</string>
+    <string name="orders">الطلبات</string>
+    <string name="forgot_password">نسيت كلمة المرور ؟</string>
+    <string name="picture">صورة</string>
+    <string name="open">إفتح</string>
+    <string name="close">إغلق</string>
+    <string name="as_provider">كمقدم خدمة</string>
+    <string name="as_client">كعضو مستفيد</string>
+    <string name="member_in_sheari">عضو في شعاري</string>
+    <string name="visitor">هل انت زائر ؟</string>
+    <string name="will_send_email">سنرسل لك رابطا على البريد الالكتروني لاستعاده كلمة المرور.</string>
+    <string name="client_sign_up">تسجيل كعضو (مستفيد)</string>
+    <string name="country_key">مفتاح الدولة</string>
+    <string name="re_password">إعادة كلمة المرور</string>
+    <string name="previous">السابق</string>
+    <string name="accept_terms_conditions">الموافقة على الشروط والاحكام</string>
+    <string name="re_pass_not_match">كلمة المرور غير متطابقة</string>
+    <string name="provider_sign_up">تسجيل مقدم خدمة</string>
+    <string name="company">شركة</string>
+    <string name="user">فرد</string>
+    <string name="choose_company_type">إختر نوع الشركة</string>
+    <string name="holding_company">قابضة</string>
+    <string name="shareholding">مساهمة</string>
+    <string name="limited">محدودة</string>
+    <string name="start_up">ناشئة</string>
+    <string name="name2">الاسم :</string>
+    <string name="address">العنوان :</string>
+    <string name="country">الدولة :</string>
+    <string name="logistic_services">خدمات لوجيستية إضافية</string>
+    <string name="charity_offers">عروض خيرية</string>
+    <string name="delivery_services">خدمات توصيل</string>
+    <string name="employees">عدد الموظفين</string>
+    <string name="to">الى</string>
+    <string name="year_of_construction">سنة الإنشاء</string>
+    <string name="commercial_register">السجل التجاري</string>
+    <string name="main_department">القسم الرئيسي</string>
+    <string name="sub_department">القسم الفرعي</string>
+    <string name="intermediate_education">التعليم المتوسط</string>
+    <string name="primary_education">التعليم الابتدائي</string>
+    <string name="university_education">التعليم الجامعي</string>
+    <string name="year">السنة</string>
+    <string name="ch_type">إختر النوع</string>
+    <string name="ch_country">إختر الدولة</string>
+    <string name="ch_sub_dept">اختر القسم الفرعي</string>
+    <string name="ch_serv">اختر الخدمة</string>
+    <string name="sorry_this_service_is_not_available_now">عفوا هذه الصفحة غير متاحة الان.</string>
+    <string name="depts">الاقسام</string>
+    <string name="events_des">تصاميم المناسبات</string>
+    <string name="market">سوق شعاري</string>
+    <string name="search_in_map">البحث في الخريطة</string>
+    <string name="offers">العروض</string>
+    <string name="offers_and_orders">طلبات وعروض</string>
+    <string name="search2">بحث</string>
+    <string name="provider">مقدموا الخدمة</string>
+
+</resources>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/provider"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginEnd="80dp"
+                        android:layout_marginRight="80dp"
+                        android:background="@color/gray6">
+
+                        <View
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/green" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_gray"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/black"
+                        />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/black"
+
+                        />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_gray"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/black"
+                        />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimary"
+
+
+
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        >
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_search"
+                            android:rotation="30"
+                            android:padding="4dp"
+                            android:tint="@color/white"
+
+
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/white"
+                            android:text="@string/search2"
+                            />
+                    </LinearLayout>
+
+                </FrameLayout>
+
+
+
+            </LinearLayout>
+
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:name="com.creative.share.apps.sheari.activities_fragments.activity_provider_sign_up.fragments.FragmentMapTouchListener"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

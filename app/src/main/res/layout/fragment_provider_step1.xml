@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_company"
+                    android:padding="10dp"
+                    />
+                <RadioButton
+                    android:id="@+id/rbCompany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/company"
+                    android:textSize="16sp"
+                    android:button="@drawable/rb_yellow_bg"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/black"
+
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_user"
+                    android:padding="10dp"
+                    />
+                <RadioButton
+                    android:id="@+id/rbUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/user"
+                    android:textSize="16sp"
+                    android:button="@drawable/rb_yellow_bg"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/black"
+
+
+                    />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toBottomOf="@id/ll"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/btn_as_client"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:text="@string/next"
+                app:layout_constraintVertical_bias=".3"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

@@ -1,0 +1,379 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="lang"
+            type="String" />
+        <variable
+            name="showCountryDialogListener"
+            type="com.creative.share.apps.sheari.interfaces.Listeners.ShowCountryDialogListener" />
+
+        <variable
+            name="clientSignUp"
+            type="com.creative.share.apps.sheari.models.ClientSignUpModel" />
+
+
+    </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:scrollbars="none"
+        tools:context=".activities_fragments.activity_sign_in.SignInActivity"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/flLogo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/top_bg"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom"
+                    >
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/client_sign_up"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        >
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/circle_white"
+
+
+                            />
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/circle_white_blue"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/flLogo"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/signup"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="80dp"
+                    android:layout_marginRight="80dp"
+                    android:background="@color/gray6">
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/green" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll1"
+                app:layout_constraintBottom_toTopOf="@id/fl"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintVertical_bias=".3"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rounder_gray"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_email"
+                        android:padding="5dp"
+                        android:tint="@color/colorPrimary"
+
+                        />
+                    <EditText
+                        android:id="@+id/edtEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/white"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray4"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@={clientSignUp.email}"
+                        error="@{clientSignUp.error_email}"
+
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounder_gray"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_lock"
+                        android:padding="5dp"
+                        android:tint="@color/colorPrimary"
+
+                        />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        app:errorEnabled="false"
+                        app:passwordToggleTint="@color/colorPrimary"
+                        app:passwordToggleEnabled="true"
+                        app:helperTextEnabled="false"
+                        app:hintEnabled="false"
+                        android:layout_gravity="center_vertical"
+                        >
+                        <EditText
+                            android:id="@+id/edtPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="37dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/white"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray4"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@={clientSignUp.password}"
+                            error="@{clientSignUp.error_password}"
+
+
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounder_gray"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_lock"
+                        android:padding="5dp"
+                        android:tint="@color/colorPrimary"
+
+                        />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        app:errorEnabled="false"
+                        app:passwordToggleTint="@color/colorPrimary"
+                        app:passwordToggleEnabled="true"
+                        app:helperTextEnabled="false"
+                        app:hintEnabled="false"
+                        android:layout_gravity="center_vertical"
+                        >
+                        <EditText
+                            android:id="@+id/edtRePassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="37dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@color/white"
+                            android:hint="@string/re_password"
+                            android:inputType="textPassword"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray4"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@={clientSignUp.re_password}"
+                            error="@{clientSignUp.error_re_password}"
+
+
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:button="@drawable/rb_bg"
+                    android:text="@string/accept_terms_conditions"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+
+
+                    />
+
+
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/fl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/gray1"
+                android:padding="10dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/ll2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+
+                    >
+
+                    <Button
+                        android:id="@+id/btnDone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        android:text="@string/done"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/border_blue"
+                        android:textAllCaps="false"
+                        />
+
+                    <Button
+                        android:id="@+id/btnPrevious"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        android:text="@string/previous"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/border_blue"
+                        android:textAllCaps="false"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+
+                        />
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
