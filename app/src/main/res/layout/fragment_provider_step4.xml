@@ -101,41 +101,100 @@
 
                 </RadioGroup>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="@string/employees"
-                    android:layout_marginTop="20dp"
-                    />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:visibility='@{signUpModel.type==1?View.GONE:View.VISIBLE,default=gone}'
+
+
                     >
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="15sp"
-                        android:text="@string/from"
+                        android:text="@string/employees"
+
                         />
-                    <EditText
-                        android:layout_width="100dp"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:text="@string/from"
+                            />
+                        <EditText
+                            android:layout_width="100dp"
+                            android:layout_height="35dp"
+                            android:singleLine="true"
+                            android:background="@drawable/rounder_gray"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:inputType="number"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="@={signUpModel.from_emp}"
+                            error="@{signUpModel.error_from_emp}"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:text="@string/to"
+                            />
+                        <EditText
+                            android:layout_width="100dp"
+                            android:layout_height="35dp"
+                            android:singleLine="true"
+                            android:background="@drawable/rounder_gray"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:inputType="number"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="@={signUpModel.to_emp}"
+                            error="@{signUpModel.error_to_emp}"
+                            />
+
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:text="@string/year_of_construction"
+                        android:layout_marginTop="10dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvYear"
+                        android:layout_width="120dp"
                         android:layout_height="35dp"
-                        android:singleLine="true"
                         android:background="@drawable/rounder_gray"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:inputType="number"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
-                        android:text="@={signUpModel.from_emp}"
-                        error="@{signUpModel.error_from_emp}"
+                        android:gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:text="@={signUpModel.year}"
+                        error="@{signUpModel.error_year}"
+
                         />
 
                     <TextView
@@ -143,76 +202,28 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="15sp"
-                        android:text="@string/to"
+                        android:text="@string/commercial_register"
+                        android:layout_marginTop="10dp"
                         />
+
                     <EditText
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
+                        android:id="@+id/edtCommercial"
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:layout_gravity="center_vertical"
                         android:singleLine="true"
-                        android:background="@drawable/rounder_gray"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:inputType="number"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text="@={signUpModel.to_emp}"
-                        error="@{signUpModel.error_to_emp}"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray4"
+                        android:textSize="14sp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@={signUpModel.commercial}"
+                        error="@{signUpModel.error_commercial}"
+
                         />
-
-
-
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="@string/year_of_construction"
-                    android:layout_marginTop="10dp"
-                    />
-
-                <TextView
-                    android:id="@+id/tvYear"
-                    android:layout_width="120dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/rounder_gray"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:text="@={signUpModel.year}"
-                    error="@{signUpModel.error_year}"
-
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="@string/commercial_register"
-                    android:layout_marginTop="10dp"
-                    />
-
-                <EditText
-                    android:id="@+id/edtCommercial"
-                    android:layout_width="match_parent"
-                    android:layout_height="37dp"
-                    android:layout_gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray4"
-                    android:textSize="14sp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@={signUpModel.commercial}"
-                    error="@{signUpModel.error_commercial}"
-
-                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -220,7 +231,7 @@
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:text="@string/main_department"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="25dp"
                     />
                 <FrameLayout
                     android:layout_width="match_parent"

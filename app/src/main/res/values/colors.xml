@@ -26,6 +26,21 @@
     <color name="tab_selected_color">#0c97be</color>
     <color name="white_blue">#03e4f6</color>
 
+    <color name="color1">@color/menu_color</color>
+    <color name="color2">#692a3d</color>
+    <color name="color3">#082a41</color>
+    <color name="color4">#41554e</color>
+    <color name="color5">#f58232</color>
+    <color name="color6">#d4e1e8</color>
+    <color name="color7">#74abc6</color>
+    <color name="color8">#44cf24</color>
+    <color name="color9">#5c1b1c</color>
+    <color name="color10">#2f84ae</color>
+    <color name="color11">#d4dc35</color>
+
+
+
+
 
 
 </resources>

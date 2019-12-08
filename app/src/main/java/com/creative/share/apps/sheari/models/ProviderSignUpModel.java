@@ -47,7 +47,6 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
     private double lng;
 
 
-
     public ObservableField<String> error_name = new ObservableField<>();
     public ObservableField<String> error_email = new ObservableField<>();
     public ObservableField<String> error_phone_code = new ObservableField<>();
@@ -65,8 +64,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
     public ObservableField<String> error_commercial = new ObservableField<>();
 
 
-    public boolean step1IsValid(Context context)
-    {
+    public boolean step1IsValid(Context context) {
         if (type != 0) {
             return true;
         } else {
@@ -77,46 +75,73 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
 
     }
 
-    public boolean step2IsValid(Context context)
-    {
-        if (company_type != 0 &&
-                !name.isEmpty() &&
-                country_id != 0 &&
-                city_id != 0
-        ) {
-            error_name.set(null);
-            return true;
-        } else {
-            if (TextUtils.isEmpty(name)) {
-                error_name.set(context.getString(R.string.field_req));
-            } else {
+    public boolean step2IsValid(Context context) {
+        if (type == 1) {
+            if (!name.isEmpty() &&
+                    country_id != 0 &&
+                    city_id != 0
+            ) {
                 error_name.set(null);
+                return true;
+            } else {
+                if (TextUtils.isEmpty(name)) {
+                    error_name.set(context.getString(R.string.field_req));
+                } else {
+                    error_name.set(null);
+                }
+
+
+                if (country_id == 0) {
+                    Toast.makeText(context, R.string.ch_country, Toast.LENGTH_SHORT).show();
+                }
+
+                if (city_id == 0) {
+                    Toast.makeText(context, R.string.ch_city, Toast.LENGTH_SHORT).show();
+                }
+
+
+                return false;
             }
+        } else {
+            if (company_type != 0 &&
+                    !name.isEmpty() &&
+                    country_id != 0 &&
+                    city_id != 0
+            ) {
+                error_name.set(null);
+                return true;
+            } else {
+                if (TextUtils.isEmpty(name)) {
+                    error_name.set(context.getString(R.string.field_req));
+                } else {
+                    error_name.set(null);
+                }
 
-            if (company_type == 0) {
-                Toast.makeText(context, context.getString(R.string.ch_type), Toast.LENGTH_SHORT).show();
+                if (company_type == 0) {
+                    Toast.makeText(context, context.getString(R.string.ch_type), Toast.LENGTH_SHORT).show();
+                }
+
+                if (country_id == 0) {
+                    Toast.makeText(context, R.string.ch_country, Toast.LENGTH_SHORT).show();
+                }
+
+                if (city_id == 0) {
+                    Toast.makeText(context, R.string.ch_city, Toast.LENGTH_SHORT).show();
+                }
+
+
+                return false;
             }
-
-            if (country_id == 0) {
-                Toast.makeText(context, R.string.ch_country, Toast.LENGTH_SHORT).show();
-            }
-
-            if (city_id == 0) {
-                Toast.makeText(context, R.string.ch_city, Toast.LENGTH_SHORT).show();
-            }
-
-
-            return false;
         }
+
     }
 
-    public boolean step3IsValid(Context context)
-    {
-        if (!phone_code.isEmpty()&&
-                !phone.isEmpty()&&
+    public boolean step3IsValid(Context context) {
+        if (!phone_code.isEmpty() &&
+                !phone.isEmpty() &&
                 !email.isEmpty() &&
-                Patterns.EMAIL_ADDRESS.matcher(email).matches()&&
-                password.length()>5&&
+                Patterns.EMAIL_ADDRESS.matcher(email).matches() &&
+                password.length() > 5 &&
                 password.equals(re_password)
         ) {
             error_phone_code.set(null);
@@ -124,12 +149,12 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
             error_email.set(null);
             error_password.set(null);
             error_re_password.set(null);
-            Log.e("1","1");
+            Log.e("1", "1");
 
             return true;
         } else {
 
-            Log.e("2","2");
+            Log.e("2", "2");
 
 
             if (TextUtils.isEmpty(phone_code)) {
@@ -146,33 +171,23 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
             }
 
 
-            if (email.isEmpty())
-            {
+            if (email.isEmpty()) {
                 error_email.set(context.getString(R.string.field_req));
 
-            }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
-            {
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 error_email.set(context.getString(R.string.inv_email));
-            }
-            else
-            {
+            } else {
                 error_email.set(null);
             }
 
 
-            if (password.isEmpty())
-            {
+            if (password.isEmpty()) {
                 error_password.set(context.getString(R.string.field_req));
-            }else if (password.length()<6)
-            {
+            } else if (password.length() < 6) {
                 error_password.set(context.getString(R.string.pass_short));
-            }else if (!password.equals(re_password))
-            {
+            } else if (!password.equals(re_password)) {
                 error_re_password.set(context.getString(R.string.re_pass_not_match));
-            }
-
-            else
-            {
+            } else {
                 error_password.set(null);
                 error_re_password.set(null);
             }
@@ -182,117 +197,184 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
         }
     }
 
-    public boolean step4IsValid(Context context)
-    {
-        if (!about_me.isEmpty()&&
-                service!=0&
-                !from_emp.isEmpty() &&
-                !to_emp.isEmpty() &&
-                !year.isEmpty()&&
-                !commercial.isEmpty() &&
-                !edu_primary.isEmpty() &&
-                !edu_mid.isEmpty() &&
-                !edu_uni.isEmpty() &&
-                !address.isEmpty() &&
-                !dept_id.isEmpty() &&
-                !sub_dep.isEmpty()
+    public boolean step4IsValid(Context context) {
+        if (type == 1) {
+
+            if (!about_me.isEmpty() &&
+                    service != 0 &&
+                    !edu_primary.isEmpty() &&
+                    !edu_mid.isEmpty() &&
+                    !edu_uni.isEmpty() &&
+                    !address.isEmpty() &&
+                    !dept_id.isEmpty() &&
+                    !sub_dep.isEmpty()
 
 
-
-
-
-        ) {
-            error_about.set(null);
-            error_from_emp.set(null);
-            error_to_emp.set(null);
-            error_year.set(null);
-            error_commercial.set(null);
-            error_edu_prim.set(null);
-            error_edu_mid.set(null);
-            error_edu_uni.set(null);
-            error_address.set(null);
-
-            return true;
-        } else {
-            if (TextUtils.isEmpty(about_me)) {
-                error_about.set(context.getString(R.string.field_req));
-            } else {
+            ) {
                 error_about.set(null);
-            }
-
-
-            if (TextUtils.isEmpty(from_emp)) {
-                error_from_emp.set(context.getString(R.string.field_req));
-            } else {
                 error_from_emp.set(null);
-            }
-
-            if (TextUtils.isEmpty(year)) {
-                error_year.set(context.getString(R.string.field_req));
-            } else {
-                error_year.set(null);
-            }
-
-            if (TextUtils.isEmpty(commercial)) {
-                error_commercial.set(context.getString(R.string.field_req));
-            } else {
-                error_commercial.set(null);
-            }
-
-            if (TextUtils.isEmpty(to_emp)) {
-                error_to_emp.set(context.getString(R.string.field_req));
-            } else {
                 error_to_emp.set(null);
-            }
-
-            if (TextUtils.isEmpty(edu_primary)) {
-                error_edu_prim.set(context.getString(R.string.field_req));
-            } else {
+                error_year.set(null);
+                error_commercial.set(null);
                 error_edu_prim.set(null);
-            }
-
-            if (TextUtils.isEmpty(edu_mid)) {
-                error_edu_mid.set(context.getString(R.string.field_req));
-            } else {
                 error_edu_mid.set(null);
-            }
-
-            if (TextUtils.isEmpty(edu_uni)) {
-                error_edu_uni.set(context.getString(R.string.field_req));
-            } else {
                 error_edu_uni.set(null);
-            }
-
-            if (TextUtils.isEmpty(address)) {
-                error_address.set(context.getString(R.string.field_req));
-            } else {
                 error_address.set(null);
+
+                return true;
+            } else {
+                if (TextUtils.isEmpty(about_me)) {
+                    error_about.set(context.getString(R.string.field_req));
+                } else {
+                    error_about.set(null);
+                }
+
+
+
+
+
+                if (TextUtils.isEmpty(edu_primary)) {
+                    error_edu_prim.set(context.getString(R.string.field_req));
+                } else {
+                    error_edu_prim.set(null);
+                }
+
+                if (TextUtils.isEmpty(edu_mid)) {
+                    error_edu_mid.set(context.getString(R.string.field_req));
+                } else {
+                    error_edu_mid.set(null);
+                }
+
+                if (TextUtils.isEmpty(edu_uni)) {
+                    error_edu_uni.set(context.getString(R.string.field_req));
+                } else {
+                    error_edu_uni.set(null);
+                }
+
+                if (TextUtils.isEmpty(address)) {
+                    error_address.set(context.getString(R.string.field_req));
+                } else {
+                    error_address.set(null);
+                }
+
+                if (service == 0) {
+                    Toast.makeText(context, R.string.ch_serv, Toast.LENGTH_SHORT).show();
+                }
+                if (dept_id.isEmpty()) {
+                    Toast.makeText(context, context.getString(R.string.ch_dept), Toast.LENGTH_SHORT).show();
+                }
+
+                if (sub_dep.isEmpty()) {
+                    Toast.makeText(context, R.string.ch_sub_dept, Toast.LENGTH_SHORT).show();
+                }
+
+
+                return false;
             }
+        } else {
 
-            if (service==0)
-            {
-                Toast.makeText(context, R.string.ch_serv, Toast.LENGTH_SHORT).show();
+            if (!about_me.isEmpty() &&
+                    service != 0 &&
+                    !from_emp.isEmpty() &&
+                    !to_emp.isEmpty() &&
+                    !year.isEmpty() &&
+                    !commercial.isEmpty() &&
+                    !edu_primary.isEmpty() &&
+                    !edu_mid.isEmpty() &&
+                    !edu_uni.isEmpty() &&
+                    !address.isEmpty() &&
+                    !dept_id.isEmpty() &&
+                    !sub_dep.isEmpty()
+
+
+            ) {
+                error_about.set(null);
+                error_from_emp.set(null);
+                error_to_emp.set(null);
+                error_year.set(null);
+                error_commercial.set(null);
+                error_edu_prim.set(null);
+                error_edu_mid.set(null);
+                error_edu_uni.set(null);
+                error_address.set(null);
+
+                return true;
+            } else {
+                if (TextUtils.isEmpty(about_me)) {
+                    error_about.set(context.getString(R.string.field_req));
+                } else {
+                    error_about.set(null);
+                }
+
+
+                if (TextUtils.isEmpty(from_emp)) {
+                    error_from_emp.set(context.getString(R.string.field_req));
+                } else {
+                    error_from_emp.set(null);
+                }
+
+                if (TextUtils.isEmpty(year)) {
+                    error_year.set(context.getString(R.string.field_req));
+                } else {
+                    error_year.set(null);
+                }
+
+                if (TextUtils.isEmpty(commercial)) {
+                    error_commercial.set(context.getString(R.string.field_req));
+                } else {
+                    error_commercial.set(null);
+                }
+
+                if (TextUtils.isEmpty(to_emp)) {
+                    error_to_emp.set(context.getString(R.string.field_req));
+                } else {
+                    error_to_emp.set(null);
+                }
+
+                if (TextUtils.isEmpty(edu_primary)) {
+                    error_edu_prim.set(context.getString(R.string.field_req));
+                } else {
+                    error_edu_prim.set(null);
+                }
+
+                if (TextUtils.isEmpty(edu_mid)) {
+                    error_edu_mid.set(context.getString(R.string.field_req));
+                } else {
+                    error_edu_mid.set(null);
+                }
+
+                if (TextUtils.isEmpty(edu_uni)) {
+                    error_edu_uni.set(context.getString(R.string.field_req));
+                } else {
+                    error_edu_uni.set(null);
+                }
+
+                if (TextUtils.isEmpty(address)) {
+                    error_address.set(context.getString(R.string.field_req));
+                } else {
+                    error_address.set(null);
+                }
+
+                if (service == 0) {
+                    Toast.makeText(context, R.string.ch_serv, Toast.LENGTH_SHORT).show();
+                }
+                if (dept_id.isEmpty()) {
+                    Toast.makeText(context, context.getString(R.string.ch_dept), Toast.LENGTH_SHORT).show();
+                }
+
+                if (sub_dep.isEmpty()) {
+                    Toast.makeText(context, R.string.ch_sub_dept, Toast.LENGTH_SHORT).show();
+                }
+
+
+                return false;
             }
-            if (dept_id.isEmpty())
-            {
-                Toast.makeText(context,context.getString(R.string.ch_dept), Toast.LENGTH_SHORT).show();
-            }
-
-            if (sub_dep.isEmpty())
-            {
-                Toast.makeText(context, R.string.ch_sub_dept, Toast.LENGTH_SHORT).show();
-            }
-
-
-
-
-            return false;
         }
+
     }
 
 
-    public ProviderSignUpModel()
-    {
+    public ProviderSignUpModel() {
         this.phone_code = "";
         notifyPropertyChanged(BR.phone_code);
         this.phone = "";

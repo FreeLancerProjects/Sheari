@@ -186,5 +186,8 @@
     <string name="offers_and_orders">طلبات وعروض</string>
     <string name="search2">بحث</string>
     <string name="provider">مقدموا الخدمة</string>
+    <string name="contracts_num">عدد العقود:</string>
+    <string name="order">إطلب وتواصل</string>
+    <string name="discount_nsheari">خصم\nشعاري</string>
 
 </resources>

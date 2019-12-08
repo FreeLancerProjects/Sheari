@@ -175,6 +175,9 @@
     <string name="offers_and_orders">Offers and orders</string>
     <string name="search2">Search</string>
     <string name="provider">Providers</string>
+    <string name="contracts_num">Contracts-Num:</string>
+    <string name="order">Order</string>
+    <string name="discount_nsheari">discount\nsheari</string>
 
 
 </resources>
