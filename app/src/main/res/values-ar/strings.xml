@@ -189,5 +189,14 @@
     <string name="contracts_num">عدد العقود:</string>
     <string name="order">إطلب وتواصل</string>
     <string name="discount_nsheari">خصم\nشعاري</string>
+    <string name="make_order">تقديم طلب</string>
+    <string name="contract">عقود مبرمة</string>
+    <string name="rate">التقييم</string>
+    <string name="contact_information">بيانات التواصل:</string>
+    <string name="department">القسم :</string>
+    <string name="important">الاهمية :</string>
+    <string name="expected_period">المدة المتوقعة</string>
+    <string name="cash_budget">الميزانية النقدية :</string>
+    <string name="describe_order_optional">وصف الطلب (إختياري)</string>
 
 </resources>

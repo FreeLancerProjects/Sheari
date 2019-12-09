@@ -23,10 +23,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".activities_fragments.activity_providers.ProvidersActivity"
+        <activity android:name=".activities_fragments.activity_make_order2.MakeOrder2Activity"></activity>
+        <activity
+            android:name=".activities_fragments.activity_make_order.CreateOrderActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities_fragments.activity_providers.ProvidersActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities_fragments.activity_sub_category.SubCategoryActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

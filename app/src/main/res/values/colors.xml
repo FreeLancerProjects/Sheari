@@ -16,6 +16,8 @@
     <color name="gray6">#a0a0a0</color>
     <color name="gray7">#f8f8f8</color>
     <color name="gray8">#373737</color>
+    <color name="gray9">#DEDEDE</color>
+
     <color name="transparent">#00000000</color>
     <color name="red">#920a0c</color>
     <color name="menu_color">#2196f3</color>
@@ -37,6 +39,8 @@
     <color name="color9">#5c1b1c</color>
     <color name="color10">#2f84ae</color>
     <color name="color11">#d4dc35</color>
+    <color name="color12">#68b1e0</color>
+    <color name="color13">#81ad30</color>
 
 
 

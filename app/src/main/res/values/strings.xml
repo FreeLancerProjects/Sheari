@@ -178,6 +178,15 @@
     <string name="contracts_num">Contracts-Num:</string>
     <string name="order">Order</string>
     <string name="discount_nsheari">discount\nsheari</string>
+    <string name="make_order">Make order</string>
+    <string name="contract">Contract</string>
+    <string name="rate">Rate :</string>
+    <string name="contact_information">Contact information:</string>
+    <string name="department">Department :</string>
+    <string name="important">Important :</string>
+    <string name="expected_period">Expected period :</string>
+    <string name="cash_budget">Cash budget :</string>
+    <string name="describe_order_optional">Describe order (optional)</string>
 
 
 </resources>
