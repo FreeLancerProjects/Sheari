@@ -27,7 +27,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_make_order2);
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_make_order2 );
         initView();
     }
 
