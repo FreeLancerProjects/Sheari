@@ -26,6 +26,7 @@ import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
 import com.creative.share.apps.sheari.models.PlaceGeocodeData;
 import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
+import com.creative.share.apps.sheari.models.ProvidersDataModel;
 import com.creative.share.apps.sheari.remote.Api;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -71,25 +72,39 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
     private float zoom = 15.6f;
     private String address="";
     private SupportMapFragment fragment;
+    private int cat_id;
+    private ProvidersDataModel.ProviderModel providerModel=null;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", Locale.getDefault().getLanguage())));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_create_order);
+        getDataFromIntent();
         initView();
     }
+
+    private void getDataFromIntent() {
+
+        Intent intent = getIntent();
+        if (intent!=null&&intent.hasExtra("cat_id")&&intent.hasExtra("data"))
+        {
+            cat_id = intent.getIntExtra("cat_id",0);
+            providerModel = (ProvidersDataModel.ProviderModel) intent.getSerializableExtra("data");
+        }
+    }
+
 
     private void initView() {
         Paper.init(this);
         lang = Paper.book().read("lang",Locale.getDefault().getLanguage());
         binding.setBackListener(this);
         binding.setLang(lang);
-
+        binding.setModel(providerModel);
         binding.imageSearch.setOnClickListener(v -> {
             String query = binding.edtSearch.getText().toString().trim();
             if (!TextUtils.isEmpty(query)) {

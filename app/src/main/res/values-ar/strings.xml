@@ -186,7 +186,7 @@
     <string name="offers_and_orders">طلبات وعروض</string>
     <string name="search2">بحث</string>
     <string name="provider">مقدموا الخدمة</string>
-    <string name="contracts_num">عدد العقود:</string>
+    <string name="contracts_num">العقود:</string>
     <string name="order">إطلب وتواصل</string>
     <string name="discount_nsheari">خصم\nشعاري</string>
     <string name="make_order">تقديم طلب</string>
@@ -198,5 +198,12 @@
     <string name="expected_period">المدة المتوقعة</string>
     <string name="cash_budget">الميزانية النقدية :</string>
     <string name="describe_order_optional">وصف الطلب (إختياري)</string>
+    <string name="country2">الدولة</string>
+    <string name="city2">المدينة</string>
+    <string name="dept2">القسم</string>
+    <string name="no_data_to_show">لا توجد بيانات لعرضها</string>
+    <string name="online">نشط</string>
+    <string name="offline">غير نشط</string>
+    <string name="conversation">محادثة</string>
 
 </resources>

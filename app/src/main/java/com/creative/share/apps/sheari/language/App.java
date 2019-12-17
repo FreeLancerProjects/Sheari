@@ -8,7 +8,7 @@ public class App extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LanguageHelper.updateResources(base,"en"));
+        super.attachBaseContext(LanguageHelper.updateResources(base,"ar"));
     }
 
   public void onCreate() {

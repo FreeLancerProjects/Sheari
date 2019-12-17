@@ -12,6 +12,9 @@
         <variable
             name="backListener"
             type="com.creative.share.apps.sheari.interfaces.Listeners.BackListener" />
+        <variable
+            name="model"
+            type="com.creative.share.apps.sheari.models.ProvidersDataModel.ProviderModel" />
     </data>
 
     <LinearLayout
@@ -110,6 +113,7 @@
                         app:civ_border_width="0dp"
                         android:src="@color/white"
                         android:layout_gravity="center"
+                        image="@{model.image}"
                         />
                     <ProgressBar
                         android:id="@+id/progBar"
@@ -121,7 +125,8 @@
                         android:indeterminate="false"
                         android:progressDrawable="@drawable/indeterminate_bg"
                         android:max="100"
-                        android:progress="30"/>
+                        progressRate="@{model.rate}"
+                        />
                 </FrameLayout>
                 <TextView
                     android:layout_width="wrap_content"
@@ -132,7 +137,9 @@
                     android:textSize="16sp"
                     android:gravity="center"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"/>
+                    android:layout_marginEnd="20dp"
+                    android:text='@{model.name??""}'
+                    />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -190,6 +197,8 @@
                             app:srb_stepSize=".5"
                             app:srb_isIndicator="false"
                             app:srb_numberOfStars="5"
+                            rate="@{model.rate}"
+
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -197,7 +206,7 @@
                             android:layout_gravity="center_horizontal"
                             android:textColor="@color/black"
                             android:textSize="15sp"
-                            android:text="@string/rate"
+                            android:text='@{@string/rate+" "+model.rate}'
                             />
 
                     </LinearLayout>
@@ -224,7 +233,7 @@
                         <View
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:background="@drawable/online_bg"/>
+                            android:background="@{model.online?@drawable/online_bg:@drawable/offline_bg}"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -232,7 +241,10 @@
                             android:layout_marginEnd="10dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:text="@{model.online?@string/online:@string/offline}"
+
+                            />
 
                     </LinearLayout>
                     <LinearLayout
@@ -254,9 +266,12 @@
                             android:layout_marginEnd="10dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:text='@{model.country_name+","+model.city_name}'
+                            />
 
                     </LinearLayout>
+<!--
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -279,6 +294,7 @@
                             android:singleLine="true"/>
 
                     </LinearLayout>
+-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -298,7 +314,9 @@
                             android:layout_marginEnd="10dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:text="@{model.region_name}"
+                            />
 
                     </LinearLayout>
                     <LinearLayout
@@ -320,7 +338,9 @@
                             android:layout_marginEnd="10dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:text="@string/conversation"
+                            />
 
                     </LinearLayout>
                     <LinearLayout
@@ -407,6 +427,7 @@
                         android:layout_marginTop="5dp"
                         android:textColor="@color/gray4"
                         android:textSize="14sp"
+                        android:text="@{model.email}"
 
                         />
 
@@ -432,6 +453,7 @@
                         android:layout_marginTop="5dp"
                         android:textColor="@color/gray4"
                         android:textSize="14sp"
+                        android:text="@{model.phone}"
 
                         />
 
@@ -457,6 +479,7 @@
                         android:layout_marginTop="5dp"
                         android:textColor="@color/gray4"
                         android:textSize="14sp"
+                        android:text='@{model.country_name+","+model.city_name+","+model.region_name}'
 
                         />
 

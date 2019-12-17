@@ -22,7 +22,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", Locale.getDefault().getLanguage())));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

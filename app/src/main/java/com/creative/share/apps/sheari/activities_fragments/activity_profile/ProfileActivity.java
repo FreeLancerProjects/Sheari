@@ -22,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity implements Listeners.Back
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", Locale.getDefault().getLanguage())));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

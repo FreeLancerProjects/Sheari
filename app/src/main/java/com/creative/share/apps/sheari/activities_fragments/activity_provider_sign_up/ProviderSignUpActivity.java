@@ -26,7 +26,6 @@ import com.creative.share.apps.sheari.models.ProviderSignUpModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
 
 import java.util.List;
-import java.util.Locale;
 
 import io.paperdb.Paper;
 
@@ -46,7 +45,7 @@ public class ProviderSignUpActivity extends AppCompatActivity  implements Listen
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", Locale.getDefault().getLanguage())));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
     }
 
     @Override

@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="model"
+            type="com.creative.share.apps.sheari.models.CategoryModel" />
+        <variable
+            name="pos"
+            type="Integer" />
+    </data>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +29,8 @@
                 android:layout_height="120dp"
                 app:riv_corner_radius_top_right="5dp"
                 app:riv_corner_radius_top_left="5dp"
+                image="@{model.image}"
+
                 />
             <TextView
                 android:id="@+id/tvTitle"
@@ -34,9 +44,11 @@
                 android:layout_marginBottom="5dp"
                 android:textSize="13sp"
                 android:gravity="center"
+                android:text='@{model.name??""}'
                 />
         </LinearLayout>
         <TextView
+            android:id="@+id/tvPos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -46,7 +58,7 @@
             android:minHeight="20dp"
             android:padding="5dp"
             android:background="@color/color1"
-            android:text="1"
+            android:text='@{String.valueOf(pos)}'
 
             />
     </FrameLayout>

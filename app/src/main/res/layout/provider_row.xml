@@ -2,7 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
+    <data>
+        <variable
+            name="model"
+            type="com.creative.share.apps.sheari.models.ProvidersDataModel.ProviderModel" />
+        <import type="android.view.View"/>
+    </data>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,12 +35,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="15dp"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:gravity="center"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
+                    android:text="@{model.name}"
 
 
                     />
@@ -71,7 +77,9 @@
                             android:singleLine="true"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:textSize="12sp"
+                            android:textSize="9sp"
+                            android:textColor="@color/black"
+                            android:text="@{model.city_name}"
                             />
                     </LinearLayout>
                     <View
@@ -98,7 +106,7 @@
                             android:singleLine="true"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:textSize="12sp"
+                            android:textSize="8sp"
                             android:textColor="@color/black"
                             android:text="@string/contracts_num"
                             />
@@ -137,6 +145,7 @@
                     app:srb_fillColor="@color/colorPrimary"
                     app:srb_starBorderWidth="2"
                     app:srb_starSize="15dp"
+                    rate="@{model.rate}"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -186,6 +195,8 @@
                         android:src="@drawable/online_bg"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
+                        android:visibility="@{model.online?View.VISIBLE:View.INVISIBLE,default=invisible}"
+
                         />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -204,7 +215,8 @@
                 app:civ_border_color="@color/colorPrimary"
                 app:civ_border_width="1dp"
                 app:civ_circle_background_color="@color/white"
-                android:src="@drawable/logo"
+                image="@{model.image}"
+
                 />
             <ImageView
                 android:layout_width="20dp"
@@ -212,6 +224,7 @@
                 android:layout_gravity="bottom|end"
                 android:src="@drawable/ic_settings"
                 android:tint="@color/color9"
+                android:background="@drawable/circle_white"
                 />
 
 
@@ -237,6 +250,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="3dp"
                 android:paddingEnd="3dp"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="wrap_content"

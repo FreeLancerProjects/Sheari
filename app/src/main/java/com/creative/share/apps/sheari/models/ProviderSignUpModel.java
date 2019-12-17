@@ -77,9 +77,9 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
 
     public boolean step2IsValid(Context context) {
         if (type == 1) {
-            if (!name.isEmpty() &&
-                    country_id != 0 &&
-                    city_id != 0
+            if (!name.isEmpty()
+
+
             ) {
                 error_name.set(null);
                 return true;
@@ -91,22 +91,20 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                 }
 
 
-                if (country_id == 0) {
+               /* if (country_id == 0) {
                     Toast.makeText(context, R.string.ch_country, Toast.LENGTH_SHORT).show();
                 }
 
                 if (city_id == 0) {
                     Toast.makeText(context, R.string.ch_city, Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
 
                 return false;
             }
         } else {
             if (company_type != 0 &&
-                    !name.isEmpty() &&
-                    country_id != 0 &&
-                    city_id != 0
+                    !name.isEmpty()
             ) {
                 error_name.set(null);
                 return true;
@@ -121,13 +119,13 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                     Toast.makeText(context, context.getString(R.string.ch_type), Toast.LENGTH_SHORT).show();
                 }
 
-                if (country_id == 0) {
+                /*if (country_id == 0) {
                     Toast.makeText(context, R.string.ch_country, Toast.LENGTH_SHORT).show();
                 }
 
                 if (city_id == 0) {
                     Toast.makeText(context, R.string.ch_city, Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
 
                 return false;

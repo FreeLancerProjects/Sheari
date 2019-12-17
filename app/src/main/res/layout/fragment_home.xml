@@ -31,6 +31,7 @@
                     android:layout_marginEnd="10dp"
                     >
                     <Spinner
+                        android:id="@+id/spinnerCountry"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/black"
@@ -46,6 +47,8 @@
                     android:layout_marginEnd="10dp"
                     >
                     <Spinner
+                        android:id="@+id/spinnerCity"
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/black"
@@ -62,6 +65,8 @@
                     android:layout_marginEnd="10dp"
                     >
                     <Spinner
+                        android:id="@+id/spinnerCategory"
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/black"
@@ -91,7 +96,6 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/ic_search"
-                            android:rotation="30"
                             android:padding="4dp"
                             android:tint="@color/white"
 

@@ -1,16 +1,16 @@
 package com.creative.share.apps.sheari.ui_general_method;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
-import com.creative.share.apps.sheari.R;
-import com.creative.share.apps.sheari.tags.Tags;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -22,15 +22,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UI_General_Method {
 
     @BindingAdapter("error")
-    public static void setErrorUi(View view, String error)
-    {
-        if (view instanceof EditText)
-        {
+    public static void setErrorUi(View view, String error) {
+        if (view instanceof EditText) {
             EditText editText = (EditText) view;
             editText.setError(error);
 
-        }else if (view instanceof TextView)
-        {
+        } else if (view instanceof TextView) {
             TextView textView = (TextView) view;
             textView.setError(error);
 
@@ -38,58 +35,53 @@ public class UI_General_Method {
     }
 
 
-
-    @BindingAdapter("avatarUser")
-    public static void avatarUser(View view,String endPoint)
-    {
-        if (view instanceof CircleImageView)
-        {
+    @BindingAdapter("image")
+    public static void DisplayImage(View view, String url) {
+        if (view instanceof CircleImageView) {
             CircleImageView imageView = (CircleImageView) view;
 
-            if (endPoint!=null)
-            {
+            if (url != null) {
 
-                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_AVATAR+endPoint)).placeholder(R.drawable.ic_user).fit().into(imageView);
-            }else
-            {
-                Picasso.with(imageView.getContext()).load(R.drawable.ic_user).fit().into(imageView);
-
+                Picasso.with(imageView.getContext()).load(Uri.parse(url)).fit().into(imageView);
             }
-        }else if (view instanceof ImageView)
-        {
+        } else if (view instanceof RoundedImageView) {
+            RoundedImageView imageView = (RoundedImageView) view;
+
+            if (url != null) {
+
+                Picasso.with(imageView.getContext()).load(Uri.parse(url)).fit().into(imageView);
+            }
+        } else if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
 
-            if (endPoint!=null)
-            {
+            if (url != null) {
 
-                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_AVATAR+endPoint)).fit().into(imageView);
-            }else
-                {
-                    Log.e("fff","fff");
-                    Picasso.with(imageView.getContext()).load(R.drawable.ic_user).fit().into(imageView);
-
-                }
+                Picasso.with(imageView.getContext()).load(Uri.parse(url)).fit().into(imageView);
+            }
         }
 
     }
 
 
-
     @BindingAdapter({"date"})
-    public static void displayTime(TextView textView,long time)
-    {
+    public static void displayTime(TextView textView, long time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa", Locale.ENGLISH);
-        String sTime = dateFormat.format(new Date(time*1000));
+        String sTime = dateFormat.format(new Date(time * 1000));
         textView.setText(sTime);
     }
 
+    @BindingAdapter("rate")
+    public static void displayRate(SimpleRatingBar ratingBar,double rate) {
+        ratingBar.setRating((float)rate);
+    }
 
+    @BindingAdapter("progressRate")
+    public static void displayProgressRate(ProgressBar progressBar, double rate) {
 
+        int r = (int) Math.round(100/rate);
+        progressBar.setProgress(r);
 
-
-
-
-
+    }
 
 
 }

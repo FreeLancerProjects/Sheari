@@ -2,31 +2,51 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <data>
+        <variable
+            name="model"
+            type="com.creative.share.apps.sheari.models.CategoryModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="3dp"
+        android:layout_marginBottom="3dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginTop="2dp"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            app:civ_circle_background_color="@color/white"
-            app:civ_border_width="1dp"
-            app:civ_border_color="@color/colorPrimary"
-            />
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="2"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            />
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
 
-    </LinearLayout>
+
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:civ_circle_background_color="@color/white"
+                app:civ_border_width="1dp"
+                app:civ_border_color="@color/colorPrimary"
+                image="@{model.image}"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:text="@{model.name}"
+                />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>
