@@ -6,12 +6,25 @@
     <item android:id="@+id/profile"
         android:icon="@drawable/ic_user"
         android:title="@string/profile"/>
-    <item android:id="@+id/eventDesign"
-        android:icon="@drawable/ic_screen"
-        android:title="@string/events_des"/>
+    <item android:id="@+id/manageProfile"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/manage_profile"/>
+
     <item android:id="@+id/editProfile"
         android:icon="@drawable/ic_edit_user"
         android:title="@string/edit_profile"/>
+
+    <item android:id="@+id/ads"
+        android:icon="@drawable/ic_screen"
+        android:title="@string/ads"/>
+
+    <item android:id="@+id/notification"
+        android:icon="@drawable/ic_nav_notification"
+        android:title="@string/notifications"/>
+
+    <item android:id="@+id/upgrade"
+        android:icon="@drawable/ic_upgrade"
+        android:title="@string/upgrade"/>
 
     <item android:id="@+id/share"
         android:icon="@drawable/ic_share"

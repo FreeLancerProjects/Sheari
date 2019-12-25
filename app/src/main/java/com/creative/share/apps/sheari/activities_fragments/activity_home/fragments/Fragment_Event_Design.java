@@ -1,4 +1,4 @@
-package com.creative.share.apps.sheari.activities_fragments.home_activity.fragments;
+package com.creative.share.apps.sheari.activities_fragments.activity_home.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.sheari.R;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.HomeActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
 import com.creative.share.apps.sheari.databinding.FragmentEventDesignBinding;
 import com.creative.share.apps.sheari.preferences.Preferences;
 

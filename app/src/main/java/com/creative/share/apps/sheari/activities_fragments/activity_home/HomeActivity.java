@@ -1,4 +1,4 @@
-package com.creative.share.apps.sheari.activities_fragments.home_activity;
+package com.creative.share.apps.sheari.activities_fragments.activity_home;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,13 +21,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.creative.share.apps.sheari.R;
+import com.creative.share.apps.sheari.activities_fragments.activity_ads.AdsActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Event_Design;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Home;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Market;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Search;
+import com.creative.share.apps.sheari.activities_fragments.activity_payment.PaymentActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_profile.ProfileActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_terms.TermsActivity;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.fragments.Fragment_Event_Design;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.fragments.Fragment_Home;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.fragments.Fragment_Market;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.fragments.Fragment_Search;
 import com.creative.share.apps.sheari.adapters.ViewPagerAdapter;
 import com.creative.share.apps.sheari.databinding.DialogLanguageBinding;
 import com.creative.share.apps.sheari.language.LanguageHelper;
@@ -94,6 +96,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         addFragments_Titles();
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragments(fragmentList);
+        pager.setOffscreenPageLimit(fragmentList.size());
         adapter.addTitles(titles);
         pager.setAdapter(adapter);
 
@@ -122,8 +125,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.profile:
                 navigateToProfileActivity();
                 break;
-            case R.id.eventDesign:
-                pager.setCurrentItem(1, true);
+            case R.id.ads:
+                navigateToAdsActivity();
+                break;
+
+            case R.id.upgrade:
+                navigateToPaymentActivity();
                 break;
             case R.id.terms:
                 navigateToTermsActivity();
@@ -152,10 +159,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
+    private void navigateToPaymentActivity() {
+        Intent intent = new Intent(this, PaymentActivity.class);
+        startActivity(intent);
+    }
 
-
-
-    private void share() {
+    private void navigateToAdsActivity() {
+        Intent intent = new Intent(this, AdsActivity.class);
+        startActivity(intent);
+    }
+    private void share()
+    {
         new Handler()
                 .postDelayed(() -> {
                     String url = "https://play.google.com/store/apps/details?id=" + getPackageName();
@@ -168,7 +182,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void CreateLangDialogAlert() {
+    private void CreateLangDialogAlert()
+    {
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .create();
 
@@ -218,7 +233,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         dialog.show();
     }
 
-    private void refreshActivity(String lang) {
+    private void refreshActivity(String lang)
+    {
         Paper.init(this);
         Paper.book().write("lang", lang);
         preferences.selectedLanguage(this, lang);
@@ -230,7 +246,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void navigateToTermsActivity() {
+    private void navigateToTermsActivity()
+    {
         new Handler()
                 .postDelayed(() -> {
                     Intent intent = new Intent(this, TermsActivity.class);
@@ -239,13 +256,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void navigateToSignInActivity() {
+    private void navigateToSignInActivity()
+    {
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
         finish();
 
     }
-    private void navigateToProfileActivity() {
+    private void navigateToProfileActivity()
+    {
         new Handler()
                 .postDelayed(() -> {
                     Intent intent = new Intent(this, ProfileActivity.class);
@@ -253,6 +272,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 },500);
 
     }
+
 
     private void logout() {
 

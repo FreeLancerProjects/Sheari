@@ -199,6 +199,7 @@
 
                     >
                     <Spinner
+                        android:id="@+id/spinnerCountry"
                         android:layout_width="match_parent"
                         android:layout_height="37dp"
                         android:spinnerMode="dialog"
@@ -221,6 +222,7 @@
 
                     >
                     <Spinner
+                        android:id="@+id/spinnerCity"
                         android:layout_width="match_parent"
                         android:layout_height="37dp"
                         android:spinnerMode="dialog"

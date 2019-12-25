@@ -40,23 +40,25 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
     private ActivityProvidersBinding binding;
     private String lang;
     private int cat_id;
-    private CategoryModel subCategoryModel=null;
+    private CategoryModel subCategoryModel = null;
     private List<ProvidersDataModel.ProviderModel> providerModelList;
     private ProvidersAdapter adapter;
     private int current_page = 1;
     private boolean isLoading = false;
     private GridLayoutManager manager;
+    private int type;
 
 
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", "ar")));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_providers);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_providers);
         getDataFromIntent();
         initView();
     }
@@ -64,46 +66,59 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
     private void getDataFromIntent() {
 
         Intent intent = getIntent();
-        if (intent!=null&&intent.hasExtra("cat_id")&&intent.hasExtra("data"))
-        {
-            cat_id = intent.getIntExtra("cat_id",0);
+        if (intent != null && intent.hasExtra("cat_id") && intent.hasExtra("data")) {
+            cat_id = intent.getIntExtra("cat_id", 0);
+            type = 1;
+
             subCategoryModel = (CategoryModel) intent.getSerializableExtra("data");
+        } else {
+            type = 2;
+            subCategoryModel = (CategoryModel) intent.getSerializableExtra("data");
+
         }
     }
 
     private void initView() {
         providerModelList = new ArrayList<>();
         Paper.init(this);
-        lang = Paper.book().read("lang",Locale.getDefault().getLanguage());
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setBackListener(this);
         binding.setLang(lang);
-        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this,R.color.white), PorterDuff.Mode.SRC_IN);
-        manager = new GridLayoutManager(this,2);
+        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
+        manager = new GridLayoutManager(this, 2);
         binding.recView.setLayoutManager(manager);
-        adapter = new ProvidersAdapter(providerModelList,this);
+        adapter = new ProvidersAdapter(providerModelList, this);
         binding.recView.setAdapter(adapter);
         binding.recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy>0)
-                {
+                if (dy > 0) {
                     int completePos = manager.findLastCompletelyVisibleItemPosition();
-                    if (completePos<(providerModelList.size()-1)&&!isLoading)
-                    {
-                        int page = current_page+1;
+                    if (completePos < (providerModelList.size() - 1) && !isLoading) {
+                        int page = current_page + 1;
                         isLoading = true;
-                        loadMore(page);
+                        if (type == 1) {
+                            loadMore(page);
+
+                        } else if (type == 2) {
+                            loadAdsMore(page);
+                        }
                     }
                 }
             }
         });
-        getProviders();
+        if (type == 1) {
+            getProviders();
+
+        } else if (type == 2) {
+            getAdsProviders();
+        }
     }
 
     private void getProviders() {
         Api.getService(Tags.base_url)
-                .getProvidersBySubCategory(lang,subCategoryModel.getId(),1)
+                .getProvidersBySubCategory(lang, subCategoryModel.getId(), 1)
                 .enqueue(new Callback<ProvidersDataModel>() {
                     @Override
                     public void onResponse(Call<ProvidersDataModel> call, Response<ProvidersDataModel> response) {
@@ -113,10 +128,9 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
                                 providerModelList.clear();
                                 providerModelList.addAll(response.body().getData().getProviders());
                                 adapter.notifyDataSetChanged();
-                                if (providerModelList.size()>0)
-                                {
+                                if (providerModelList.size() > 0) {
                                     binding.tvNoData.setVisibility(View.GONE);
-                                }else {
+                                } else {
                                     binding.tvNoData.setVisibility(View.VISIBLE);
 
                                 }
@@ -161,23 +175,23 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
                 });
     }
 
+
     private void loadMore(int page) {
         Api.getService(Tags.base_url)
-                .getProvidersBySubCategory(lang,subCategoryModel.getId(),page)
+                .getProvidersBySubCategory(lang, subCategoryModel.getId(), page)
                 .enqueue(new Callback<ProvidersDataModel>() {
                     @Override
                     public void onResponse(Call<ProvidersDataModel> call, Response<ProvidersDataModel> response) {
-                        providerModelList.remove(providerModelList.size()-1);
-                        adapter.notifyItemRemoved(providerModelList.size()-1);
+                        providerModelList.remove(providerModelList.size() - 1);
+                        adapter.notifyItemRemoved(providerModelList.size() - 1);
                         isLoading = false;
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
 
-                                if (response.body().getData().getProviders().size()>0)
-                                {
+                                if (response.body().getData().getProviders().size() > 0) {
                                     providerModelList.addAll(response.body().getData().getProviders());
                                     adapter.notifyDataSetChanged();
-                                    current_page = response.body().getPaginate().getCurrent_page();
+                                    current_page = response.body().getData().getPaginate().getCurrent_page();
 
                                 }
 
@@ -208,10 +222,134 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
 
                             isLoading = false;
 
-                            if (providerModelList.get(providerModelList.size()-1)==null)
-                            {
-                                providerModelList.remove(providerModelList.size()-1);
-                                adapter.notifyItemRemoved(providerModelList.size()-1);
+                            if (providerModelList.get(providerModelList.size() - 1) == null) {
+                                providerModelList.remove(providerModelList.size() - 1);
+                                adapter.notifyItemRemoved(providerModelList.size() - 1);
+
+                            }
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(ProvidersActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(ProvidersActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
+
+    private void getAdsProviders() {
+        Api.getService(Tags.base_url)
+                .getAdsProvidersBySubCategory(subCategoryModel.getId(), 1)
+                .enqueue(new Callback<ProvidersDataModel>() {
+                    @Override
+                    public void onResponse(Call<ProvidersDataModel> call, Response<ProvidersDataModel> response) {
+                        binding.progBar.setVisibility(View.GONE);
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().isValue()) {
+                                providerModelList.clear();
+                                providerModelList.addAll(response.body().getData().getProviders());
+                                adapter.notifyDataSetChanged();
+                                if (providerModelList.size() > 0) {
+                                    binding.tvNoData.setVisibility(View.GONE);
+                                } else {
+                                    binding.tvNoData.setVisibility(View.VISIBLE);
+
+                                }
+                            } else {
+                                Toast.makeText(ProvidersActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else {
+
+                            try {
+
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (response.code() == 500) {
+                                Toast.makeText(ProvidersActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(ProvidersActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ProvidersDataModel> call, Throwable t) {
+                        try {
+                            binding.progBar.setVisibility(View.GONE);
+
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(ProvidersActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(ProvidersActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
+
+    private void loadAdsMore(int page) {
+        Api.getService(Tags.base_url)
+                .getAdsProvidersBySubCategory(subCategoryModel.getId(), page)
+                .enqueue(new Callback<ProvidersDataModel>() {
+                    @Override
+                    public void onResponse(Call<ProvidersDataModel> call, Response<ProvidersDataModel> response) {
+                        providerModelList.remove(providerModelList.size() - 1);
+                        adapter.notifyItemRemoved(providerModelList.size() - 1);
+                        isLoading = false;
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().isValue()) {
+
+                                if (response.body().getData().getProviders().size() > 0) {
+                                    providerModelList.addAll(response.body().getData().getProviders());
+                                    adapter.notifyDataSetChanged();
+                                    current_page = response.body().getData().getPaginate().getCurrent_page();
+
+                                }
+
+                            } else {
+                                Toast.makeText(ProvidersActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else {
+
+                            try {
+
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (response.code() == 500) {
+                                Toast.makeText(ProvidersActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(ProvidersActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ProvidersDataModel> call, Throwable t) {
+                        try {
+
+                            isLoading = false;
+
+                            if (providerModelList.get(providerModelList.size() - 1) == null) {
+                                providerModelList.remove(providerModelList.size() - 1);
+                                adapter.notifyItemRemoved(providerModelList.size() - 1);
 
                             }
                             if (t.getMessage() != null) {
@@ -236,8 +374,8 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
 
     public void setItemData(ProvidersDataModel.ProviderModel providerModel) {
         Intent intent = new Intent(this, CreateOrderActivity.class);
-        intent.putExtra("cat_id",cat_id);
-        intent.putExtra("data",providerModel);
+        intent.putExtra("cat_id", cat_id);
+        intent.putExtra("data", providerModel);
         startActivity(intent);
 
     }

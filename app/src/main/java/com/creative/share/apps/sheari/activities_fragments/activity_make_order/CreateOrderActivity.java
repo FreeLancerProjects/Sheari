@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.creative.share.apps.sheari.R;
+import com.creative.share.apps.sheari.activities_fragments.activity_make_order2.MakeOrder2Activity;
 import com.creative.share.apps.sheari.databinding.ActivityCreateOrderBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
@@ -43,7 +44,6 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -71,7 +71,7 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
     private double lat = 0.0, lng = 0.0;
     private float zoom = 15.6f;
     private String address="";
-    private SupportMapFragment fragment;
+    private FragmentMapTouchListener fragment;
     private int cat_id;
     private ProvidersDataModel.ProviderModel providerModel=null;
 
@@ -111,12 +111,23 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
                 Search(query);
             }
         });
+        binding.btnNext.setOnClickListener(view -> {
+
+            Intent intent = new Intent(this, MakeOrder2Activity.class);
+            intent.putExtra("cat_id",cat_id);
+            intent.putExtra("data",providerModel);
+            startActivity(intent);
+
+        });
         initMap();
+
+
+
 
     }
 
     private void initMap() {
-        fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        fragment = (FragmentMapTouchListener) getSupportFragmentManager().findFragmentById(R.id.map);
         if (fragment!=null)
         {
             fragment.getMapAsync(this);
@@ -159,6 +170,8 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
                 lng = latLng.longitude;
                 getGeoData(lat, lng);
             });
+
+            fragment.setListener(() -> binding.scrollView.requestDisallowInterceptTouchEvent(true));
 
         }
     }

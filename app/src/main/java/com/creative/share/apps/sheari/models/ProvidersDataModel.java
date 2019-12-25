@@ -7,7 +7,6 @@ public class ProvidersDataModel implements Serializable {
     private boolean value;
     private String msg;
     private Data data;
-    private Paginate paginate;
 
     public boolean isValue() {
         return value;
@@ -17,9 +16,7 @@ public class ProvidersDataModel implements Serializable {
         return data;
     }
 
-    public Paginate getPaginate() {
-        return paginate;
-    }
+
 
     public String getMsg() {
         return msg;
@@ -28,9 +25,14 @@ public class ProvidersDataModel implements Serializable {
     public class Data implements Serializable
     {
         private List<ProviderModel> providers;
+        private Paginate paginate;
 
         public List<ProviderModel> getProviders() {
             return providers;
+        }
+
+        public Paginate getPaginate() {
+            return paginate;
         }
     }
     public class ProviderModel implements Serializable
@@ -47,6 +49,8 @@ public class ProvidersDataModel implements Serializable {
         private String city_name;
         private String country_name;
         private String is_special;
+        private String lat;
+        private String lng;
         private List<ProviderSubCategory> sub_categories;
 
         public int getId() {
@@ -97,6 +101,14 @@ public class ProvidersDataModel implements Serializable {
             return is_special;
         }
 
+        public String getLat() {
+            return lat;
+        }
+
+        public String getLng() {
+            return lng;
+        }
+
         public List<ProviderSubCategory> getSub_categories() {
             return sub_categories;
         }
@@ -112,8 +124,29 @@ public class ProvidersDataModel implements Serializable {
         private String category_id;
         private Pivot pivot;
 
+        public int getId() {
+            return id;
+        }
 
+        public String getAr_name() {
+            return ar_name;
+        }
 
+        public String getEn_name() {
+            return en_name;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public String getCategory_id() {
+            return category_id;
+        }
+
+        public Pivot getPivot() {
+            return pivot;
+        }
     }
 
     public class Pivot implements Serializable
@@ -133,6 +166,11 @@ public class ProvidersDataModel implements Serializable {
     public class Paginate implements Serializable
     {
         private int current_page;
+        private int total_pages;
+
+        public int getTotal_pages() {
+            return total_pages;
+        }
 
         public int getCurrent_page() {
             return current_page;

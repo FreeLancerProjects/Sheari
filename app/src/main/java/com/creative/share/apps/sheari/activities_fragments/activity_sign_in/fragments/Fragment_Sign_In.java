@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_forget_password.ForgetPasswordActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.HomeActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
 import com.creative.share.apps.sheari.databinding.FragmentSignInBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.models.LoginModel;

@@ -45,9 +45,13 @@ public class FragmentMapTouchListener extends SupportMapFragment {
         public boolean dispatchTouchEvent(MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    try {
+
+                    }catch (Exception e){}
                     mListener.onTouch();
                     break;
                 case MotionEvent.ACTION_UP:
+
                     mListener.onTouch();
                     break;
             }

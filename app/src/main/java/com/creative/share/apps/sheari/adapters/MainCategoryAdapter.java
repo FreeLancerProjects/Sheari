@@ -10,9 +10,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.sheari.R;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.fragments.Fragment_Home;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Home;
 import com.creative.share.apps.sheari.databinding.MainCategoryRowBinding;
-import com.creative.share.apps.sheari.models.CategoryDataModel;
 import com.creative.share.apps.sheari.models.CategoryModel;
 
 import java.util.List;

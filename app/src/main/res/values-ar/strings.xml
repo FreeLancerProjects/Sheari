@@ -205,5 +205,15 @@
     <string name="online">نشط</string>
     <string name="offline">غير نشط</string>
     <string name="conversation">محادثة</string>
+    <string name="ads">إعلانات</string>
+    <string name="location_on_map">الموقع على الخريطة</string>
+    <string name="sub_cat">الاقسام الفرعية</string>
+    <string name="upgrade">ترقية العضوية</string>
+    <string name="payment">الدفع</string>
+    <string name="payment_method">خيارات الدفع</string>
+    <string name="paypal">باي بال</string>
+    <string name="credit_debit">بطاقة الإئتمان</string>
+    <string name="cash">نقدي</string>
+    <string name="manage_profile">إدارة صفحتي</string>
 
 </resources>

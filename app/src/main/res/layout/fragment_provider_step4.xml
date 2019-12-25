@@ -100,6 +100,19 @@
                         android:layout_marginTop="10dp"
                         />
 
+                    <RadioButton
+                        android:id="@+id/rb3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/rb_yellow_bg"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:text="@string/location_on_map"
+                        android:layout_marginTop="10dp"
+                        />
+
                 </RadioGroup>
 
                 <LinearLayout
@@ -242,6 +255,7 @@
 
                     >
                     <Spinner
+                        android:id="@+id/spinnerCategory"
                         android:layout_width="match_parent"
                         android:layout_height="37dp"
                         android:spinnerMode="dialog"
@@ -264,6 +278,8 @@
 
                     >
                     <Spinner
+                        android:id="@+id/spinnerSubCategory"
+
                         android:layout_width="match_parent"
                         android:layout_height="37dp"
                         android:spinnerMode="dialog"

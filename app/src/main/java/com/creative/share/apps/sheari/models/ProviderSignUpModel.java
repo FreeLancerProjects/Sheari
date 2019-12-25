@@ -40,8 +40,8 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
     private String edu_uni;
     private String address;
     private String commercial;
-    private String dept_id;
-    private String sub_dep;
+    private int dept_id;
+    private int sub_dep;
 
     private double lat;
     private double lng;
@@ -204,8 +204,8 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                     !edu_mid.isEmpty() &&
                     !edu_uni.isEmpty() &&
                     !address.isEmpty() &&
-                    !dept_id.isEmpty() &&
-                    !sub_dep.isEmpty()
+                    dept_id!=0 &&
+                    sub_dep!=0
 
 
             ) {
@@ -258,11 +258,11 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                 if (service == 0) {
                     Toast.makeText(context, R.string.ch_serv, Toast.LENGTH_SHORT).show();
                 }
-                if (dept_id.isEmpty()) {
+                if (dept_id==0) {
                     Toast.makeText(context, context.getString(R.string.ch_dept), Toast.LENGTH_SHORT).show();
                 }
 
-                if (sub_dep.isEmpty()) {
+                if (sub_dep==0) {
                     Toast.makeText(context, R.string.ch_sub_dept, Toast.LENGTH_SHORT).show();
                 }
 
@@ -281,8 +281,8 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                     !edu_mid.isEmpty() &&
                     !edu_uni.isEmpty() &&
                     !address.isEmpty() &&
-                    !dept_id.isEmpty() &&
-                    !sub_dep.isEmpty()
+                    dept_id!=0 &&
+                    sub_dep!=0
 
 
             ) {
@@ -356,11 +356,11 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                 if (service == 0) {
                     Toast.makeText(context, R.string.ch_serv, Toast.LENGTH_SHORT).show();
                 }
-                if (dept_id.isEmpty()) {
+                if (dept_id==0) {
                     Toast.makeText(context, context.getString(R.string.ch_dept), Toast.LENGTH_SHORT).show();
                 }
 
-                if (sub_dep.isEmpty()) {
+                if (sub_dep==0) {
                     Toast.makeText(context, R.string.ch_sub_dept, Toast.LENGTH_SHORT).show();
                 }
 
@@ -409,8 +409,8 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
         notifyPropertyChanged(BR.address);
         this.lat = 0.0;
         this.lng = 0.0;
-        this.dept_id = "";
-        this.sub_dep = "";
+        this.dept_id = 0;
+        this.sub_dep = 0;
 
 
     }
@@ -637,19 +637,19 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
 
     }
 
-    public String getDept_id() {
+    public int getDept_id() {
         return dept_id;
     }
 
-    public void setDept_id(String dept_id) {
+    public void setDept_id(int dept_id) {
         this.dept_id = dept_id;
     }
 
-    public String getSub_dep() {
+    public int getSub_dep() {
         return sub_dep;
     }
 
-    public void setSub_dep(String sub_dep) {
+    public void setSub_dep(int sub_dep) {
         this.sub_dep = sub_dep;
     }
 }

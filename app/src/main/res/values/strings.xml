@@ -194,6 +194,16 @@
     <string name="online">Online</string>
     <string name="offline">Offline</string>
     <string name="conversation">Conversation</string>
+    <string name="ads">Ads</string>
+    <string name="location_on_map">Location on map</string>
+    <string name="sub_cat">Sub category</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="payment">Payment</string>
+    <string name="payment_method">Payment method</string>
+    <string name="paypal">Paypal</string>
+    <string name="credit_debit">Credit/debit</string>
+    <string name="cash">Cash</string>
+    <string name="manage_profile">Manage profile</string>
 
 
 </resources>

@@ -67,11 +67,26 @@ public interface Service {
 
     @GET("api/providers/{sub_cat_id}")
     Call<ProvidersDataModel> getProvidersBySubCategory(@Header("X-localization") String lang,
-                                                       @Path("sub_cat_id") int city_id,
+                                                       @Path("sub_cat_id") int sub_cat_id,
                                                        @Query("page") int page
     );
 
+    @FormUrlEncoded
+    @POST("api/search")
+    Call<ProvidersDataModel> getProvidersSearch(@Field("category_id") int category_id,
+                                                @Field("country_id") int country_id,
+                                                @Field("city_id") int city_id,
+                                                @Query("page") int page
+    );
 
+
+    @GET("api/get-ads-categories")
+    Call<CategoryDataModel> getAds(@Header("X-l") String lang);
+
+    @GET("api/service/provider/{cat_id}")
+    Call<ProvidersDataModel> getAdsProvidersBySubCategory(@Path("cat_id") int cat_id,
+                                                          @Query("page") int page
+    );
 }
 
 

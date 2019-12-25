@@ -23,7 +23,22 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".activities_fragments.activity_make_order2.MakeOrder2Activity"></activity>
+        <activity android:name=".activities_fragments.activity_ads_provider.AdsProviderActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
+        <activity
+            android:name=".activities_fragments.activity_ads.AdsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities_fragments.activity_payment.PaymentActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities_fragments.activity_make_order2.MakeOrder2Activity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities_fragments.activity_make_order.CreateOrderActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -53,7 +68,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".activities_fragments.home_activity.HomeActivity"
+            android:name=".activities_fragments.activity_home.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity

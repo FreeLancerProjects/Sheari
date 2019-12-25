@@ -1,4 +1,4 @@
-package com.creative.share.apps.sheari.activities_fragments.home_activity.fragments;
+package com.creative.share.apps.sheari.activities_fragments.activity_home.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_sub_category.SubCategoryActivity;
-import com.creative.share.apps.sheari.activities_fragments.home_activity.HomeActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
 import com.creative.share.apps.sheari.adapters.CategorySpinnerAdapter;
 import com.creative.share.apps.sheari.adapters.LocationSpinnerAdapter;
 import com.creative.share.apps.sheari.adapters.MainCategoryAdapter;
@@ -92,28 +92,30 @@ public class Fragment_Home extends Fragment {
 
         categorySpinnerAdapter = new CategorySpinnerAdapter(activity,spinnerCategoryList);
         binding.spinnerCategory.setAdapter(categorySpinnerAdapter);
+        try {
+            binding.spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-
-        binding.spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                if (i==0)
-                {
-                    cityList.clear();
-                    cityList.add(new LocationModel(0, getString(R.string.city2)));
-                    citySpinnerAdapter.notifyDataSetChanged();
-                }else
+                    if (i==0)
+                    {
+                        cityList.clear();
+                        cityList.add(new LocationModel(0, getString(R.string.city2)));
+                        citySpinnerAdapter.notifyDataSetChanged();
+                    }else
                     {
                         getCity(countryList.get(i).getId());
                     }
-            }
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+                }
+            });
+
+        }catch (Exception e){}
+
         //////////////////////////////////////////////////////////////////////////////
         getData();
         getCountry();
@@ -295,4 +297,6 @@ public class Fragment_Home extends Fragment {
         intent.putExtra("data",model);
         startActivity(intent);
     }
+
+
 }
