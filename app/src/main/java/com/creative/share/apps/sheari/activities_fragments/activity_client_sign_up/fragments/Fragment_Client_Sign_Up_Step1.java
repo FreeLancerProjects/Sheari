@@ -38,11 +38,9 @@ public class Fragment_Client_Sign_Up_Step1 extends Fragment implements Listeners
 
 
     @Override
-    public void onAttach(@NonNull Context context)
-    {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (listener==null)
-        {
+        if (listener == null) {
             listener = (Listener) context;
 
         }
@@ -75,13 +73,12 @@ public class Fragment_Client_Sign_Up_Step1 extends Fragment implements Listeners
         binding.btnNext.setOnClickListener((view ->
         {
 
-            if (clientSignUpModel.step1IsValid(activity))
-            {
+            if (clientSignUpModel.step1IsValid(activity)) {
                 listener.onStep1Valid(clientSignUpModel);
             }
 
         }
-                ));
+        ));
 
     }
 
@@ -122,7 +119,7 @@ public class Fragment_Client_Sign_Up_Step1 extends Fragment implements Listeners
         binding.tvCode.setText(country.getDialCode());
         clientSignUpModel.setPhone_code(country.getDialCode().replace("+", "00"));
 
-        Log.e("ddd",country.getDialCode()+"__");
+        Log.e("ddd", country.getDialCode() + "__");
     }
 
 
@@ -137,8 +134,7 @@ public class Fragment_Client_Sign_Up_Step1 extends Fragment implements Listeners
     }
 
 
-    public interface Listener
-    {
+    public interface Listener {
         void onStep1Valid(ClientSignUpModel clientSignUpModel);
     }
 }

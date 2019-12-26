@@ -22,6 +22,7 @@ import com.creative.share.apps.sheari.databinding.ActivityProvidersBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
 import com.creative.share.apps.sheari.models.CategoryModel;
+import com.creative.share.apps.sheari.models.ProviderModel;
 import com.creative.share.apps.sheari.models.ProvidersDataModel;
 import com.creative.share.apps.sheari.remote.Api;
 import com.creative.share.apps.sheari.tags.Tags;
@@ -41,7 +42,7 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
     private String lang;
     private int cat_id;
     private CategoryModel subCategoryModel = null;
-    private List<ProvidersDataModel.ProviderModel> providerModelList;
+    private List<ProviderModel> providerModelList;
     private ProvidersAdapter adapter;
     private int current_page = 1;
     private boolean isLoading = false;
@@ -372,7 +373,7 @@ public class ProvidersActivity extends AppCompatActivity implements Listeners.Ba
         finish();
     }
 
-    public void setItemData(ProvidersDataModel.ProviderModel providerModel) {
+    public void setItemData(ProviderModel providerModel) {
         Intent intent = new Intent(this, CreateOrderActivity.class);
         intent.putExtra("cat_id", cat_id);
         intent.putExtra("data", providerModel);

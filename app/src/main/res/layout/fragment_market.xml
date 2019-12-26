@@ -12,6 +12,7 @@
         >
 
         <FrameLayout
+            android:id="@+id/flOrder"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="50dp"
@@ -50,6 +51,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/flOffer"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"

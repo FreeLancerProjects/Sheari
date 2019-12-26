@@ -51,7 +51,7 @@
 
     <string name="next">Next</string>
 
-    <string name="name">name</string>
+    <string name="name">Name</string>
     <string name="call">Call</string>
     <string name="message">Message</string>
     <string name="location">Location</string>
@@ -204,6 +204,17 @@
     <string name="credit_debit">Credit/debit</string>
     <string name="cash">Cash</string>
     <string name="manage_profile">Manage profile</string>
+    <string name="view">Views</string>
+    <string name="attachments">Attachments</string>
+    <string name="download_attachment">Download attachment</string>
+    <string name="add_comments_here">Type comments here......</string>
+    <string name="add_comment">Add comment</string>
+    <string name="comments2">Comments :</string>
+    <string name="no_comments_to_show">No comments to show</string>
+    <string name="our_fields">Our fields</string>
+    <string name="no_fields_to_show">No fields to show</string>
+    <string name="special">Special</string>
+    <string name="normal">Normal</string>
 
 
 </resources>

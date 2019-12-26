@@ -62,6 +62,33 @@ public class UI_General_Method {
 
     }
 
+    @BindingAdapter("subCategoryImage")
+    public static void DisplaySubCategotyImage(View view, String endPoint) {
+        if (view instanceof CircleImageView) {
+            CircleImageView imageView = (CircleImageView) view;
+
+            if (endPoint != null) {
+
+                Picasso.with(imageView.getContext()).load(Uri.parse("http://sheari.net/storage/"+endPoint)).fit().into(imageView);
+            }
+        } else if (view instanceof RoundedImageView) {
+            RoundedImageView imageView = (RoundedImageView) view;
+
+            if (endPoint != null) {
+
+                Picasso.with(imageView.getContext()).load(Uri.parse("http://sheari.net/storage/"+endPoint)).fit().into(imageView);
+            }
+        } else if (view instanceof ImageView) {
+            ImageView imageView = (ImageView) view;
+
+            if (endPoint != null) {
+
+                Picasso.with(imageView.getContext()).load(Uri.parse("http://sheari.net/storage/"+endPoint)).fit().into(imageView);
+            }
+        }
+
+    }
+
 
     @BindingAdapter({"date"})
     public static void displayTime(TextView textView, long time) {

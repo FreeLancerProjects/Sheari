@@ -39,6 +39,7 @@ public class ProviderSignUpActivity extends AppCompatActivity  implements Listen
     private Fragment_Provider_Step3 fragment_provider_step3;
     private Fragment_Provider_Step4 fragment_provider_step4;
     private ProviderSignUpModel providerSignUpModel;
+    private boolean out = false;
 
 
 
@@ -58,9 +59,17 @@ public class ProviderSignUpActivity extends AppCompatActivity  implements Listen
         if (savedInstanceState == null) {
             displayFragmentStep1();
         }
+        getDataFromIntent();
 
     }
 
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("from")) {
+            out = true;
+        }
+    }
 
 
 
@@ -92,7 +101,7 @@ public class ProviderSignUpActivity extends AppCompatActivity  implements Listen
     }
     private void displayFragmentStep4() {
         fragment_count++;
-        fragment_provider_step4 = Fragment_Provider_Step4.newInstance();
+        fragment_provider_step4 = Fragment_Provider_Step4.newInstance(out);
 
         manager.beginTransaction().add(R.id.fragment_provider_sign_up_container, fragment_provider_step4, "fragment_provider_step4").addToBackStack("fragment_provider_step4").commit();
 

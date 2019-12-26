@@ -26,14 +26,20 @@ import java.util.Locale;
 import io.paperdb.Paper;
 
 public class Fragment_Sign_In extends Fragment implements Listeners.LoginListener {
+    private static final String TAG = "OUT";
     private FragmentSignInBinding binding;
     private SignInActivity activity;
     private String lang;
     private LoginModel loginModel;
     private Preferences preferences;
+    private boolean out = false;
 
-    public static Fragment_Sign_In newInstance() {
-        return new Fragment_Sign_In();
+    public static Fragment_Sign_In newInstance(boolean out) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(TAG,out);
+        Fragment_Sign_In fragment_sign_in = new Fragment_Sign_In();
+        fragment_sign_in.setArguments(bundle);
+        return fragment_sign_in;
     }
 
     @Override
@@ -54,6 +60,13 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         binding.setLoginModel(loginModel);
         binding.setLoginListener(this);
         binding.btnSignUp.setOnClickListener((view -> activity.back()));
+
+        Bundle bundle = getArguments();
+        if (bundle!=null)
+        {
+            out = bundle.getBoolean(TAG);
+        }
+
         binding.btnForgetPassword.setOnClickListener((view ->
         {
             Intent intent = new Intent(activity, ForgetPasswordActivity.class);

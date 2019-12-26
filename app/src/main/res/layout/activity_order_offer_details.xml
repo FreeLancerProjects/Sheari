@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <variable
+            name="lang"
+            type="String" />
+        <variable
+            name="backListener"
+            type="com.creative.share.apps.sheari.interfaces.Listeners.BackListener" />
+        <variable
+            name="model"
+            type="com.creative.share.apps.sheari.models.OfferDataModel.Data.Provider" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:contentInsetStart="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetEnd="0dp"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:onClick="@{()->backListener.back()}"
+                    >
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_left_arrow"
+                        android:tint="@color/white"
+                        android:padding="10dp"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        android:rotation='@{lang.equals("ar")?180:0}'
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/back"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:clickable="false"
+                        android:longClickable="false"
+                        />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activities_fragments.activity_terms.TermsActivity"
+                android:fitsSystemWindows="true"
+                android:fillViewport="true"
+
+                >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        image="@{model.image}"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:layout_marginTop="10dp"
+                        android:textStyle="bold"
+                        android:text='@{model.title??""}'
+                        />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/detials"
+
+                        />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="@color/gray8"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp"
+                        android:text='@{model.description??""}'
+
+                        />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="40dp"
+                        android:background="@drawable/details_bg_rounded"
+                        android:gravity="center_vertical"
+
+                        >
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:padding="8dp"
+
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="@color/gray8"
+                                android:text="@string/name"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:text='@{model.user.name??""}'
+                                />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/gray4"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:padding="8dp"
+
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="@color/gray8"
+                                android:text="@string/email"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:text='@{model.user.email??""}'
+                                />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/details_bg_rounded"
+                        android:gravity="center_vertical"
+
+                        >
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:padding="8dp"
+
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="@color/gray8"
+                                android:text="@string/phone"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:text='@{model.user.phone}'
+                                />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/gray4"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:padding="8dp"
+
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="@color/gray8"
+                                android:text="@string/attachments"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp"
+                                android:text="@string/download_attachment"
+
+                                />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:fitsSystemWindows="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/edt_comments"
+                        android:padding="8dp"
+
+                        >
+
+                        <EditText
+                            android:id="@+id/edtComment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/add_comments_here"
+                            android:textColorHint="@color/gray4"
+                            android:textSize="13sp"
+                            android:background="@color/white"
+                            android:padding="5dp"
+                            android:inputType="textMultiLine"
+                            android:textColor="@color/black"
+
+                            />
+                    </androidx.core.widget.NestedScrollView>
+
+                    <FrameLayout
+                        android:id="@+id/flAddComment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@color/green2"
+
+                        >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:clickable="false"
+                            android:longClickable="true"
+                            android:gravity="center_vertical"
+                            >
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/ic_forward_arrow"
+                                android:tint="@color/white"
+                                android:padding="6dp"
+                                android:rotation='@{lang.equals("en")?180:0}'
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:text="@string/add_comment"/>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:text="@string/comments2"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="20dp"
+                        >
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <ProgressBar
+                            android:id="@+id/progBar"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"/>
+                        <TextView
+                            android:id="@+id/tvNoComment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray6"
+                            android:textSize="13sp"
+                            android:text="@string/no_comments_to_show"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

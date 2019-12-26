@@ -5,30 +5,32 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.sheari.R;
-import com.creative.share.apps.sheari.activities_fragments.activity_providers.ProvidersActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_offers.OffersActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_order.OrderActivity;
 import com.creative.share.apps.sheari.databinding.LoadMoreRowBinding;
-import com.creative.share.apps.sheari.databinding.ProviderRowBinding;
-import com.creative.share.apps.sheari.models.ProviderModel;
+import com.creative.share.apps.sheari.databinding.OfferRowBinding;
+import com.creative.share.apps.sheari.models.OfferDataModel;
 
 import java.util.List;
 
-public class ProvidersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OfferAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int ITEM_DATA = 1;
     private final int ITEM_LOAD = 2;
 
-    private List<ProviderModel> list;
+    private List<OfferDataModel.Data.Provider> list;
     private Context context;
-    private ProvidersActivity activity;
+    private AppCompatActivity activity;
 
-    public ProvidersAdapter(List<ProviderModel> list, Context context) {
+    public OfferAdapter(List<OfferDataModel.Data.Provider> list, Context context) {
 
         this.list = list;
         this.context = context;
-        this.activity = (ProvidersActivity) context;
+        this.activity = (AppCompatActivity) context;
     }
 
     @NonNull
@@ -36,7 +38,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if (viewType == ITEM_DATA) {
-            ProviderRowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context),R.layout.provider_row,parent,false);
+            OfferRowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context),R.layout.offer_row,parent,false);
 
             return new MyHolder(binding);
         } else {
@@ -53,13 +55,23 @@ public class ProvidersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof MyHolder) {
 
             final MyHolder myHolder = (MyHolder) holder;
-            ProviderModel providerModel = list.get(myHolder.getAdapterPosition());
+            OfferDataModel.Data.Provider providerModel = list.get(position);
             myHolder.binding.setModel(providerModel);
 
             myHolder.itemView.setOnClickListener(view ->
             {
-                activity.setItemData(providerModel);
+                OfferDataModel.Data.Provider providerModel2 = list.get(myHolder.getAdapterPosition());
+                if (activity instanceof OffersActivity)
+                {
+                    OffersActivity offersActivity = (OffersActivity) activity;
+                    offersActivity.setItemData(providerModel2);
+                }else if (activity instanceof OrderActivity)
+                {
+                    OrderActivity orderActivity = (OrderActivity) activity;
+                    orderActivity.setItemData(providerModel2);
+                }
             });
+
 
         } else {
             LoadMoreHolder loadMoreHolder = (LoadMoreHolder) holder;
@@ -73,8 +85,8 @@ public class ProvidersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        private ProviderRowBinding binding;
-        public MyHolder(ProviderRowBinding binding) {
+        private OfferRowBinding binding;
+        public MyHolder(OfferRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
@@ -95,7 +107,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-       ProviderModel providerModel = list.get(position);
+       OfferDataModel.Data.Provider providerModel = list.get(position);
         if (providerModel == null) {
             return ITEM_LOAD;
         } else {

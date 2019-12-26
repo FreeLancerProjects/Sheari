@@ -10,8 +10,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
-import android.text.TextUtils;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,16 +19,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_make_order2.MakeOrder2Activity;
+import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
+import com.creative.share.apps.sheari.adapters.MyFieldAdapter;
 import com.creative.share.apps.sheari.databinding.ActivityCreateOrderBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
-import com.creative.share.apps.sheari.models.PlaceGeocodeData;
-import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
-import com.creative.share.apps.sheari.models.ProvidersDataModel;
-import com.creative.share.apps.sheari.remote.Api;
+import com.creative.share.apps.sheari.models.ProviderModel;
+import com.creative.share.apps.sheari.models.UserModel;
+import com.creative.share.apps.sheari.preferences.Preferences;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -49,14 +51,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import io.paperdb.Paper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CreateOrderActivity extends AppCompatActivity implements Listeners.BackListener , OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
     private ActivityCreateOrderBinding binding;
@@ -73,7 +72,11 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
     private String address="";
     private FragmentMapTouchListener fragment;
     private int cat_id;
-    private ProvidersDataModel.ProviderModel providerModel=null;
+    private ProviderModel providerModel=null;
+    private MyFieldAdapter adapter;
+    private LinearLayoutManager manager;
+    private Preferences preferences;
+    private UserModel userModel;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -94,29 +97,44 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
         if (intent!=null&&intent.hasExtra("cat_id")&&intent.hasExtra("data"))
         {
             cat_id = intent.getIntExtra("cat_id",0);
-            providerModel = (ProvidersDataModel.ProviderModel) intent.getSerializableExtra("data");
+            providerModel = (ProviderModel) intent.getSerializableExtra("data");
         }
     }
 
 
     private void initView() {
+        preferences = Preferences.newInstance();
+
         Paper.init(this);
         lang = Paper.book().read("lang",Locale.getDefault().getLanguage());
         binding.setBackListener(this);
         binding.setLang(lang);
-        binding.setModel(providerModel);
-        binding.imageSearch.setOnClickListener(v -> {
-            String query = binding.edtSearch.getText().toString().trim();
-            if (!TextUtils.isEmpty(query)) {
-                Search(query);
-            }
-        });
-        binding.btnNext.setOnClickListener(view -> {
 
-            Intent intent = new Intent(this, MakeOrder2Activity.class);
-            intent.putExtra("cat_id",cat_id);
-            intent.putExtra("data",providerModel);
-            startActivity(intent);
+        if (providerModel!=null)
+        {
+            updateUi(providerModel);
+
+        }
+
+
+
+
+        binding.btnNext.setOnClickListener(view -> {
+            userModel = preferences.getUserData(this);
+
+            if (userModel==null)
+            {
+                Intent intent = new Intent(this, SignInActivity.class);
+                intent.putExtra("from",true);
+                startActivity(intent);
+            }else
+                {
+                    Intent intent = new Intent(this, MakeOrder2Activity.class);
+                    intent.putExtra("cat_id",cat_id);
+                    intent.putExtra("data",providerModel);
+                    startActivity(intent);
+                }
+
 
         });
         initMap();
@@ -124,6 +142,32 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
 
 
 
+    }
+
+    private void updateUi(ProviderModel providerModel) {
+        binding.setModel(providerModel);
+        userModel = preferences.getUserData(this);
+        if (userModel!=null){
+
+            if (userModel.getData().getRole().equals("provider"))
+            {
+                binding.btnNext.setVisibility(View.GONE);
+            }else
+                {
+                    binding.btnNext.setVisibility(View.VISIBLE);
+
+                }
+        }
+        if (this.providerModel.getSub_categories().size()>0)
+        {
+            adapter = new MyFieldAdapter(providerModel.getSub_categories(),this);
+            manager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+            binding.recView.setLayoutManager(manager);
+            binding.recView.setAdapter(adapter);
+        }else
+        {
+            binding.tvNoField.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initMap() {
@@ -163,39 +207,42 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
             mMap.setTrafficEnabled(false);
             mMap.setBuildingsEnabled(false);
             mMap.setIndoorEnabled(true);
-            CheckPermission();
-            mMap.setOnMapClickListener(latLng -> {
+           // CheckPermission();
+           /* mMap.setOnMapClickListener(latLng -> {
                 marker.setPosition(latLng);
                 lat = latLng.latitude;
                 lng = latLng.longitude;
-                getGeoData(lat, lng);
-            });
+               // getGeoData(lat, lng);
+            });*/
+
+            if (providerModel!=null)
+            {
+                String address = providerModel.getName()+"/"+providerModel.getCountry_name()+"-"+providerModel.getCity_name()+"-"+providerModel.getRegion_name();
+
+                AddMarker(Double.parseDouble(providerModel.getLat()),Double.parseDouble(providerModel.getLng()),address);
+
+            }
 
             fragment.setListener(() -> binding.scrollView.requestDisallowInterceptTouchEvent(true));
 
         }
     }
 
-    private void AddMarker(double lat, double lng) {
-
-        this.lat = lat;
-        this.lng = lng;
-
-        if (marker == null) {
-            marker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), zoom));
-
-        } else {
-            marker.setPosition(new LatLng(lat, lng));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), zoom));
+    private void AddMarker(double lat, double lng, String address) {
 
 
-        }
 
+        View view = LayoutInflater.from(this).inflate(R.layout.marker_bg,null);
+        IconGenerator iconGenerator = new IconGenerator(this);
+        iconGenerator.setContentView(view);
+        iconGenerator.setBackground(null);
+
+        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(address).icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon())));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),zoom));
 
     }
 
-    private void getGeoData(final double lat, double lng) {
+  /*  private void getGeoData(final double lat, double lng) {
 
         String location = lat + "," + lng;
         Api.getService("https://maps.googleapis.com/maps/api/")
@@ -276,7 +323,7 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
                         }
                     }
                 });
-    }
+    }*/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -343,8 +390,8 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
         lat = location.getLatitude();
         lng = location.getLongitude();
 
-        AddMarker(lat, lng);
-        getGeoData(lat, lng);
+        AddMarker(lat, lng, address);
+        //getGeoData(lat, lng);
         LocationServices.getFusedLocationProviderClient(this)
                 .removeLocationUpdates(locationCallback);
         googleApiClient.disconnect();

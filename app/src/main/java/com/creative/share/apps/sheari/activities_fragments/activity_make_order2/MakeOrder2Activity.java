@@ -16,7 +16,7 @@ import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
 import com.creative.share.apps.sheari.models.CategoryDataModel;
 import com.creative.share.apps.sheari.models.CategoryModel;
-import com.creative.share.apps.sheari.models.ProvidersDataModel;
+import com.creative.share.apps.sheari.models.ProviderModel;
 import com.creative.share.apps.sheari.remote.Api;
 import com.creative.share.apps.sheari.tags.Tags;
 
@@ -34,7 +34,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
     private ActivityMakeOrder2Binding binding;
     private String lang;
     private int cat_id;
-    private ProvidersDataModel.ProviderModel providerModel=null;
+    private ProviderModel providerModel=null;
     private List<CategoryModel> spinnerCategoryList;
     private CategorySpinnerAdapter categorySpinnerAdapter;
 
@@ -57,7 +57,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
         if (intent!=null&&intent.hasExtra("cat_id")&&intent.hasExtra("data"))
         {
             cat_id = intent.getIntExtra("cat_id",0);
-            providerModel = (ProvidersDataModel.ProviderModel) intent.getSerializableExtra("data");
+            providerModel = (ProviderModel) intent.getSerializableExtra("data");
         }
     }
 

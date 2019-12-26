@@ -1,5 +1,6 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_home.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_offers.OffersActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_order.OrderActivity;
 import com.creative.share.apps.sheari.databinding.FragmentMarketBinding;
 import com.creative.share.apps.sheari.preferences.Preferences;
 
@@ -44,7 +47,15 @@ public class Fragment_Market extends Fragment {
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
 
 
+        binding.flOrder.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, OrderActivity.class);
+            startActivity(intent);
+        });
 
+        binding.flOffer.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, OffersActivity.class);
+            startActivity(intent);
+        });
 
     }
 

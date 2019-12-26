@@ -2,20 +2,21 @@ package com.creative.share.apps.sheari.models;
 
 import java.io.Serializable;
 
-public class SignUpDataModel implements Serializable {
+public class TermsModel implements Serializable {
+
     private boolean value;
     private String msg;
-    private UserModel userModel;
+    private String data;
 
     public boolean isValue() {
         return value;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getData() {
+        return data;
     }
 
-    public UserModel getUserModel() {
-        return userModel;
+    public String getMsg() {
+        return msg;
     }
 }

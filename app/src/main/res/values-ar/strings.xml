@@ -215,5 +215,17 @@
     <string name="credit_debit">بطاقة الإئتمان</string>
     <string name="cash">نقدي</string>
     <string name="manage_profile">إدارة صفحتي</string>
+    <string name="view">المشاهدة</string>
+    <string name="attachments">المرفقات</string>
+    <string name="download_attachment">تحميل المرفقات</string>
+    <string name="add_comments_here">إكتب تعليقك هنا......</string>
+    <string name="add_comment">أضف تعليقك</string>
+    <string name="comments2">التعليقات :</string>
+    <string name="no_comments_to_show">لاتوجد تعليقات لعرضها</string>
+    <string name="our_fields">مجالاتنا</string>
+    <string name="no_fields_to_show">لا توجد مجالات لعرضها</string>
+    <string name="special">مميز</string>
+    <string name="normal">عادي</string>
+
 
 </resources>

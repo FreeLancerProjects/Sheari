@@ -24,18 +24,22 @@ import io.paperdb.Paper;
 
 public class Fragment_Client_Sign_Up_Step2 extends Fragment {
     private static final String TAG = "DATA";
+    private static final String TAG2 = "OUT";
+
     private FragmentClientSignUpStep2Binding binding;
     private ClientSignUpActivity activity;
     private String lang;
     private Preferences preferences;
     private ClientSignUpModel clientSignUpModel;
+    private boolean out = false;
 
 
 
-    public static Fragment_Client_Sign_Up_Step2 newInstance(ClientSignUpModel clientSignUpModel)
+    public static Fragment_Client_Sign_Up_Step2 newInstance(ClientSignUpModel clientSignUpModel, boolean out)
     {
         Bundle bundle = new Bundle();
         bundle.putSerializable(TAG,  clientSignUpModel);
+        bundle.putBoolean(TAG2,out);
         Fragment_Client_Sign_Up_Step2 fragment_client_sign_up_step2 =new Fragment_Client_Sign_Up_Step2();
         fragment_client_sign_up_step2.setArguments(bundle);
 
@@ -62,6 +66,7 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
         {
             clientSignUpModel = (ClientSignUpModel) bundle.getSerializable(TAG);
             binding.setClientSignUp(clientSignUpModel);
+            out = bundle.getBoolean(TAG2);
 
         }
 

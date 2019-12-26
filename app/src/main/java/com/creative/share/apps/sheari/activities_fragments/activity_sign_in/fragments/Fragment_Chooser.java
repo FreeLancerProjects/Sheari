@@ -22,14 +22,21 @@ import java.util.Locale;
 import io.paperdb.Paper;
 
 public class Fragment_Chooser extends Fragment {
-
+    private static final String TAG="OUT";
     private FragmentChooserBinding binding;
     private SignInActivity activity;
     private String lang;
+    private boolean out = false;
 
 
-    public static Fragment_Chooser newInstance() {
-        return new Fragment_Chooser();
+    public static Fragment_Chooser newInstance(boolean out) {
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(TAG,out);
+        Fragment_Chooser fragment_chooser = new Fragment_Chooser();
+        fragment_chooser.setArguments(bundle);
+        return fragment_chooser;
+
     }
 
     @Override
@@ -45,6 +52,13 @@ public class Fragment_Chooser extends Fragment {
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setLang(lang);
+
+
+        Bundle bundle = getArguments();
+        if (bundle!=null)
+        {
+            out = bundle.getBoolean(TAG);
+        }
 
         binding.flChangeLanguage.setOnClickListener((view) -> {
 
@@ -63,6 +77,7 @@ public class Fragment_Chooser extends Fragment {
 
         binding.llClient.setOnClickListener(view -> {
             Intent intent = new Intent(activity, ClientSignUpActivity.class);
+            intent.putExtra("from",out);
             startActivity(intent);
             activity.finish();
         });
@@ -70,6 +85,7 @@ public class Fragment_Chooser extends Fragment {
 
         binding.llProvider.setOnClickListener(view -> {
             Intent intent = new Intent(activity, ProviderSignUpActivity.class);
+            intent.putExtra("from",out);
             startActivity(intent);
             activity.finish();
         });

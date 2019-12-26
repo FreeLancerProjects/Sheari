@@ -14,7 +14,7 @@
             type="com.creative.share.apps.sheari.interfaces.Listeners.BackListener" />
         <variable
             name="model"
-            type="com.creative.share.apps.sheari.models.ProvidersDataModel.ProviderModel" />
+            type="com.creative.share.apps.sheari.models.ProviderModel" />
     </data>
 
     <LinearLayout
@@ -363,11 +363,81 @@
                             android:layout_marginEnd="10dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:text='@{model.is_special.equals("1")?@string/special:@string/normal}'
+
+                            />
 
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/small_round_bg"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/flLogo">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="@string/our_fields"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:layout_marginEnd="80dp"
+                            android:layout_marginRight="80dp"
+                            android:background="@color/gray6">
+
+                            <View
+                                android:layout_width="100dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/green" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        >
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/tvNoField"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="13sp"
+                            android:text="@string/no_fields_to_show"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            />
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -508,6 +578,7 @@
                         android:layout_height="350dp"
 
                         />
+<!--
                     <LinearLayout
                         android:id="@+id/ll_search"
                         android:layout_width="match_parent"
@@ -548,6 +619,7 @@
 
 
                     </LinearLayout>
+-->
 
                 </FrameLayout>
 

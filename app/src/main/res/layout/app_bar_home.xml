@@ -39,28 +39,6 @@
 
                 </FrameLayout>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp">
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/pagerSlider"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginBottom="5dp"
-                        app:tabBackground="@drawable/indicator"
-                        app:tabGravity="fill"
-                        app:tabIndicatorHeight="0dp"
-                        app:tabMaxWidth="7dp"
-                        app:tabMode="auto"
-
-                        />
-                </FrameLayout>
 
             </LinearLayout>
 
@@ -109,8 +87,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:fillViewport="true"
+        android:fitsSystemWindows="true"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
 
         >
@@ -118,8 +96,8 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
+
 
     </androidx.core.widget.NestedScrollView>
 

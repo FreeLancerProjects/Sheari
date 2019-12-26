@@ -31,7 +31,7 @@ public class ClientSignUpActivity extends AppCompatActivity implements Fragment_
     private Preferences preferences;
     private Fragment_Client_Sign_Up_Step1 fragment_client_sign_up_step1;
     private Fragment_Client_Sign_Up_Step2 fragment_client_sign_up_step2;
-
+    private boolean out = false;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -48,9 +48,16 @@ public class ClientSignUpActivity extends AppCompatActivity implements Fragment_
         if (savedInstanceState == null) {
             displayFragmentStep1();
         }
+        getDataFromIntent();
 
     }
 
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("from")) {
+            out = true;
+        }
+    }
 
 
     private void displayFragmentStep1() {
@@ -63,7 +70,7 @@ public class ClientSignUpActivity extends AppCompatActivity implements Fragment_
 
     private void displayFragmentStep2(ClientSignUpModel clientSignUpModel) {
         fragment_count++;
-        fragment_client_sign_up_step2 = Fragment_Client_Sign_Up_Step2.newInstance(clientSignUpModel);
+        fragment_client_sign_up_step2 = Fragment_Client_Sign_Up_Step2.newInstance(clientSignUpModel,out);
 
         manager.beginTransaction().add(R.id.fragment_client_sign_up_container, fragment_client_sign_up_step2, "fragment_client_sign_up_step2").addToBackStack("fragment_client_sign_up_step2").commit();
 

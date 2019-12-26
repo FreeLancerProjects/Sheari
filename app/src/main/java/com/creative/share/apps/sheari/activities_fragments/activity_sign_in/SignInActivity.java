@@ -29,11 +29,12 @@ public class SignInActivity extends AppCompatActivity {
     private Preferences preferences;
     private Fragment_Chooser fragment_chooser;
     private Fragment_Sign_In fragment_sign_in;
+    private boolean out = false;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", "ar")));
     }
 
     @Override
@@ -45,14 +46,22 @@ public class SignInActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             displayFragmentChooser();
         }
+        getDataFromIntent();
 
     }
 
 
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("from")) {
+            out = true;
+        }
+    }
+
 
     public void displayFragmentChooser() {
         fragment_count++;
-        fragment_chooser = Fragment_Chooser.newInstance();
+        fragment_chooser = Fragment_Chooser.newInstance(out);
 
         manager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_chooser, "fragment_chooser").addToBackStack("fragment_chooser").commit();
 
@@ -60,12 +69,11 @@ public class SignInActivity extends AppCompatActivity {
 
     public void displayFragmentSignIn() {
         fragment_count++;
-        fragment_sign_in = Fragment_Sign_In.newInstance();
+        fragment_sign_in = Fragment_Sign_In.newInstance(out);
 
         manager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_sign_in, "fragment_sign_in").addToBackStack("fragment_sign_in").commit();
 
     }
-
 
 
     public void refreshActivity(String lang) {
@@ -85,8 +93,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         List<Fragment> fragmentList = manager.getFragments();
-        for (Fragment fragment : fragmentList)
-        {
+        for (Fragment fragment : fragmentList) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -95,8 +102,7 @@ public class SignInActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         List<Fragment> fragmentList = manager.getFragments();
-        for (Fragment fragment : fragmentList)
-        {
+        for (Fragment fragment : fragmentList) {
             fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }

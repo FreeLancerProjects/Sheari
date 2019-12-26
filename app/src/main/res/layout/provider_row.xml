@@ -5,7 +5,7 @@
     <data>
         <variable
             name="model"
-            type="com.creative.share.apps.sheari.models.ProvidersDataModel.ProviderModel" />
+            type="com.creative.share.apps.sheari.models.ProviderModel" />
         <import type="android.view.View"/>
     </data>
     <FrameLayout

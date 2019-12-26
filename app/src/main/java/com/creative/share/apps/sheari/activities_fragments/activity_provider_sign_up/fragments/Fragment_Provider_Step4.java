@@ -74,7 +74,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, LocationListener {
-
+    private static final String TAG="OUT";
     private FragmentProviderStep4Binding binding;
     private ProviderSignUpActivity activity;
     private String lang;
@@ -93,9 +93,8 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
     private ProviderSignUpModel providerSignUpModel;
     private List<CategoryModel> spinnerCategoryList;
     private List<CategoryModel> spinnerSubCategoryList;
-
     private CategorySpinnerAdapter categorySpinnerAdapter,subCategorySpinnerAdapter;
-
+    private boolean out = false;
 
     @Override
     public void onAttach(@NonNull Context context)
@@ -107,8 +106,14 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         }
     }
 
-    public static Fragment_Provider_Step4 newInstance() {
-        return new Fragment_Provider_Step4();
+    public static Fragment_Provider_Step4 newInstance(boolean out) {
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(TAG,  out);
+        Fragment_Provider_Step4 fragment_provider_step4 =new Fragment_Provider_Step4();
+        fragment_provider_step4.setArguments(bundle);
+
+        return fragment_provider_step4;
     }
 
     @Override
@@ -136,6 +141,12 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         initMap();
         CheckPermission();
 
+        Bundle bundle = getArguments();
+        if (bundle!=null)
+        {
+            out = bundle.getBoolean(TAG);
+
+        }
 
         categorySpinnerAdapter = new CategorySpinnerAdapter(activity,spinnerCategoryList);
         binding.spinnerCategory.setAdapter(categorySpinnerAdapter);

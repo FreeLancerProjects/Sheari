@@ -2,11 +2,14 @@ package com.creative.share.apps.sheari.services;
 
 
 import com.creative.share.apps.sheari.models.CategoryDataModel;
+import com.creative.share.apps.sheari.models.CommentRespons;
 import com.creative.share.apps.sheari.models.LocationDataModel;
+import com.creative.share.apps.sheari.models.OfferDataModel;
 import com.creative.share.apps.sheari.models.PlaceGeocodeData;
 import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
 import com.creative.share.apps.sheari.models.ProvidersDataModel;
-import com.creative.share.apps.sheari.models.SignUpDataModel;
+import com.creative.share.apps.sheari.models.TermsModel;
+import com.creative.share.apps.sheari.models.UserModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -35,11 +38,11 @@ public interface Service {
 
     @FormUrlEncoded
     @POST("api/auth/register/client")
-    Call<SignUpDataModel> clientSignUp(@Header("X-localization") String lang,
-                                       @Field("name") String name,
-                                       @Field("email") String email,
-                                       @Field("phone") String phone,
-                                       @Field("password") String password
+    Call<UserModel> clientSignUp(@Header("X-localization") String lang,
+                                 @Field("name") String name,
+                                 @Field("email") String email,
+                                 @Field("phone") String phone,
+                                 @Field("password") String password
     );
 
 
@@ -83,10 +86,36 @@ public interface Service {
     @GET("api/get-ads-categories")
     Call<CategoryDataModel> getAds(@Header("X-l") String lang);
 
-    @GET("api/service/provider/{cat_id}")
+    @GET("api/service/ads/provider/{cat_id}")
     Call<ProvidersDataModel> getAdsProvidersBySubCategory(@Path("cat_id") int cat_id,
                                                           @Query("page") int page
     );
+
+    @GET("api/market/offers")
+    Call<OfferDataModel> getOffers(@Query("page") int page);
+
+    @GET("api/market/requests")
+    Call<OfferDataModel> getOrder(@Query("page") int page);
+
+
+    @FormUrlEncoded
+    @POST("ap/market/add/comment/{id}")
+    Call<CommentRespons> addComment(@Header("Authorization") String token,
+                                    @Path("id") int id
+    );
+
+
+    @GET("api/terms")
+    Call<TermsModel> getAppTerms(@Header("X-localization") String lang);
+
+    @GET("api/terms_user")
+    Call<TermsModel> getClientTerms(@Header("X-localization") String lang,
+                                    @Header("Authorization") String token
+                                    );
+    @GET("api/terms_provider")
+    Call<TermsModel> getProviderTerms(@Header("X-localization") String lang,
+                                      @Header("Authorization") String token);
+
 }
 
 

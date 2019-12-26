@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_make_order.CreateOrderActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_provider_sign_up.fragments.FragmentMapTouchListener;
 import com.creative.share.apps.sheari.adapters.CategorySpinnerAdapter;
 import com.creative.share.apps.sheari.adapters.LocationSpinnerAdapter;
@@ -33,6 +34,7 @@ import com.creative.share.apps.sheari.models.CategoryDataModel;
 import com.creative.share.apps.sheari.models.CategoryModel;
 import com.creative.share.apps.sheari.models.LocationDataModel;
 import com.creative.share.apps.sheari.models.LocationModel;
+import com.creative.share.apps.sheari.models.ProviderModel;
 import com.creative.share.apps.sheari.models.ProvidersDataModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
 import com.creative.share.apps.sheari.remote.Api;
@@ -90,7 +92,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
     private LocationSpinnerAdapter citySpinnerAdapter, countrySpinnerAdapter;
     private List<CategoryModel> spinnerCategoryList;
     private CategorySpinnerAdapter categorySpinnerAdapter;
-    private List<ProvidersDataModel.ProviderModel> providerModelList;
+    private List<ProviderModel> providerModelList;
     private int current_page=1;
     private int cat_id=0,country_id=0,city_id=0;
     private ProgressDialog dialog;
@@ -432,6 +434,21 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
             mMap.setBuildingsEnabled(false);
             mMap.setIndoorEnabled(true);
 
+            mMap.setOnMarkerClickListener(marker -> {
+
+                if (marker.getTag()!=null)
+                {
+                    ProviderModel providerModel = (ProviderModel) marker.getTag();
+
+                    Intent intent = new Intent(activity, CreateOrderActivity.class);
+                    intent.putExtra("cat_id",-1);
+                    intent.putExtra("data",providerModel);
+                    startActivity(intent);
+
+                }
+
+                return false;
+            });
 
             fragment.setListener(() -> binding.scrollView.requestDisallowInterceptTouchEvent(true));
 
@@ -532,11 +549,11 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        for (ProvidersDataModel.ProviderModel providerModel: providerModelList)
+        for (ProviderModel providerModel: providerModelList)
         {
             double lat = Double.parseDouble(providerModel.getLat());
             double lng = Double.parseDouble(providerModel.getLng());
-            AddMarker(lat,lng,providerModel.getName());
+            AddMarker(lat,lng,providerModel);
             builder.include(new LatLng(lat,lng));
         }
 
@@ -550,7 +567,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
     }
 
 
-    private void AddMarker(double lat, double lng,String title)
+    private void AddMarker(double lat, double lng,ProviderModel providerModel)
     {
 
         View view = LayoutInflater.from(activity).inflate(R.layout.marker_bg,null);
@@ -558,7 +575,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
         iconGenerator.setContentView(view);
         iconGenerator.setBackground(null);
 
-        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(title).icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon())));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(providerModel.getName()).icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon()))).setTag(providerModel);
 
 
 
