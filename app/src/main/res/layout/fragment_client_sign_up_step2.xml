@@ -144,6 +144,7 @@
                 >
 
                 <LinearLayout
+                    android:id="@+id/llEmail"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/rounder_gray"
@@ -188,6 +189,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llPassword"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
@@ -246,6 +248,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llRePassword"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"

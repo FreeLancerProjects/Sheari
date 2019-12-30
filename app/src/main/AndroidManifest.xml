@@ -23,10 +23,18 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".activities_fragments.activity_order_offer_details.OrderOfferDetailsActivity"
+        <activity android:name=".activities_fragments.update_client_profile.UpdateClientProfileActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden"
             />
+        <activity
+            android:name=".activities_fragments.activity_provider_profile.ProviderProfileActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities_fragments.activity_order_offer_details.OrderOfferDetailsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities_fragments.activity_order.OrderActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

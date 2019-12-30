@@ -57,6 +57,7 @@ public class ClientSignUpActivity extends AppCompatActivity implements Fragment_
         if (intent.hasExtra("from")) {
             out = true;
         }
+
     }
 
 

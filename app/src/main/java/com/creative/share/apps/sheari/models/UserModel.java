@@ -1,6 +1,7 @@
 package com.creative.share.apps.sheari.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserModel implements Serializable {
 
@@ -27,6 +28,7 @@ public class UserModel implements Serializable {
         private String name;
         private String identity;
         private String email;
+        private String phone;
         private String role;
         private String bio;
         private String image;
@@ -37,6 +39,7 @@ public class UserModel implements Serializable {
         private String lat;
         private double rate;
         private String delivery;
+        private String is_special;
         private String emp_no;
         private String creation_year;
         private String commerical_no;
@@ -45,7 +48,7 @@ public class UserModel implements Serializable {
         private String gender;
         private String experience_years;
         private String token;
-
+        private List<SubCategory> sub_categories;
 
         public boolean isOnline() {
             return isOnline;
@@ -137,6 +140,69 @@ public class UserModel implements Serializable {
 
         public String getToken() {
             return token;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public String getIs_special() {
+            return is_special;
+        }
+
+        public List<SubCategory> getSub_categories() {
+            return sub_categories;
+        }
+
+        public class SubCategory implements Serializable
+        {
+
+            private int id;
+            private String ar_name;
+            private String en_name;
+            private String image;
+            private String category_id;
+            private Pivot pivot;
+
+            public int getId() {
+                return id;
+            }
+
+            public String getAr_name() {
+                return ar_name;
+            }
+
+            public String getEn_name() {
+                return en_name;
+            }
+
+            public String getImage() {
+                return image;
+            }
+
+            public String getCategory_id() {
+                return category_id;
+            }
+
+            public Pivot getPivot() {
+                return pivot;
+            }
+
+
+
+            public class Pivot implements Serializable
+            {
+                private String user_id;
+                private String sub_category_id;
+
+                public String getUser_id() {
+                    return user_id;
+                }
+
+                public String getSub_category_id() {
+                    return sub_category_id;
+                }
+            }
         }
     }
 

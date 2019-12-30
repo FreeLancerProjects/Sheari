@@ -226,6 +226,16 @@
     <string name="no_fields_to_show">لا توجد مجالات لعرضها</string>
     <string name="special">مميز</string>
     <string name="normal">عادي</string>
+    <string name="no_ads_to_show">لا توجد إعلانات لعرضها</string>
 
+    <string name="client">عميل</string>
+    <string name="provider2">مقدم خدمة</string>
+    <string name="region">المنطقة</string>
+    <string name="ch_region">إختر المنطقة</string>
+    <string name="ads_department">قسم الاعلانات</string>
+    <string name="ch_ad_dept">إختر قسم الاعلانات</string>
+    <string name="update_profile">تعديل الملف الشخصي</string>
+    <string name="update">تعديل</string>
+    <string name="prov_only">لمقدمين الخدمة فقط</string>
 
 </resources>

@@ -293,7 +293,7 @@
                         android:textColorHint="@color/gray4"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/view2"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/view"
                         app:layout_constraintTop_toTopOf="parent"
                         android:paddingLeft="10dp"
@@ -303,22 +303,54 @@
 
                         />
 
-                    <View
-                        android:id="@+id/view2"
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@color/gray4"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
 
-                        />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_gray"
+                    android:layout_marginTop="20dp"
+                    >
+                    <Spinner
+                        android:id="@+id/spinnerCountry"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/black"
+                        />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_gray"
+                    android:layout_marginTop="10dp"
+                    >
+                    <Spinner
+                        android:id="@+id/spinnerCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/black"
+
+                        />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/border_gray"
+                    android:layout_marginTop="10dp"
+                    >
+                    <Spinner
+                        android:id="@+id/spinnerRegion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/black"
+
+                        />
+                </FrameLayout>
 
             </LinearLayout>
 
@@ -379,5 +411,7 @@
             </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </ScrollView>
 </layout>

@@ -3,10 +3,14 @@ package com.creative.share.apps.sheari.activities_fragments.activity_home;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,8 +32,10 @@ import com.creative.share.apps.sheari.activities_fragments.activity_home.fragmen
 import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Search;
 import com.creative.share.apps.sheari.activities_fragments.activity_payment.PaymentActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_profile.ProfileActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_provider_profile.ProviderProfileActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_terms.TermsActivity;
+import com.creative.share.apps.sheari.activities_fragments.update_client_profile.UpdateClientProfileActivity;
 import com.creative.share.apps.sheari.adapters.ViewPagerAdapter;
 import com.creative.share.apps.sheari.databinding.DialogLanguageBinding;
 import com.creative.share.apps.sheari.language.LanguageHelper;
@@ -37,11 +43,13 @@ import com.creative.share.apps.sheari.models.UserModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,6 +67,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private List<String> titles;
     private FragmentManager manager;
     private String lang;
+    private CircleImageView image;
+    private TextView tvName;
 
 
     @Override
@@ -86,7 +96,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         userModel = preferences.getUserData(this);
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+
+        View view = navigationView.getHeaderView(0);
+        image = view.findViewById(R.id.image);
+        tvName = view.findViewById(R.id.tvName);
+
         toolbar = findViewById(R.id.toolbar);
+
         tab = findViewById(R.id.tab);
         pager = findViewById(R.id.pager);
         tab.setupWithViewPager(pager);
@@ -99,6 +115,61 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         pager.setOffscreenPageLimit(fragmentList.size());
         adapter.addTitles(titles);
         pager.setAdapter(adapter);
+
+        updateUi();
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateMenu();
+    }
+
+    private void updateMenu() {
+
+        if (userModel!=null)
+        {
+
+            if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
+            {
+                navigationView.getMenu().getItem(1).setVisible(false);
+                navigationView.getMenu().getItem(5).setVisible(false);
+            }
+
+
+
+        }
+    }
+
+    private void updateUi() {
+
+
+        if (userModel!=null)
+        {
+
+            if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
+            {
+                navigationView.getMenu().getItem(1).setVisible(false);
+                navigationView.getMenu().getItem(5).setVisible(false);
+            }
+
+
+
+            if (userModel.getData()!=null&&userModel.getData().getImage()!=null)
+            {
+                Picasso.with(this).load(Uri.parse(userModel.getData().getImage())).placeholder(R.drawable.user_avatar).fit().into(image);
+
+            }
+
+            if (userModel.getData()!=null&&userModel.getData().getName()!=null)
+            {
+                tvName.setText(userModel.getData().getName());
+            }
+
+        }
 
 
     }
@@ -123,14 +194,69 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch (id) {
             case R.id.profile:
-                navigateToProfileActivity();
+                if (userModel!=null)
+                {
+                    if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
+                    {
+                        navigateToProfileActivity();
+
+                    }else
+                        {
+                            navigateToProviderProfile();
+                        }
+
+                }else
+                    {
+                        Intent intent = new Intent(this, SignInActivity.class);
+                        intent.putExtra("from",true);
+                        startActivity(intent);
+                    }
                 break;
+
+            case R.id.editProfile:
+                if (userModel!=null)
+                {
+                    if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
+                    {
+                        navigateToUpdateClientProfileActivity();
+
+                    }else
+                    {
+
+
+                    }
+
+                }else
+                {
+                    Intent intent = new Intent(this, SignInActivity.class);
+                    intent.putExtra("from",true);
+                    startActivity(intent);
+                }
+                break;
+
             case R.id.ads:
+
                 navigateToAdsActivity();
                 break;
 
             case R.id.upgrade:
-                navigateToPaymentActivity();
+                if (userModel!=null)
+                {
+                    if (userModel.getData()!=null&&userModel.getData().getRole().equals("provider"))
+                    {
+                        navigateToPaymentActivity();
+
+                    }else
+                    {
+                        Toast.makeText(this, R.string.prov_only, Toast.LENGTH_SHORT).show();
+                    }
+
+                }else
+                {
+                    Intent intent = new Intent(this, SignInActivity.class);
+                    intent.putExtra("from",true);
+                    startActivity(intent);
+                }
                 break;
             case R.id.terms:
                 navigateToTermsActivity();
@@ -159,6 +285,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
+    private void navigateToProviderProfile() {
+
+        Intent intent = new Intent(this, ProviderProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToUpdateClientProfileActivity()
+    {
+        Intent intent = new Intent(this, UpdateClientProfileActivity.class);
+        startActivityForResult(intent,200);
+
+    }
+
     private void navigateToPaymentActivity() {
         Intent intent = new Intent(this, PaymentActivity.class);
         startActivity(intent);
@@ -181,6 +320,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
     private void CreateLangDialogAlert()
     {
@@ -256,6 +396,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
     private void navigateToSignInActivity()
     {
         Intent intent = new Intent(this, SignInActivity.class);
@@ -268,14 +409,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         new Handler()
                 .postDelayed(() -> {
                     Intent intent = new Intent(this, ProfileActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,100);
                 },500);
 
     }
 
 
+
+
+
     private void logout() {
 
+        preferences.clear(this);
+        userModel=null;
+        navigateToSignInActivity();
 
     }
 
@@ -306,7 +453,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         for (Fragment fragment : fragmentList) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+
+        if (requestCode==100&&resultCode==RESULT_OK&&data!=null)
+        {
+            userModel = preferences.getUserData(this);
+            updateUi();
+        }else if (requestCode==200&&resultCode==RESULT_OK&&data!=null)
+        {
+            userModel = preferences.getUserData(this);
+            updateUi();
+        }
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

@@ -16,6 +16,7 @@ import com.creative.share.apps.sheari.activities_fragments.activity_client_sign_
 import com.creative.share.apps.sheari.activities_fragments.activity_terms.TermsActivity;
 import com.creative.share.apps.sheari.databinding.FragmentClientSignUpStep2Binding;
 import com.creative.share.apps.sheari.models.ClientSignUpModel;
+import com.creative.share.apps.sheari.models.UserModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
 
 import java.util.Locale;
@@ -30,6 +31,7 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
     private ClientSignUpActivity activity;
     private String lang;
     private Preferences preferences;
+    private UserModel userModel;
     private ClientSignUpModel clientSignUpModel;
     private boolean out = false;
 
@@ -40,6 +42,7 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putSerializable(TAG,  clientSignUpModel);
         bundle.putBoolean(TAG2,out);
+
         Fragment_Client_Sign_Up_Step2 fragment_client_sign_up_step2 =new Fragment_Client_Sign_Up_Step2();
         fragment_client_sign_up_step2.setArguments(bundle);
 
@@ -55,8 +58,10 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
     }
 
     private void initView() {
-        preferences = Preferences.newInstance();
         activity = (ClientSignUpActivity) getActivity();
+
+        preferences = Preferences.newInstance();
+        userModel = preferences.getUserData(activity);
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setLang(lang);
@@ -68,6 +73,8 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
             binding.setClientSignUp(clientSignUpModel);
             out = bundle.getBoolean(TAG2);
 
+
+
         }
 
         binding.btnPrevious.setOnClickListener((view -> activity.back()));
@@ -76,6 +83,7 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
             if (clientSignUpModel.step2IsValid(activity))
             {
                 signUp();
+
             }
         }));
         binding.checkbox.setOnClickListener(view -> {
@@ -94,6 +102,11 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
 
         });
 
+
+
+    }
+
+    private void updateProfile() {
 
 
     }

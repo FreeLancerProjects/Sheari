@@ -94,7 +94,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
     private CategorySpinnerAdapter categorySpinnerAdapter;
     private List<ProviderModel> providerModelList;
     private int current_page=1;
-    private int cat_id=0,country_id=0,city_id=0;
+    private int sub_cat_id =0,country_id=0,city_id=0;
     private ProgressDialog dialog;
 
 
@@ -123,7 +123,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
         countryList.add(new LocationModel(0, getString(R.string.country2)));
         cityList.add(new LocationModel(0, getString(R.string.city2)));
         spinnerCategoryList = new ArrayList<>();
-        spinnerCategoryList.add(new CategoryModel(getString(R.string.dept2)));
+        spinnerCategoryList.add(new CategoryModel(getString(R.string.sub_cat)));
 
         preferences = Preferences.newInstance();
 
@@ -192,12 +192,12 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
 
                     if (i==0)
                     {
-                        cat_id = 0;
+                        sub_cat_id = 0;
 
 
                     }else
                     {
-                        cat_id = spinnerCategoryList.get(i).getId();
+                        sub_cat_id = spinnerCategoryList.get(i).getId();
                     }
                 }
 
@@ -213,10 +213,10 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
 
         binding.flSearch.setOnClickListener(view ->
         {
-            if (country_id!=0&&city_id!=0&&cat_id!=0)
+            if (country_id!=0&&city_id!=0&& sub_cat_id !=0)
             {
                 dialog.show();
-                getProviders(cat_id,country_id,city_id,current_page);
+                getProviders(sub_cat_id,country_id,city_id,current_page);
             }else
                 {
                     if (country_id==0)
@@ -229,7 +229,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
                         Toast.makeText(activity, getString(R.string.ch_city), Toast.LENGTH_SHORT).show();
                     }
 
-                    if (cat_id==0)
+                    if (sub_cat_id ==0)
                     {
                         Toast.makeText(activity, getString(R.string.ch_dept), Toast.LENGTH_SHORT).show();
                     }
@@ -239,11 +239,9 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
 
     }
 
-
-    private void getData()
-    {
+    private void getSubCategory() {
         Api.getService(Tags.base_url)
-                .getCategory(lang)
+                .getAllSubCategory(lang)
                 .enqueue(new Callback<CategoryDataModel>() {
                     @Override
                     public void onResponse(Call<CategoryDataModel> call, Response<CategoryDataModel> response) {
@@ -251,10 +249,14 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
                             if (response.body().isValue()) {
 
 
-                                spinnerCategoryList.clear();
-                                spinnerCategoryList.add(new CategoryModel(getString(R.string.dept2)));
-                                spinnerCategoryList.addAll(response.body().getData());
-                                categorySpinnerAdapter.notifyDataSetChanged();
+                                try {
+                                    spinnerCategoryList.clear();
+                                    spinnerCategoryList.add(new CategoryModel(getString(R.string.sub_cat)));
+                                    spinnerCategoryList.addAll(response.body().getData());
+                                    activity.runOnUiThread(()->categorySpinnerAdapter.notifyDataSetChanged());
+
+
+                                }catch (Exception e){}
 
                             } else {
                                 Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
@@ -295,6 +297,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
                     }
                 });
     }
+
     private void getCountry()
     {
         Api.getService(Tags.base_url)
@@ -304,10 +307,14 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
                     public void onResponse(Call<LocationDataModel> call, Response<LocationDataModel> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
-                                countryList.clear();
-                                countryList.add(new LocationModel(0, getString(R.string.country2)));
-                                countryList.addAll(response.body().getData());
-                                citySpinnerAdapter.notifyDataSetChanged();
+                                try {
+                                    countryList.clear();
+                                    countryList.add(new LocationModel(0, getString(R.string.country2)));
+                                    countryList.addAll(response.body().getData());
+                                    activity.runOnUiThread(()->citySpinnerAdapter.notifyDataSetChanged());
+
+                                }catch (Exception e){}
+
                             } else {
                                 Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
@@ -356,10 +363,14 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
                     public void onResponse(Call<LocationDataModel> call, Response<LocationDataModel> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
-                                cityList.clear();
-                                cityList.add(new LocationModel(0, getString(R.string.city2)));
-                                cityList.addAll(response.body().getData());
-                                citySpinnerAdapter.notifyDataSetChanged();
+                                try {
+                                    cityList.clear();
+                                    cityList.add(new LocationModel(0, getString(R.string.city2)));
+                                    cityList.addAll(response.body().getData());
+                                    activity.runOnUiThread(()->citySpinnerAdapter.notifyDataSetChanged());
+
+                                }catch (Exception e){}
+
 
                             } else {
                                 Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
@@ -441,7 +452,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
                     ProviderModel providerModel = (ProviderModel) marker.getTag();
 
                     Intent intent = new Intent(activity, CreateOrderActivity.class);
-                    intent.putExtra("cat_id",-1);
+                    intent.putExtra("cat_id",0);
                     intent.putExtra("data",providerModel);
                     startActivity(intent);
 
@@ -452,7 +463,7 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
 
             fragment.setListener(() -> binding.scrollView.requestDisallowInterceptTouchEvent(true));
 
-            getData();
+            getSubCategory();
             getCountry();
 
 
@@ -461,9 +472,9 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
 
 
 
-    private void getProviders(int cat_id,int country_id,int city_id,int page) {
+    private void getProviders(int sub_cat_id,int country_id,int city_id,int page) {
         Api.getService(Tags.base_url)
-                .getProvidersSearch(cat_id,country_id,city_id,page)
+                .getProvidersSearch(sub_cat_id,country_id,city_id,page)
                 .enqueue(new Callback<ProvidersDataModel>() {
                     @Override
                     public void onResponse(Call<ProvidersDataModel> call, Response<ProvidersDataModel> response) {
@@ -477,10 +488,11 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
                                 }
                                 providerModelList.addAll(response.body().getData().getProviders());
 
-                                if (response.body().getData().getPaginate().getTotal_pages()>=3&&current_page<=3)
+                                int total_pages = response.body().getData().getPaginate().getTotal_pages();
+                                if (total_pages>1&&current_page<=total_pages&&current_page<=3)
                                 {
                                     current_page++;
-                                    getProviders(cat_id,country_id,city_id,current_page);
+                                    getProviders(sub_cat_id,country_id,city_id,current_page);
                                 }else
                                     {
                                         if (providerModelList.size() > 0) {

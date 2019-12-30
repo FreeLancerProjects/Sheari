@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.creative.share.apps.sheari.R;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.sheari.databinding.ActivitySplashBinding;
 import com.creative.share.apps.sheari.language.LanguageHelper;
@@ -52,9 +53,9 @@ public class SplashActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 String session = preferences.getSession(SplashActivity.this);
                 if (session.equals(Tags.session_login)) {
-                   /* Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     startActivity(intent);
-                    finish();*/
+                    finish();
                 } else {
                     Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
                     startActivity(intent);

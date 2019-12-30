@@ -215,6 +215,17 @@
     <string name="no_fields_to_show">No fields to show</string>
     <string name="special">Special</string>
     <string name="normal">Normal</string>
+    <string name="no_ads_to_show">No ads to show</string>
+
+    <string name="client">Client</string>
+    <string name="provider2">Provider</string>
+    <string name="region">Region</string>
+    <string name="ch_region">Choose region</string>
+    <string name="ads_department">Ads department</string>
+    <string name="ch_ad_dept">Choose ad department</string>
+    <string name="update_profile">Update profile</string>
+    <string name="update">Update</string>
+    <string name="prov_only">Providers only</string>
 
 
 </resources>

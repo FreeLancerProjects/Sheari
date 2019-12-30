@@ -8,6 +8,7 @@ import com.creative.share.apps.sheari.models.OfferDataModel;
 import com.creative.share.apps.sheari.models.PlaceGeocodeData;
 import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
 import com.creative.share.apps.sheari.models.ProvidersDataModel;
+import com.creative.share.apps.sheari.models.SliderDataModel;
 import com.creative.share.apps.sheari.models.TermsModel;
 import com.creative.share.apps.sheari.models.UserModel;
 
@@ -42,6 +43,7 @@ public interface Service {
                                  @Field("name") String name,
                                  @Field("email") String email,
                                  @Field("phone") String phone,
+                                 @Field("region_id") String region_id,
                                  @Field("password") String password
     );
 
@@ -76,7 +78,7 @@ public interface Service {
 
     @FormUrlEncoded
     @POST("api/search")
-    Call<ProvidersDataModel> getProvidersSearch(@Field("category_id") int category_id,
+    Call<ProvidersDataModel> getProvidersSearch(@Field("category_id") int sub_category_id,
                                                 @Field("country_id") int country_id,
                                                 @Field("city_id") int city_id,
                                                 @Query("page") int page
@@ -85,6 +87,9 @@ public interface Service {
 
     @GET("api/get-ads-categories")
     Call<CategoryDataModel> getAds(@Header("X-l") String lang);
+
+    @GET("api/sub-categories")
+    Call<CategoryDataModel> getAllSubCategory(@Header("X-localization") String lang);
 
     @GET("api/service/ads/provider/{cat_id}")
     Call<ProvidersDataModel> getAdsProvidersBySubCategory(@Path("cat_id") int cat_id,
@@ -99,7 +104,7 @@ public interface Service {
 
 
     @FormUrlEncoded
-    @POST("ap/market/add/comment/{id}")
+    @POST("api/market/add/comment/{id}")
     Call<CommentRespons> addComment(@Header("Authorization") String token,
                                     @Path("id") int id
     );
@@ -111,10 +116,29 @@ public interface Service {
     @GET("api/terms_user")
     Call<TermsModel> getClientTerms(@Header("X-localization") String lang,
                                     @Header("Authorization") String token
-                                    );
+    );
+
     @GET("api/terms_provider")
     Call<TermsModel> getProviderTerms(@Header("X-localization") String lang,
                                       @Header("Authorization") String token);
+
+    @GET("api/sliders")
+    Call<SliderDataModel> getSlider();
+
+    @FormUrlEncoded
+    @POST("api/auth/login")
+    Call<UserModel> login(@Header("X-localization") String lang,
+                          @Field("email") String email,
+                          @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("api/user/update/profile")
+    Call<UserModel> updateClientProfile(@Header("Authorization") String user_token,
+                                        @Field("name") String name,
+                                        @Field("email") String email,
+                                        @Field("phone") String phone
+    );
 
 }
 

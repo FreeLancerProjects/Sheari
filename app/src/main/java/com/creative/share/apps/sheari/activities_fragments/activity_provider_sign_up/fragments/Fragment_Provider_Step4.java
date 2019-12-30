@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -26,10 +25,12 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_provider_sign_up.ProviderSignUpActivity;
 import com.creative.share.apps.sheari.adapters.CategorySpinnerAdapter;
+import com.creative.share.apps.sheari.adapters.SubCategoryAdapter2;
 import com.creative.share.apps.sheari.databinding.DialogYearsBinding;
 import com.creative.share.apps.sheari.databinding.FragmentProviderStep4Binding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
@@ -39,7 +40,6 @@ import com.creative.share.apps.sheari.models.PlaceGeocodeData;
 import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
 import com.creative.share.apps.sheari.models.ProviderSignUpModel;
 import com.creative.share.apps.sheari.remote.Api;
-import com.creative.share.apps.sheari.share.Common;
 import com.creative.share.apps.sheari.tags.Tags;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -61,6 +61,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,10 +92,13 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
     private Listeners.ProviderSteps listener = null;
     private int year = 0;
     private ProviderSignUpModel providerSignUpModel;
+    private List<CategoryModel> spinnerAdList;
     private List<CategoryModel> spinnerCategoryList;
-    private List<CategoryModel> spinnerSubCategoryList;
-    private CategorySpinnerAdapter categorySpinnerAdapter,subCategorySpinnerAdapter;
+    private CategorySpinnerAdapter categorySpinnerAdapter,adSpinnerAdapter;
+    private List<Integer> sub_category_ids_list;
+    private SubCategoryAdapter2 subCategoryAdapter2;
     private boolean out = false;
+
 
     @Override
     public void onAttach(@NonNull Context context)
@@ -126,11 +130,12 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
     private void initView() {
 
-        spinnerCategoryList = new ArrayList<>();
-        spinnerCategoryList.add(new CategoryModel(getString(R.string.dept2)));
+        sub_category_ids_list = new ArrayList<>();
+        spinnerAdList = new ArrayList<>();
+        spinnerAdList.add(new CategoryModel(getString(R.string.ads_department)));
 
-        spinnerSubCategoryList = new ArrayList<>();
-        spinnerSubCategoryList.add(new CategoryModel(getString(R.string.sub_cat)));
+        spinnerCategoryList = new ArrayList<>();
+        spinnerCategoryList.add(new CategoryModel(getString(R.string.main_department)));
 
         activity = (ProviderSignUpActivity) getActivity();
         providerSignUpModel = activity.getProviderSignUpModel();
@@ -148,11 +153,11 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
         }
 
-        categorySpinnerAdapter = new CategorySpinnerAdapter(activity,spinnerCategoryList);
-        binding.spinnerCategory.setAdapter(categorySpinnerAdapter);
+        categorySpinnerAdapter = new CategorySpinnerAdapter(activity,spinnerAdList);
+        binding.spinnerAd.setAdapter(categorySpinnerAdapter);
 
-        subCategorySpinnerAdapter = new CategorySpinnerAdapter(activity,spinnerSubCategoryList);
-        binding.spinnerSubCategory.setAdapter(subCategorySpinnerAdapter);
+        adSpinnerAdapter = new CategorySpinnerAdapter(activity,spinnerCategoryList);
+        binding.spinnerCategory.setAdapter(adSpinnerAdapter);
 
         binding.rb1.setOnClickListener(view -> {
             providerSignUpModel.setService(1);
@@ -190,21 +195,16 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
             }
         });
 
-        binding.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerAd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if (i==0)
                 {
-                    spinnerSubCategoryList.clear();
-                    spinnerSubCategoryList.add(new CategoryModel(getString(R.string.sub_cat)));
-                    subCategorySpinnerAdapter.notifyDataSetChanged();
-                    providerSignUpModel.setDept_id(0);
+
                 }else
                     {
-                        int cat_id = spinnerCategoryList.get(i).getId();
-                        providerSignUpModel.setDept_id(cat_id);
-                        getSubCategory(cat_id);
+
 
                     }
             }
@@ -214,18 +214,19 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
             }
         });
-        binding.spinnerSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if (i==0)
                 {
-                    providerSignUpModel.setSub_dep(0);
+                    sub_category_ids_list.clear();
+                    providerSignUpModel.setSub_dept_ids(sub_category_ids_list);
+
                 }else
                 {
-                    int sub_cat_id = spinnerSubCategoryList.get(i).getId();
-                    providerSignUpModel.setDept_id(sub_cat_id);
-
+                    int cat_id = spinnerCategoryList.get(i).getId();
+                    getSubCategoryById(cat_id);
                 }
             }
 
@@ -235,26 +236,79 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
             }
         });
 
-        getData();
+        getAds();
+        getCategory();
     }
 
 
-    private void getData() {
-        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
-        dialog.show();
+    private void getAds() {
+        Api.getService(Tags.base_url)
+                .getAds(lang)
+                .enqueue(new Callback<CategoryDataModel>() {
+                    @Override
+                    public void onResponse(Call<CategoryDataModel> call, Response<CategoryDataModel> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().isValue()) {
+
+
+                                spinnerAdList.clear();
+                                spinnerAdList.add(new CategoryModel(getString(R.string.ads_department)));
+                                spinnerAdList.addAll(response.body().getData());
+                                activity.runOnUiThread(() -> adSpinnerAdapter.notifyDataSetChanged());
+
+                            } else {
+                                Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else {
+
+                            try {
+
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (response.code() == 500) {
+                                Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CategoryDataModel> call, Throwable t) {
+                        try {
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(activity, R.string.something, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
+
+    private void getCategory() {
+
         Api.getService(Tags.base_url)
                 .getCategory(lang)
                 .enqueue(new Callback<CategoryDataModel>() {
                     @Override
                     public void onResponse(Call<CategoryDataModel> call, Response<CategoryDataModel> response) {
-                        dialog.dismiss();
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
 
                                 spinnerCategoryList.clear();
-                                spinnerCategoryList.add(new CategoryModel(getString(R.string.dept2)));
+                                spinnerCategoryList.add(new CategoryModel(getString(R.string.main_department)));
                                 spinnerCategoryList.addAll(response.body().getData());
-                                categorySpinnerAdapter.notifyDataSetChanged();
+                                activity.runOnUiThread(() -> categorySpinnerAdapter.notifyDataSetChanged());
 
                             } else {
                                 Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
@@ -280,7 +334,6 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                     @Override
                     public void onFailure(Call<CategoryDataModel> call, Throwable t) {
                         try {
-                            dialog.dismiss();
                             if (t.getMessage() != null) {
                                 Log.e("error", t.getMessage());
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
@@ -296,23 +349,18 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                 });
     }
 
-    private void getSubCategory(int category_id) {
-        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
-        dialog.show();
+    private void getSubCategoryById(int cat_id)
+    {
+
         Api.getService(Tags.base_url)
-                .getSubCategory(lang,category_id)
+                .getSubCategory(lang,cat_id)
                 .enqueue(new Callback<CategoryDataModel>() {
                     @Override
                     public void onResponse(Call<CategoryDataModel> call, Response<CategoryDataModel> response) {
-                        dialog.dismiss();
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
 
-                                spinnerSubCategoryList.clear();
-                                spinnerSubCategoryList.add(new CategoryModel(getString(R.string.sub_cat)));
-                                spinnerSubCategoryList.addAll(response.body().getData());
-                                subCategorySpinnerAdapter.notifyDataSetChanged();
-
+                                updateAdapterData(response.body().getData());
                             } else {
                                 Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
@@ -337,7 +385,6 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                     @Override
                     public void onFailure(Call<CategoryDataModel> call, Throwable t) {
                         try {
-                            dialog.dismiss();
                             if (t.getMessage() != null) {
                                 Log.e("error", t.getMessage());
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
@@ -351,6 +398,17 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                         }
                     }
                 });
+    }
+
+    private void updateAdapterData(List<CategoryModel> data) {
+
+        if (data.size()>0)
+        {
+
+            subCategoryAdapter2 = new SubCategoryAdapter2(data,activity,sub_category_ids_list,this);
+            binding.recView.setLayoutManager(new LinearLayoutManager(activity));
+            binding.recView.setAdapter(subCategoryAdapter2);
+        }
     }
 
     private void CreateDateDialog() {
@@ -391,8 +449,6 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         dialog.getWindow().setAttributes(lp);
 
     }
-
-
 
     private void initMap()
     {
@@ -441,12 +497,17 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
     private void AddMarker(double lat, double lng) {
 
+        IconGenerator iconGenerator = new IconGenerator(activity);
+        View view = LayoutInflater.from(activity).inflate(R.layout.marker_bg,null);
+        iconGenerator.setBackground(null);
+        iconGenerator.setContentView(view);
+
         this.lat = lat;
         this.lng = lng;
         providerSignUpModel.setLat(lat);
         providerSignUpModel.setLng(lng);
         if (marker == null) {
-            marker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            marker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon())));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), zoom));
 
         } else {
@@ -656,5 +717,40 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
     }
 
 
+    public void removeItem(int id) {
+
+        if (sub_category_ids_list.size()>0)
+        {
+            int index = getItemId(id);
+            if (index!=-1)
+            {
+                sub_category_ids_list.remove(index);
+
+            }
+        }
+
+
+    }
+
+    public void addItem(CategoryModel model) {
+        sub_category_ids_list.add(model.getId());
+        providerSignUpModel.setSub_dept_ids(sub_category_ids_list);
+
+
+
+    }
+
+    private int getItemId(int item_id)
+    {
+        for (int index=0;index<sub_category_ids_list.size();index++)
+        {
+            if (item_id==sub_category_ids_list.get(index))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
 
 }

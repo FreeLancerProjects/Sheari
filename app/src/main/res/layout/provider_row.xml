@@ -6,6 +6,7 @@
         <variable
             name="model"
             type="com.creative.share.apps.sheari.models.ProviderModel" />
+
         <import type="android.view.View"/>
     </data>
     <FrameLayout
@@ -192,10 +193,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/btnOrder"
-                        android:src="@drawable/online_bg"
+                        android:src="@{model.online?@drawable/online_bg:@drawable/offline_bg}"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:visibility="@{model.online?View.VISIBLE:View.INVISIBLE,default=invisible}"
 
                         />
 
@@ -204,59 +204,60 @@
         </FrameLayout>
 
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            >
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                app:civ_border_color="@color/colorPrimary"
-                app:civ_border_width="1dp"
-                app:civ_circle_background_color="@color/white"
-                image="@{model.image}"
-
-                />
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="bottom|end"
-                android:src="@drawable/ic_settings"
-                android:tint="@color/color9"
-                android:background="@drawable/circle_white"
-                />
-
-
-        </FrameLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-
             >
+            <FrameLayout
+                android:id="@+id/fl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:civ_border_color="@color/colorPrimary"
+                    app:civ_border_width="1dp"
+                    app:civ_circle_background_color="@color/white"
+                    imageProfile="@{model.image}"
+                    android:src="@drawable/user_avatar"
+
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="bottom|end"
+                    android:src="@drawable/ic_settings"
+                    android:tint="@color/color9"
+                    android:background="@drawable/circle_white"
+                    />
+
+
+            </FrameLayout>
+
             <LinearLayout
                 android:layout_width="70dp"
-                android:layout_height="15dp"
+                android:layout_height="17dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias=".65"
+                app:layout_constraintTop_toTopOf="@id/fl"
+                app:layout_constraintStart_toEndOf="@id/fl"
                 android:background="@drawable/rounded_color10_bg"
                 android:gravity="center_vertical"
                 android:paddingStart="3dp"
                 android:paddingEnd="3dp"
-                android:visibility="gone"
+                android:visibility="@{model.discount==null?View.GONE:View.VISIBLE}"
+                android:layout_marginTop="5dp"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="4sp"
+                    android:textSize="5sp"
                     android:text="@string/discount_nsheari"
                     android:layout_gravity="center_vertical"
                     />
@@ -266,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/color11"
                     android:textSize="8sp"
-                    android:text="100%"
+                    android:text='@{model.discount+"%"}'
                     android:singleLine="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
@@ -275,7 +276,10 @@
                     />
 
             </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </FrameLayout>
 

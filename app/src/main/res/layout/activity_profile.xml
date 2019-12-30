@@ -12,6 +12,9 @@
         <variable
             name="backListener"
             type="com.creative.share.apps.sheari.interfaces.Listeners.BackListener" />
+        <variable
+            name="userModel"
+            type="com.creative.share.apps.sheari.models.UserModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -49,10 +52,14 @@
                             android:id="@+id/image"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
-                            android:src="@drawable/logo"
+                            android:src="@drawable/user_avatar"
                             app:civ_border_color="@color/white"
                             app:civ_border_width="2dp"
-                            app:civ_circle_background_color="@color/colorPrimary" />
+                            app:civ_circle_background_color="@color/white"
+                            imageProfile="@{userModel.data.image}"
+
+
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -60,8 +67,10 @@
                             android:layout_marginTop="5dp"
                             android:gravity="center"
                             android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:text="@{userModel.data.name}"
+                            />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -69,37 +78,15 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.iarcuschin.simpleratingbar.SimpleRatingBar
-                                android:id="@+id/ratingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srb_borderColor="@color/white"
-                                app:srb_fillColor="@color/white"
-                                app:srb_isIndicator="true"
-                                app:srb_starBorderWidth="3"
-                                app:srb_starSize="25dp"
-                                app:srb_starsSeparation="5dp"
-                                app:srb_stepSize=".5" />
-
-                            <TextView
-                                android:id="@+id/tvRate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:text="0.0"
-                                android:textColor="@color/white"
-                                android:textSize="16sp"
-
-                                />
-
                             <TextView
                                 android:id="@+id/tvType"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:textColor="@color/green"
-                                android:textSize="16sp"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
                                 android:textStyle="bold"
+                                android:text='@{userModel.data.role.equals("client")?@string/client:@string/provider2}'
 
                                 />
 
@@ -148,6 +135,17 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
+                    <ImageView
+                        android:id="@+id/imageUpdate"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/ic_edit"
+                        android:tint="@color/white"
+                        />
+
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -171,7 +169,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -192,13 +190,28 @@
                         android:layout_marginBottom="6dp"
                         android:background="@color/gray4" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
+                        android:orientation="vertical">
 
-                        />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray4"
+                            android:textSize="12sp"
+                            android:text="@string/email"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:text="@{userModel.data.email}"
+                            />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <View
@@ -209,7 +222,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -230,31 +243,31 @@
                         android:layout_marginBottom="6dp"
                         android:background="@color/gray4" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:orientation="vertical">
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@color/gray4" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray4"
+                            android:textSize="12sp"
+                            android:text="@string/phone"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:text="@{userModel.data.phone}"
+                            />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
+                    </LinearLayout>
 
-                        />
+
                 </LinearLayout>
 
                 <View
@@ -265,7 +278,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -285,13 +298,31 @@
                         android:layout_marginBottom="6dp"
                         android:background="@color/gray4" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
 
-                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray4"
+                            android:textSize="12sp"
+                            android:text="@string/country2"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:text="@{userModel.data.country_name}"
+
+                            />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <View
@@ -307,7 +338,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -327,13 +358,29 @@
                             android:layout_marginBottom="6dp"
                             android:background="@color/gray4" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
 
-                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray4"
+                                android:textSize="12sp"
+                                android:text="@string/city2"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                android:text="@{userModel.data.city_name}"
+                                />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <View
@@ -344,7 +391,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -364,13 +411,29 @@
                             android:layout_marginBottom="6dp"
                             android:background="@color/gray4" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
+                            android:orientation="vertical">
 
-                            />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray4"
+                                android:textSize="12sp"
+                                android:text="@string/region"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                android:text="@{userModel.data.region_name}"
+                                />
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
                     <View

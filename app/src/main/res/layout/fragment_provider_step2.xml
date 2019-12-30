@@ -165,7 +165,7 @@
                 <EditText
                     android:id="@+id/edtName"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textPersonName"
                     android:singleLine="true"
@@ -183,19 +183,12 @@
 
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="@string/country"
-                    android:layout_marginTop="5dp"
-                    />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounder_gray"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
 
                     >
                     <Spinner
@@ -206,23 +199,33 @@
                         />
                 </FrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="@string/city"
-                    android:layout_marginTop="5dp"
-                    />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounder_gray"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
 
                     >
                     <Spinner
                         android:id="@+id/spinnerCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:spinnerMode="dialog"
+                        />
+                </FrameLayout>
+
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounder_gray"
+                    android:layout_marginTop="10dp"
+
+                    >
+                    <Spinner
+                        android:id="@+id/spinnerRegion"
                         android:layout_width="match_parent"
                         android:layout_height="37dp"
                         android:spinnerMode="dialog"

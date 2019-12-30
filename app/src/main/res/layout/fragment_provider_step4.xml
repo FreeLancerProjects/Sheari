@@ -239,53 +239,44 @@
                 </LinearLayout>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="@string/main_department"
-                    android:layout_marginTop="25dp"
-                    />
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounder_gray"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="20dp"
+
+                    >
+                    <Spinner
+                        android:id="@+id/spinnerAd"
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:spinnerMode="dialog"
+                        />
+                </FrameLayout>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounder_gray"
+                    android:layout_marginTop="10dp"
 
                     >
                     <Spinner
                         android:id="@+id/spinnerCategory"
+
                         android:layout_width="match_parent"
                         android:layout_height="37dp"
                         android:spinnerMode="dialog"
                         />
                 </FrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:text="@string/sub_department"
-                    android:layout_marginTop="5dp"
-                    />
-                <FrameLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rounder_gray"
-                    android:layout_marginTop="5dp"
-
-                    >
-                    <Spinner
-                        android:id="@+id/spinnerSubCategory"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="37dp"
-                        android:spinnerMode="dialog"
-                        />
-                </FrameLayout>
-
+                    android:layout_marginTop="10dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -326,7 +317,7 @@
                 <EditText
                     android:id="@+id/edtPrimaryEducation"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:singleLine="true"
                     android:textColor="@color/black"
@@ -352,7 +343,7 @@
                 <EditText
                     android:id="@+id/edtUniEducation"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:singleLine="true"
                     android:textColor="@color/black"

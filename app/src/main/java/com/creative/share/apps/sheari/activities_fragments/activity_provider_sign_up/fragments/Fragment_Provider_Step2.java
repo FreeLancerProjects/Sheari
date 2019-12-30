@@ -1,6 +1,5 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_provider_sign_up.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +23,6 @@ import com.creative.share.apps.sheari.models.LocationDataModel;
 import com.creative.share.apps.sheari.models.LocationModel;
 import com.creative.share.apps.sheari.models.ProviderSignUpModel;
 import com.creative.share.apps.sheari.remote.Api;
-import com.creative.share.apps.sheari.share.Common;
 import com.creative.share.apps.sheari.tags.Tags;
 
 import java.io.IOException;
@@ -44,8 +42,8 @@ public class Fragment_Provider_Step2 extends Fragment {
     private String lang;
     private Listeners.ProviderSteps listener = null;
     private ProviderSignUpModel providerSignUpModel;
-    private List<LocationModel> cityList, countryList;
-    private LocationSpinnerAdapter citySpinnerAdapter, countrySpinnerAdapter;
+    private List<LocationModel> cityList, countryList,regionList;
+    private LocationSpinnerAdapter citySpinnerAdapter, countrySpinnerAdapter,regionSpinnerAdapter;
 
 
     @Override
@@ -72,8 +70,11 @@ public class Fragment_Provider_Step2 extends Fragment {
 
     private void initView() {
 
+        regionList = new ArrayList<>();
         countryList = new ArrayList<>();
         cityList = new ArrayList<>();
+
+        regionList.add(new LocationModel(0, getString(R.string.region)));
         countryList.add(new LocationModel(0, getString(R.string.country2)));
         cityList.add(new LocationModel(0, getString(R.string.city2)));
 
@@ -89,6 +90,9 @@ public class Fragment_Provider_Step2 extends Fragment {
 
         citySpinnerAdapter = new LocationSpinnerAdapter(activity,cityList);
         binding.spinnerCity.setAdapter(citySpinnerAdapter);
+
+        regionSpinnerAdapter = new LocationSpinnerAdapter(activity,regionList);
+        binding.spinnerRegion.setAdapter(regionSpinnerAdapter);
 
 
 
@@ -172,11 +176,19 @@ public class Fragment_Provider_Step2 extends Fragment {
                     if (i==0)
                     {
                         providerSignUpModel.setCity_id(0);
+                        providerSignUpModel.setRegion_id(0);
+
+                        regionList.clear();
+                        regionList.add(new LocationModel(0, getString(R.string.region)));
+                        regionSpinnerAdapter.notifyDataSetChanged();
 
                     }else
                     {
-                        providerSignUpModel.setCity_id(cityList.get(i).getId());
+                        int city_id = cityList.get(i).getId();
 
+                        providerSignUpModel.setCity_id(city_id);
+
+                        getRegion(city_id);
                     }
                 }
 
@@ -186,26 +198,50 @@ public class Fragment_Provider_Step2 extends Fragment {
                 }
             });
 
+
+
+
+            binding.spinnerRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    if (i==0)
+                    {
+                        providerSignUpModel.setRegion_id(0);
+
+                    }else
+                    {
+                        int region_id = regionList.get(i).getId();
+                        providerSignUpModel.setRegion_id(region_id);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+
         }catch (Exception e){}
         getCountry();
     }
 
 
     private void getCountry() {
-        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
-        dialog.show();
+
         Api.getService(Tags.base_url)
                 .getCountry(lang)
                 .enqueue(new Callback<LocationDataModel>() {
                     @Override
                     public void onResponse(Call<LocationDataModel> call, Response<LocationDataModel> response) {
-                        dialog.dismiss();
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
                                 countryList.clear();
                                 countryList.add(new LocationModel(0, getString(R.string.country2)));
                                 countryList.addAll(response.body().getData());
-                                citySpinnerAdapter.notifyDataSetChanged();
+                                activity.runOnUiThread(()->citySpinnerAdapter.notifyDataSetChanged());
+
                             } else {
                                 Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
@@ -230,7 +266,6 @@ public class Fragment_Provider_Step2 extends Fragment {
                     @Override
                     public void onFailure(Call<LocationDataModel> call, Throwable t) {
                         try {
-                            dialog.dismiss();
                             if (t.getMessage() != null) {
                                 Log.e("error", t.getMessage());
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
@@ -248,21 +283,19 @@ public class Fragment_Provider_Step2 extends Fragment {
 
     private void getCity(int country_id) {
 
-        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
-        dialog.show();
-
         Api.getService(Tags.base_url)
                 .getCityByCountry(lang,country_id)
                 .enqueue(new Callback<LocationDataModel>() {
                     @Override
                     public void onResponse(Call<LocationDataModel> call, Response<LocationDataModel> response) {
-                        dialog.dismiss();
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
                                 cityList.clear();
                                 cityList.add(new LocationModel(0, getString(R.string.city2)));
                                 cityList.addAll(response.body().getData());
-                                citySpinnerAdapter.notifyDataSetChanged();
+                                activity.runOnUiThread(()->citySpinnerAdapter.notifyDataSetChanged());
+
+
 
                             } else {
                                 Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
@@ -288,7 +321,6 @@ public class Fragment_Provider_Step2 extends Fragment {
                     @Override
                     public void onFailure(Call<LocationDataModel> call, Throwable t) {
                         try {
-                            dialog.dismiss();
                             if (t.getMessage() != null) {
                                 Log.e("error", t.getMessage());
                                 if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
@@ -304,4 +336,61 @@ public class Fragment_Provider_Step2 extends Fragment {
                 });
     }
 
+    private void getRegion(int city_id)
+    {
+        Api.getService(Tags.base_url)
+                .getRegionByCity(lang,city_id)
+                .enqueue(new Callback<LocationDataModel>() {
+                    @Override
+                    public void onResponse(Call<LocationDataModel> call, Response<LocationDataModel> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().isValue()) {
+                                try {
+                                    regionList.clear();
+                                    regionList.add(new LocationModel(0, getString(R.string.region)));
+                                    regionList.addAll(response.body().getData());
+                                    activity.runOnUiThread(()->regionSpinnerAdapter.notifyDataSetChanged());
+
+                                }catch (Exception e){}
+
+
+                            } else {
+                                Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else {
+
+                            try {
+
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (response.code() == 500) {
+                                Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LocationDataModel> call, Throwable t) {
+                        try {
+
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(activity, R.string.something, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(activity, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
 }

@@ -23,6 +23,7 @@ public class ClientSignUpModel extends BaseObservable implements Serializable {
     private String phone;
     private String password;
     private String re_password;
+    private int region_id;
     private boolean isAcceptTerms ;
 
 
@@ -39,7 +40,8 @@ public class ClientSignUpModel extends BaseObservable implements Serializable {
     {
         if (!TextUtils.isEmpty(name)&&
                 !TextUtils.isEmpty(phone_code)&&
-                !TextUtils.isEmpty(phone)
+                !TextUtils.isEmpty(phone)&&
+                region_id!=0
         )
         {
             error_name.set(null);
@@ -75,6 +77,10 @@ public class ClientSignUpModel extends BaseObservable implements Serializable {
                 error_phone.set(null);
             }
 
+            if (region_id==0)
+            {
+                Toast.makeText(context, R.string.ch_region, Toast.LENGTH_SHORT).show();
+            }
 
 
 
@@ -232,7 +238,13 @@ public class ClientSignUpModel extends BaseObservable implements Serializable {
     }
 
 
+    public int getRegion_id() {
+        return region_id;
+    }
 
+    public void setRegion_id(int region_id) {
+        this.region_id = region_id;
+    }
 
     public boolean isAcceptTerms() {
         return isAcceptTerms;

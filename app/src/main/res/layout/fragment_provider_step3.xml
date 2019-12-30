@@ -99,7 +99,7 @@
                 <EditText
                     android:id="@+id/edtPhone"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:singleLine="true"
                     android:textColor="@color/black"
@@ -174,7 +174,7 @@
                 <EditText
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:singleLine="true"
                     android:textColor="@color/black"
@@ -212,7 +212,7 @@
                     <EditText
                         android:id="@+id/edtPassword"
                         android:layout_width="match_parent"
-                        android:layout_height="37dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:inputType="textPassword"
                         android:singleLine="true"
@@ -254,7 +254,7 @@
                     <EditText
                         android:id="@+id/edtRePassword"
                         android:layout_width="match_parent"
-                        android:layout_height="37dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:inputType="textPassword"
                         android:singleLine="true"

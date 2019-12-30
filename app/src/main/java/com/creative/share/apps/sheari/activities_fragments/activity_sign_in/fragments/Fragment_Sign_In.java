@@ -1,10 +1,13 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_sign_in.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,17 +16,24 @@ import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_forget_password.ForgetPasswordActivity;
-import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.sheari.databinding.FragmentSignInBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.models.LoginModel;
+import com.creative.share.apps.sheari.models.UserModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
+import com.creative.share.apps.sheari.remote.Api;
 import com.creative.share.apps.sheari.share.Common;
+import com.creative.share.apps.sheari.tags.Tags;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Fragment_Sign_In extends Fragment implements Listeners.LoginListener {
     private static final String TAG = "OUT";
@@ -97,55 +107,43 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
     private void login(LoginModel loginModel) {
 
-
-
-
-
-        /*ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
+        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.show();
         try {
 
             Api.getService(Tags.base_url)
-                    .login(loginModel.getPhone_code(),loginModel.getPhone(),1)
+                    .login(lang,loginModel.getEmail(),loginModel.getPassword())
                     .enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                             dialog.dismiss();
                             if (response.isSuccessful()&&response.body()!=null)
                             {
-                                preferences.create_update_userData(activity,response.body());
-                                preferences.createSession(activity, Tags.session_login);
-
-                                if (!activity.isOut)
+                                if (response.body().isValue())
                                 {
-                                    Intent intent = new Intent(activity, HomeActivity.class);
-                                    startActivity(intent);
-                                }
+                                    preferences.create_update_userData(activity,response.body());
+                                    preferences.createSession(activity, Tags.session_login);
 
+                                    if (!out)
+                                    {
+                                        Intent intent = new Intent(activity,HomeActivity.class);
+                                        startActivity(intent);
 
-                                activity.finish();
+                                    }
+                                    activity.finish();
+
+                                }else
+                                    {
+                                        Toast.makeText(activity,response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                    }
+
 
                             }else
                             {
 
                                 if (response.code() == 500) {
                                     Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
-
-
-                                }else if (response.code()==401)
-                                {
-                                    try {
-                                        UserModel userModel = new Gson().fromJson(response.errorBody().string(),UserModel.class);
-                                        CreateDialogAlert(userModel);
-
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }else if (response.code()==402)
-                                {
-                                    Toast.makeText(activity, R.string.blokced, Toast.LENGTH_SHORT).show();
 
                                 }else
                                 {
@@ -183,7 +181,7 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         }catch (Exception e){
             dialog.dismiss();
 
-        }*/
+        }
     }
 
 
