@@ -35,7 +35,8 @@ import com.creative.share.apps.sheari.activities_fragments.activity_profile.Prof
 import com.creative.share.apps.sheari.activities_fragments.activity_provider_profile.ProviderProfileActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_terms.TermsActivity;
-import com.creative.share.apps.sheari.activities_fragments.update_client_profile.UpdateClientProfileActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_update_client_profile.UpdateClientProfileActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_update_provider_profile.UpdateProviderProfileActivity;
 import com.creative.share.apps.sheari.adapters.ViewPagerAdapter;
 import com.creative.share.apps.sheari.databinding.DialogLanguageBinding;
 import com.creative.share.apps.sheari.language.LanguageHelper;
@@ -74,7 +75,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", "ar")));
     }
 
     @Override
@@ -119,7 +120,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         updateUi();
 
 
-
     }
 
     @Override
@@ -130,15 +130,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateMenu() {
 
-        if (userModel!=null)
-        {
+        if (userModel != null) {
 
-            if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
-            {
+
+            if (userModel.getData() != null && userModel.getData().getRole().equals("client")) {
                 navigationView.getMenu().getItem(1).setVisible(false);
                 navigationView.getMenu().getItem(5).setVisible(false);
-            }
+            } else if (userModel.getData() != null && userModel.getData().getRole().equals("provider")) {
+                navigationView.getMenu().getItem(2).setVisible(false);
 
+            }
 
 
         }
@@ -147,25 +148,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private void updateUi() {
 
 
-        if (userModel!=null)
-        {
+        if (userModel != null) {
 
-            if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
-            {
+            /*if (userModel.getData() != null && userModel.getData().getRole().equals("client")) {
                 navigationView.getMenu().getItem(1).setVisible(false);
                 navigationView.getMenu().getItem(5).setVisible(false);
-            }
+            } else if (userModel.getData() != null && userModel.getData().getRole().equals("provider")) {
+                navigationView.getMenu().getItem(3).setVisible(false);
+
+            }*/
 
 
-
-            if (userModel.getData()!=null&&userModel.getData().getImage()!=null)
-            {
+            if (userModel.getData() != null && userModel.getData().getImage() != null) {
                 Picasso.with(this).load(Uri.parse(userModel.getData().getImage())).placeholder(R.drawable.user_avatar).fit().into(image);
 
             }
 
-            if (userModel.getData()!=null&&userModel.getData().getName()!=null)
-            {
+            if (userModel.getData() != null && userModel.getData().getName() != null) {
                 tvName.setText(userModel.getData().getName());
             }
 
@@ -194,42 +193,47 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch (id) {
             case R.id.profile:
-                if (userModel!=null)
-                {
-                    if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
-                    {
+                if (userModel != null) {
+                    if (userModel.getData() != null && userModel.getData().getRole().equals("client")) {
                         navigateToProfileActivity();
 
-                    }else
-                        {
-                            navigateToProviderProfile();
-                        }
-
-                }else
-                    {
-                        Intent intent = new Intent(this, SignInActivity.class);
-                        intent.putExtra("from",true);
-                        startActivity(intent);
+                    } else {
+                        navigateToProviderProfile();
                     }
+
+                } else {
+                    Intent intent = new Intent(this, SignInActivity.class);
+                    intent.putExtra("from", true);
+                    startActivity(intent);
+                }
                 break;
 
+
+            case R.id.manageProfile:
+                if (userModel != null) {
+                    navigateToUpdateProviderProfile();
+
+                } else {
+                    Intent intent = new Intent(this, SignInActivity.class);
+                    intent.putExtra("from", true);
+                    startActivity(intent);
+                }
+                break;
+
+
             case R.id.editProfile:
-                if (userModel!=null)
-                {
-                    if (userModel.getData()!=null&&userModel.getData().getRole().equals("client"))
-                    {
+                if (userModel != null) {
+                    if (userModel.getData() != null && userModel.getData().getRole().equals("client")) {
                         navigateToUpdateClientProfileActivity();
 
-                    }else
-                    {
+                    } else {
 
 
                     }
 
-                }else
-                {
+                } else {
                     Intent intent = new Intent(this, SignInActivity.class);
-                    intent.putExtra("from",true);
+                    intent.putExtra("from", true);
                     startActivity(intent);
                 }
                 break;
@@ -240,21 +244,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.upgrade:
-                if (userModel!=null)
-                {
-                    if (userModel.getData()!=null&&userModel.getData().getRole().equals("provider"))
-                    {
+                if (userModel != null) {
+                    if (userModel.getData() != null && userModel.getData().getRole().equals("provider")) {
                         navigateToPaymentActivity();
 
-                    }else
-                    {
+                    } else {
                         Toast.makeText(this, R.string.prov_only, Toast.LENGTH_SHORT).show();
                     }
 
-                }else
-                {
+                } else {
                     Intent intent = new Intent(this, SignInActivity.class);
-                    intent.putExtra("from",true);
+                    intent.putExtra("from", true);
                     startActivity(intent);
                 }
                 break;
@@ -285,30 +285,66 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    private void navigateToProviderProfile() {
+    private void navigateToUpdateProviderProfile() {
 
-        Intent intent = new Intent(this, ProviderProfileActivity.class);
-        startActivity(intent);
+        new Handler()
+                .postDelayed(() -> {
+                    Intent intent = new Intent(this, UpdateProviderProfileActivity.class);
+                    startActivityForResult(intent, 300);
+                },500);
+
+
     }
 
-    private void navigateToUpdateClientProfileActivity()
-    {
-        Intent intent = new Intent(this, UpdateClientProfileActivity.class);
-        startActivityForResult(intent,200);
+    private void navigateToProviderProfile() {
+
+        new Handler()
+                .postDelayed(() -> {
+                    Intent intent = new Intent(this, ProviderProfileActivity.class);
+                    startActivity(intent);
+
+                },500);
+
+
+    }
+
+    private void navigateToUpdateClientProfileActivity() {
+
+        new Handler()
+                .postDelayed(() -> {
+                    Intent intent = new Intent(this, UpdateClientProfileActivity.class);
+                    startActivityForResult(intent, 200);
+
+                },500);
+
+
+
 
     }
 
     private void navigateToPaymentActivity() {
-        Intent intent = new Intent(this, PaymentActivity.class);
-        startActivity(intent);
+
+        new Handler()
+                .postDelayed(() -> {
+                    Intent intent = new Intent(this, PaymentActivity.class);
+                    startActivity(intent);
+
+                },500);
+
     }
 
     private void navigateToAdsActivity() {
-        Intent intent = new Intent(this, AdsActivity.class);
-        startActivity(intent);
+
+        new Handler()
+                .postDelayed(() -> {
+                    Intent intent = new Intent(this, AdsActivity.class);
+                    startActivity(intent);
+
+                },500);
+
     }
-    private void share()
-    {
+
+    private void share() {
         new Handler()
                 .postDelayed(() -> {
                     String url = "https://play.google.com/store/apps/details?id=" + getPackageName();
@@ -316,14 +352,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_TEXT, url);
                     startActivity(intent);
-                }, 1000);
+                }, 500);
 
 
     }
 
 
-    private void CreateLangDialogAlert()
-    {
+    private void CreateLangDialogAlert() {
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .create();
 
@@ -373,8 +408,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         dialog.show();
     }
 
-    private void refreshActivity(String lang)
-    {
+    private void refreshActivity(String lang) {
         Paper.init(this);
         Paper.book().write("lang", lang);
         preferences.selectedLanguage(this, lang);
@@ -386,42 +420,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void navigateToTermsActivity()
-    {
+    private void navigateToTermsActivity() {
         new Handler()
                 .postDelayed(() -> {
                     Intent intent = new Intent(this, TermsActivity.class);
                     startActivity(intent);
-                }, 1000);
+                }, 500);
 
     }
 
 
-    private void navigateToSignInActivity()
-    {
+    private void navigateToSignInActivity() {
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
         finish();
 
     }
-    private void navigateToProfileActivity()
-    {
+
+    private void navigateToProfileActivity() {
         new Handler()
                 .postDelayed(() -> {
                     Intent intent = new Intent(this, ProfileActivity.class);
-                    startActivityForResult(intent,100);
-                },500);
+                    startActivityForResult(intent, 100);
+                }, 500);
 
     }
-
-
-
 
 
     private void logout() {
 
         preferences.clear(this);
-        userModel=null;
+        userModel = null;
         navigateToSignInActivity();
 
     }
@@ -454,17 +483,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             fragment.onActivityResult(requestCode, resultCode, data);
         }
 
-        if (requestCode==100&&resultCode==RESULT_OK&&data!=null)
-        {
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
             userModel = preferences.getUserData(this);
             updateUi();
-        }else if (requestCode==200&&resultCode==RESULT_OK&&data!=null)
-        {
+        } else if (requestCode == 200 && resultCode == RESULT_OK && data != null) {
+            userModel = preferences.getUserData(this);
+            updateUi();
+        } else if (requestCode == 300 && resultCode == RESULT_OK && data != null) {
             userModel = preferences.getUserData(this);
             updateUi();
         }
     }
-
 
 
     @Override

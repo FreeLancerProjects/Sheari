@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.creative.share.apps.sheari.R;
-import com.creative.share.apps.sheari.activities_fragments.update_client_profile.UpdateClientProfileActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_update_client_profile.UpdateClientProfileActivity;
 import com.creative.share.apps.sheari.databinding.ActivityProfileBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;

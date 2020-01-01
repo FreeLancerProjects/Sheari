@@ -3,6 +3,7 @@ package com.creative.share.apps.sheari.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.creative.share.apps.sheari.models.ChatUserModel;
 import com.creative.share.apps.sheari.models.UserModel;
 import com.google.gson.Gson;
 
@@ -91,6 +92,32 @@ public class Preferences {
     {
         SharedPreferences preferences = context.getSharedPreferences("visit",Context.MODE_PRIVATE);
         return preferences.getString("lastVisit","0");
+    }
+
+    public void create_update_ChatUserData(Context context , ChatUserModel chatUserModel)
+    {
+        SharedPreferences preferences = context.getSharedPreferences("chatUserPref",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String userDataGson = gson.toJson(chatUserModel);
+        editor.putString("chat_user_data",userDataGson);
+        editor.apply();
+    }
+
+    public ChatUserModel getChatUserData(Context context)
+    {
+        SharedPreferences preferences = context.getSharedPreferences("chatUserPref",Context.MODE_PRIVATE);
+        String userDataGson = preferences.getString("chat_user_data","");
+        return new Gson().fromJson(userDataGson,ChatUserModel.class);
+    }
+
+
+    public void clearChatUserData(Context context)
+    {
+        SharedPreferences preferences = context.getSharedPreferences("chatUserPref",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
     public void clear(Context context)

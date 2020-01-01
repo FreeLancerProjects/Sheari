@@ -25,9 +25,11 @@ import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_make_order2.MakeOrder2Activity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.sheari.adapters.MyFieldAdapter;
+import com.creative.share.apps.sheari.adapters.ProjectAdapter;
 import com.creative.share.apps.sheari.databinding.ActivityCreateOrderBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
+import com.creative.share.apps.sheari.models.ProjectModel;
 import com.creative.share.apps.sheari.models.ProviderModel;
 import com.creative.share.apps.sheari.models.UserModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
@@ -53,6 +55,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
@@ -74,9 +78,11 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
     private int cat_id;
     private ProviderModel providerModel=null;
     private MyFieldAdapter adapter;
-    private LinearLayoutManager manager;
+    private LinearLayoutManager manager,manager2;
     private Preferences preferences;
     private UserModel userModel;
+    private ProjectAdapter projectAdapter;
+    private List<ProjectModel> projectModelList;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -103,6 +109,8 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
 
 
     private void initView() {
+        projectModelList = new ArrayList<>();
+
         preferences = Preferences.newInstance();
 
         Paper.init(this);
@@ -168,6 +176,9 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
         {
             binding.tvNoField.setVisibility(View.VISIBLE);
         }
+
+
+
     }
 
     private void initMap() {

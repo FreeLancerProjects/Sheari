@@ -4,20 +4,29 @@ package com.creative.share.apps.sheari.services;
 import com.creative.share.apps.sheari.models.CategoryDataModel;
 import com.creative.share.apps.sheari.models.CommentRespons;
 import com.creative.share.apps.sheari.models.LocationDataModel;
+import com.creative.share.apps.sheari.models.MessageDataModel;
 import com.creative.share.apps.sheari.models.OfferDataModel;
 import com.creative.share.apps.sheari.models.PlaceGeocodeData;
 import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
+import com.creative.share.apps.sheari.models.ProjectDataModel;
 import com.creative.share.apps.sheari.models.ProvidersDataModel;
+import com.creative.share.apps.sheari.models.ResponseActiveUser;
+import com.creative.share.apps.sheari.models.SingleMessageDataModel;
+import com.creative.share.apps.sheari.models.SingleProjectDataModel;
 import com.creative.share.apps.sheari.models.SliderDataModel;
 import com.creative.share.apps.sheari.models.TermsModel;
 import com.creative.share.apps.sheari.models.UserModel;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -139,6 +148,44 @@ public interface Service {
                                         @Field("email") String email,
                                         @Field("phone") String phone
     );
+
+    @FormUrlEncoded
+    @POST("api/inbox")
+    Call<MessageDataModel> getRoomMessages(@Header("Authorization") String user_token,
+                                           @Field("receiver_id") int receiver_id,
+                                           @Field("order_id") int order_id,
+                                           @Field("page") int page
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/send/message")
+    Call<SingleMessageDataModel> sendChatMessage(@Header("Authorization") String user_token,
+                                                 @Field("receiver_id") int receiver_id,
+                                                 @Field("order_id") int order_id,
+                                                 @Field("message") String message
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/user/update/profile")
+    Call<ResponseActiveUser> activeUserSmsCode(@Header("Authorization") String user_token,
+                                               @Field("verification_code") String verification_code,
+                                               @Field("phone") String phone
+    );
+
+
+    @Multipart
+    @POST("api/provider/projects/new")
+    Call<SingleProjectDataModel> addProject(@Header("Authorization") String user_token,
+                                            @Part("title") RequestBody title,
+                                            @Part("description") RequestBody description,
+                                            @Part MultipartBody.Part file);
+
+
+    @GET("api/provider/projects/provider-projects")
+    Call<ProjectDataModel> getAllProjects(@Header("Authorization") String user_token);
 
 }
 

@@ -131,7 +131,7 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="7dp"
                     android:layout_gravity="center_horizontal|bottom"
                     android:layout_marginBottom="5dp"
                     app:tabBackground="@drawable/indicator"

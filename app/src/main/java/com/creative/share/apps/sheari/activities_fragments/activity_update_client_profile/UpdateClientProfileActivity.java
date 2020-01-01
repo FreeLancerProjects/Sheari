@@ -1,4 +1,4 @@
-package com.creative.share.apps.sheari.activities_fragments.update_client_profile;
+package com.creative.share.apps.sheari.activities_fragments.activity_update_client_profile;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -36,6 +36,7 @@ public class UpdateClientProfileActivity extends AppCompatActivity implements Li
     private Preferences preferences;
     private UserModel userModel;
     private UpdateClientModel updateClientModel;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);

@@ -237,5 +237,14 @@
     <string name="update_profile">تعديل الملف الشخصي</string>
     <string name="update">تعديل</string>
     <string name="prov_only">لمقدمين الخدمة فقط</string>
+    <string name="sheari_discount">خصم شعاري</string>
+    <string name="our_works">اعمالنا</string>
+    <string name="add_project">اضف مشروع</string>
+    <string name="no_works_to_show">لا توجد أعمال لعرضها</string>
+    <string name="experience">الخبرة</string>
+    <string name="title">العنوان</string>
+    <string name="description">تفاصيل المشروع</string>
+    <string name="create_pro">إنشاء مشروع</string>
+    <string name="ch_pro_img">إختر صورة المشروع</string>
 
 </resources>

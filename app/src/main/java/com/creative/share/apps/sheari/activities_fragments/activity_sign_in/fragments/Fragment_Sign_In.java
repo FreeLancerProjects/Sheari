@@ -18,6 +18,7 @@ import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_forget_password.ForgetPasswordActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_verify_code.VerifyCodeActivity;
 import com.creative.share.apps.sheari.databinding.FragmentSignInBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.models.LoginModel;
@@ -122,16 +123,27 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
                             {
                                 if (response.body().isValue())
                                 {
-                                    preferences.create_update_userData(activity,response.body());
-                                    preferences.createSession(activity, Tags.session_login);
-
-                                    if (!out)
+                                    if (response.body().getData().getIs_verified().equals("0"))
                                     {
-                                        Intent intent = new Intent(activity,HomeActivity.class);
+                                        Intent intent = new Intent(activity, VerifyCodeActivity.class);
+                                        intent.putExtra("data",response.body());
+                                        intent.putExtra("out",out);
                                         startActivity(intent);
+                                        activity.finish();
+                                    }else
+                                        {
+                                            preferences.create_update_userData(activity,response.body());
+                                            preferences.createSession(activity, Tags.session_login);
 
-                                    }
-                                    activity.finish();
+                                            if (!out)
+                                            {
+                                                Intent intent = new Intent(activity,HomeActivity.class);
+                                                startActivity(intent);
+
+                                            }
+                                            activity.finish();
+                                        }
+
 
                                 }else
                                     {

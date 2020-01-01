@@ -226,6 +226,15 @@
     <string name="update_profile">Update profile</string>
     <string name="update">Update</string>
     <string name="prov_only">Providers only</string>
+    <string name="sheari_discount">Sheari discount</string>
+    <string name="our_works">Our Works</string>
+    <string name="add_project">Add project</string>
+    <string name="no_works_to_show">No works to show</string>
+    <string name="experience">Experience</string>
+    <string name="title">Title</string>
+    <string name="description">Project details</string>
+    <string name="create_pro">Create</string>
+    <string name="ch_pro_img">Choose project image</string>
 
 
 </resources>

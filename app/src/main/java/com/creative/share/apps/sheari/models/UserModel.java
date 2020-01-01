@@ -48,6 +48,7 @@ public class UserModel implements Serializable {
         private String gender;
         private String experience_years;
         private String token;
+        private String is_verified;
         private List<SubCategory> sub_categories;
 
         public boolean isOnline() {
@@ -152,6 +153,14 @@ public class UserModel implements Serializable {
 
         public List<SubCategory> getSub_categories() {
             return sub_categories;
+        }
+
+        public String getIs_verified() {
+            return is_verified;
+        }
+
+        public void setIs_verified(String is_verified) {
+            this.is_verified = is_verified;
         }
 
         public class SubCategory implements Serializable
