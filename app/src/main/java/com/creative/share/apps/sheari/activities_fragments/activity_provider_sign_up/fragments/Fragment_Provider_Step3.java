@@ -23,12 +23,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_provider_sign_up.ProviderSignUpActivity;
+import com.creative.share.apps.sheari.adapters.CodeCountryAdapter;
+import com.creative.share.apps.sheari.databinding.DialogCountryCodeBinding;
 import com.creative.share.apps.sheari.databinding.DialogSelectImageBinding;
 import com.creative.share.apps.sheari.databinding.FragmentProviderStep3Binding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
+import com.creative.share.apps.sheari.models.CountryCodeModel;
 import com.creative.share.apps.sheari.models.ProviderSignUpModel;
 import com.creative.share.apps.sheari.share.Common;
 import com.mukesh.countrypicker.Country;
@@ -38,6 +42,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
@@ -56,6 +62,9 @@ public class Fragment_Provider_Step3 extends Fragment implements Listeners.ShowC
     private Uri imgUri1 = null;
     private int selectedType = 0;
     private ProviderSignUpModel providerSignUpModel;
+    private CodeCountryAdapter codeCountryAdapter;
+    private List<CountryCodeModel> countryCodeModelList;
+    private android.app.AlertDialog dialog;
 
 
 
@@ -84,13 +93,24 @@ public class Fragment_Provider_Step3 extends Fragment implements Listeners.ShowC
     }
 
     private void initView() {
+        countryCodeModelList = new ArrayList<>();
 
         activity = (ProviderSignUpActivity) getActivity();
         providerSignUpModel = activity.getProviderSignUpModel();
+        binding.tvCode.setText("+966");
+        providerSignUpModel.setPhone_code("966");
         binding.setSignUpModel(providerSignUpModel);
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setShowCountryDialogListener(this);
+
+
+        countryCodeModelList.add(new CountryCodeModel("المملكة العربية السعودية","Saudi Arabia","966",R.drawable.flag_sa));
+        countryCodeModelList.add(new CountryCodeModel("الكويت","Kuwait","965",R.drawable.flag_kw));
+        countryCodeModelList.add(new CountryCodeModel("البحرين","Bahrain","973",R.drawable.flag_bh));
+        countryCodeModelList.add(new CountryCodeModel("عمان","Oman","968",R.drawable.flag_om));
+        countryCodeModelList.add(new CountryCodeModel("الإمارات","United Arab Emirates","971",R.drawable.flag_ae));
+        createCountryCodeDialog();
 
 
         binding.btnNext.setOnClickListener((view ->{
@@ -104,7 +124,7 @@ public class Fragment_Provider_Step3 extends Fragment implements Listeners.ShowC
         binding.btnPrevious.setOnClickListener((view -> activity.back()));
         binding.btnSelectImage.setOnClickListener((view -> CreateImageAlertDialog(IMG_REQ1)));
 
-        createCountryDialog();
+        //createCountryDialog();
 
     }
 
@@ -149,8 +169,27 @@ public class Fragment_Provider_Step3 extends Fragment implements Listeners.ShowC
 
     @Override
     public void showDialog() {
-        countryPicker.showDialog(activity);
+        //countryPicker.showDialog(activity);
+        dialog.show();
     }
+
+    private void createCountryCodeDialog() {
+        dialog = new android.app.AlertDialog.Builder(activity)
+                .create();
+
+        DialogCountryCodeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_country_code, null, false);
+
+        codeCountryAdapter = new CodeCountryAdapter(countryCodeModelList,activity,this);
+        binding.recView.setLayoutManager(new LinearLayoutManager(activity));
+        binding.recView.setAdapter(codeCountryAdapter);
+
+
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+    }
+
 
     @Override
     public void onSelectCountry(Country country) {
@@ -338,5 +377,9 @@ public class Fragment_Provider_Step3 extends Fragment implements Listeners.ShowC
     }
 
 
-
+    public void setItemData(CountryCodeModel model) {
+        binding.tvCode.setText("+"+model.getCode());
+        providerSignUpModel.setPhone_code(model.getCode());
+        dialog.dismiss();
+    }
 }

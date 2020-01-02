@@ -100,7 +100,7 @@ public class Fragment_Provider_Step2 extends Fragment {
             binding.rb2.setChecked(false);
             binding.rb3.setChecked(false);
             binding.rb4.setChecked(false);
-            providerSignUpModel.setCompany_type(1);
+            providerSignUpModel.setCompany_type("MNC");
 
         });
 
@@ -108,7 +108,7 @@ public class Fragment_Provider_Step2 extends Fragment {
             binding.rb1.setChecked(false);
             binding.rb3.setChecked(false);
             binding.rb4.setChecked(false);
-            providerSignUpModel.setCompany_type(2);
+            providerSignUpModel.setCompany_type("LTD");
 
 
         });
@@ -117,7 +117,7 @@ public class Fragment_Provider_Step2 extends Fragment {
             binding.rb1.setChecked(false);
             binding.rb2.setChecked(false);
             binding.rb4.setChecked(false);
-            providerSignUpModel.setCompany_type(3);
+            providerSignUpModel.setCompany_type("PVT");
 
 
         });
@@ -126,7 +126,7 @@ public class Fragment_Provider_Step2 extends Fragment {
             binding.rb1.setChecked(false);
             binding.rb2.setChecked(false);
             binding.rb3.setChecked(false);
-            providerSignUpModel.setCompany_type(4);
+            providerSignUpModel.setCompany_type("Registered");
 
 
         });

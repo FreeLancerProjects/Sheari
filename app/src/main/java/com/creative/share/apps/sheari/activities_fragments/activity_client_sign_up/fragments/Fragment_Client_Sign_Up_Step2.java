@@ -1,10 +1,13 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_client_sign_up.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,15 +16,24 @@ import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_client_sign_up.ClientSignUpActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_home.HomeActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_terms.TermsActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_verify_code.VerifyCodeActivity;
 import com.creative.share.apps.sheari.databinding.FragmentClientSignUpStep2Binding;
 import com.creative.share.apps.sheari.models.ClientSignUpModel;
 import com.creative.share.apps.sheari.models.UserModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
+import com.creative.share.apps.sheari.remote.Api;
+import com.creative.share.apps.sheari.share.Common;
+import com.creative.share.apps.sheari.tags.Tags;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Fragment_Client_Sign_Up_Step2 extends Fragment {
     private static final String TAG = "DATA";
@@ -113,7 +125,98 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
 
     private void signUp() {
 
+        Log.e("name",clientSignUpModel.getName()+"__");
+        Log.e("email",clientSignUpModel.getEmail()+"__");
+        Log.e("phone",clientSignUpModel.getPhone_code()+clientSignUpModel.getPhone()+"__");
+        Log.e("password",clientSignUpModel.getPassword()+"__");
+        Log.e("region",clientSignUpModel.getRegion_id()+"__");
 
+        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .clientSignUp(lang,clientSignUpModel.getName(),clientSignUpModel.getEmail(),clientSignUpModel.getPhone_code()+clientSignUpModel.getPhone(),clientSignUpModel.getRegion_id(),clientSignUpModel.getPassword())
+                    .enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                if (response.body().isStatus())
+                                {
+                                    if (response.body().getData().getIs_verified().equals("0"))
+                                    {
+                                        Intent intent = new Intent(activity, VerifyCodeActivity.class);
+                                        intent.putExtra("data",response.body());
+                                        intent.putExtra("out",out);
+                                        startActivity(intent);
+                                        activity.finish();
+                                    }else
+                                    {
+                                        preferences.create_update_userData(activity,response.body());
+                                        preferences.createSession(activity, Tags.session_login);
+
+                                        if (!out)
+                                        {
+                                            Intent intent = new Intent(activity, HomeActivity.class);
+                                            startActivity(intent);
+
+                                        }
+                                        activity.finish();
+                                    }
+
+
+                                }else
+                                {
+                                    Toast.makeText(activity,response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }else
+                            {
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
+
+                                }else
+                                {
+                                    Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(activity,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(activity,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
     }
 
 

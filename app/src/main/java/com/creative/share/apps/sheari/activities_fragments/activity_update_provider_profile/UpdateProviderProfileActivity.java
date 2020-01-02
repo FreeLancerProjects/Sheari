@@ -154,6 +154,7 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
             updateProviderModel.setPhone(userModel.getData().getPhone());
             updateProviderModel.setAbout_me(userModel.getData().getBio());
 
+
             binding.setModel(updateProviderModel);
 
             manager2 = new LinearLayoutManager(this);
@@ -391,6 +392,7 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
                                 countryList.addAll(response.body().getData());
                                 runOnUiThread(()->citySpinnerAdapter.notifyDataSetChanged());
 
+                                updateCountrySpinner();
                             } else {
                                 Toast.makeText(UpdateProviderProfileActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
 
@@ -444,7 +446,7 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
                                 cityList.addAll(response.body().getData());
                                 runOnUiThread(()->citySpinnerAdapter.notifyDataSetChanged());
 
-
+                                updateCitySpinner();
 
                             } else {
                                 Toast.makeText(UpdateProviderProfileActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
@@ -499,7 +501,7 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
                                     regionList.add(new LocationModel(0, getString(R.string.region)));
                                     regionList.addAll(response.body().getData());
                                     runOnUiThread(()->regionSpinnerAdapter.notifyDataSetChanged());
-
+                                    updateRegionSpinner();
                                 }catch (Exception e){}
 
 
@@ -541,6 +543,44 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
                         }
                     }
                 });
+    }
+
+    private void updateCountrySpinner()
+    {
+        for (int i =0;i<countryList.size()-1;i++)
+        {
+            if (userModel.getData().getCountry_id()==countryList.get(i).getId())
+            {
+                binding.spinnerCountry.setSelection(i);
+                getCity(userModel.getData().getCountry_id());
+                return;
+            }
+        }
+    }
+
+    private void updateCitySpinner()
+    {
+        for (int i =0;i<cityList.size()-1;i++)
+        {
+            if (userModel.getData().getCity_id()==cityList.get(i).getId())
+            {
+                binding.spinnerCity.setSelection(i);
+                getRegion(userModel.getData().getCity_id());
+                return;
+            }
+        }
+    }
+
+    private void updateRegionSpinner()
+    {
+        for (int i =0;i<regionList.size()-1;i++)
+        {
+            if (userModel.getData().getRegion_id()==regionList.get(i).getId())
+            {
+                binding.spinnerRegion.setSelection(i);
+                return;
+            }
+        }
     }
 
     private void update()

@@ -5,6 +5,11 @@ import java.util.List;
 
 public class UserModel implements Serializable {
 
+    /////// sign up
+    private boolean status;
+    private String message;
+
+
     private boolean value;
     private String msg;
     private Data data;
@@ -19,6 +24,14 @@ public class UserModel implements Serializable {
 
     public Data getData() {
         return data;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public static class Data implements Serializable
@@ -49,6 +62,10 @@ public class UserModel implements Serializable {
         private String experience_years;
         private String token;
         private String is_verified;
+        private int region_id;
+        private int city_id;
+        private int country_id;
+
         private List<SubCategory> sub_categories;
 
         public boolean isOnline() {
@@ -161,6 +178,19 @@ public class UserModel implements Serializable {
 
         public void setIs_verified(String is_verified) {
             this.is_verified = is_verified;
+        }
+
+
+        public int getRegion_id() {
+            return region_id;
+        }
+
+        public int getCity_id() {
+            return city_id;
+        }
+
+        public int getCountry_id() {
+            return country_id;
         }
 
         public class SubCategory implements Serializable

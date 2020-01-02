@@ -64,6 +64,29 @@ public class UI_General_Method {
 
     }
 
+
+    @BindingAdapter("res")
+    public static void DisplayImageResourse(View view, int res) {
+        if (view instanceof CircleImageView) {
+            CircleImageView imageView = (CircleImageView) view;
+
+            imageView.setImageResource(res);
+
+        } else if (view instanceof RoundedImageView) {
+            RoundedImageView imageView = (RoundedImageView) view;
+            imageView.setImageResource(res);
+
+
+        } else if (view instanceof ImageView) {
+            ImageView imageView = (ImageView) view;
+
+            imageView.setImageResource(res);
+
+        }
+
+    }
+
+
     @BindingAdapter("imageProfile")
     public static void DisplayImageProfile(View view, String url) {
 

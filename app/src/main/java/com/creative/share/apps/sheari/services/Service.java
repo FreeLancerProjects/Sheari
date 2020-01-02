@@ -17,6 +17,8 @@ import com.creative.share.apps.sheari.models.SliderDataModel;
 import com.creative.share.apps.sheari.models.TermsModel;
 import com.creative.share.apps.sheari.models.UserModel;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -52,9 +54,98 @@ public interface Service {
                                  @Field("name") String name,
                                  @Field("email") String email,
                                  @Field("phone") String phone,
-                                 @Field("region_id") String region_id,
+                                 @Field("region_id") int region_id,
                                  @Field("password") String password
     );
+
+
+    @Multipart
+    @POST("api/auth/register/provider")
+    Call<UserModel> clientProviderSignUpWithOutImage(@Header("X-localization") String lang,
+                                                     @Part("name") RequestBody name,
+                                                     @Part("email") RequestBody email,
+                                                     @Part("phone") RequestBody phone,
+                                                     @Part("region_id") RequestBody region_id,
+                                                     @Part("password") RequestBody password,
+                                                     @Part("bio") RequestBody bio,
+                                                     @Part("map") RequestBody map,
+                                                     @Part("delivery") RequestBody delivery,
+                                                     @Part("charitable") RequestBody charitable,
+                                                     @Part("provider_type") RequestBody provider_type,
+                                                     @Part("ads_category") RequestBody ads_category,
+                                                     @Part("lat") RequestBody lat,
+                                                     @Part("lng") RequestBody lng,
+                                                     @Part("sub_categories[]") List<RequestBody> ids);
+
+
+    @Multipart
+    @POST("api/auth/register/provider")
+    Call<UserModel> clientProviderSignUpWithImage(@Header("X-localization") String lang,
+                                                  @Part("name") RequestBody name,
+                                                  @Part("email") RequestBody email,
+                                                  @Part("phone") RequestBody phone,
+                                                  @Part("region_id") RequestBody region_id,
+                                                  @Part("password") RequestBody password,
+                                                  @Part("bio") RequestBody bio,
+                                                  @Part("map") RequestBody map,
+                                                  @Part("delivery") RequestBody delivery,
+                                                  @Part("charitable") RequestBody charitable,
+                                                  @Part("provider_type") RequestBody provider_type,
+                                                  @Part("ads_category") RequestBody ads_category,
+                                                  @Part("lat") RequestBody lat,
+                                                  @Part("lng") RequestBody lng,
+                                                  @Part("sub_categories[]") List<RequestBody> ids,
+                                                  @Part("image") MultipartBody.Part image
+    );
+
+
+    @Multipart
+    @POST("api/auth/register/provider")
+    Call<UserModel> companyProviderSignUpWithOutImage(@Header("X-localization") String lang,
+                                                      @Part("name") RequestBody name,
+                                                      @Part("email") RequestBody email,
+                                                      @Part("phone") RequestBody phone,
+                                                      @Part("region_id") RequestBody region_id,
+                                                      @Part("password") RequestBody password,
+                                                      @Part("bio") RequestBody bio,
+                                                      @Part("map") RequestBody map,
+                                                      @Part("delivery") RequestBody delivery,
+                                                      @Part("charitable") RequestBody charitable,
+                                                      @Part("provider_type") RequestBody provider_type,
+                                                      @Part("ads_category") RequestBody ads_category,
+                                                      @Part("lat") RequestBody lat,
+                                                      @Part("lng") RequestBody lng,
+                                                      @Part("emp_no") RequestBody emp_no,
+                                                      @Part("creation_year") RequestBody creation_year,
+                                                      @Part("commerical_no") RequestBody commerical_no,
+                                                      @Part("provider_company_type") RequestBody provider_company_type,
+                                                      @Part("sub_categories[]") List<RequestBody> ids
+                                                      );
+
+
+    @Multipart
+    @POST("api/auth/register/provider")
+    Call<UserModel> companyProviderSignUpWithImage(@Header("X-localization") String lang,
+                                                   @Part("name") RequestBody name,
+                                                   @Part("email") RequestBody email,
+                                                   @Part("phone") RequestBody phone,
+                                                   @Part("region_id") RequestBody region_id,
+                                                   @Part("password") RequestBody password,
+                                                   @Part("bio") RequestBody bio,
+                                                   @Part("map") RequestBody map,
+                                                   @Part("delivery") RequestBody delivery,
+                                                   @Part("charitable") RequestBody charitable,
+                                                   @Part("provider_type") RequestBody provider_type,
+                                                   @Part("ads_category") RequestBody ads_category,
+                                                   @Part("lat") RequestBody lat,
+                                                   @Part("lng") RequestBody lng,
+                                                   @Part("emp_no") RequestBody emp_no,
+                                                   @Part("creation_year") RequestBody creation_year,
+                                                   @Part("commerical_no") RequestBody commerical_no,
+                                                   @Part("provider_company_type") RequestBody provider_company_type,
+                                                   @Part("sub_categories[]") List<RequestBody> ids,
+                                                   @Part("image") MultipartBody.Part image
+                                                   );
 
 
     @GET("api/categories")
@@ -169,11 +260,15 @@ public interface Service {
 
 
     @FormUrlEncoded
-    @POST("api/user/update/profile")
+    @POST("api/auth/activate")
     Call<ResponseActiveUser> activeUserSmsCode(@Header("Authorization") String user_token,
                                                @Field("verification_code") String verification_code,
                                                @Field("phone") String phone
     );
+
+    @FormUrlEncoded
+    @POST("api/auth/resend_code")
+    Call<ResponseActiveUser> reSendSmsCode(@Field("phone") String phone);
 
 
     @Multipart
@@ -186,6 +281,7 @@ public interface Service {
 
     @GET("api/provider/projects/provider-projects")
     Call<ProjectDataModel> getAllProjects(@Header("Authorization") String user_token);
+
 
 }
 

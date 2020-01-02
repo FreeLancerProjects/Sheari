@@ -133,7 +133,7 @@
     <string name="visitor">Are you a visitor ?</string>
     <string name="will_send_email">We will send you a link on your email to reset password</string>
     <string name="client_sign_up">Client sign up</string>
-    <string name="country_key">Country key</string>
+    <string name="country_key">Country code</string>
     <string name="re_password">Re-Password</string>
     <string name="previous">Previous</string>
     <string name="accept_terms_conditions"><![CDATA[Accept terms & conditions]]></string>

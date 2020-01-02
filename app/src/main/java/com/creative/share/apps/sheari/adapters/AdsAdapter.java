@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_ads.AdsActivity;
-import com.creative.share.apps.sheari.activities_fragments.activity_sub_category.SubCategoryActivity;
 import com.creative.share.apps.sheari.databinding.SubCategoryRowBinding;
 import com.creative.share.apps.sheari.models.CategoryModel;
 
@@ -41,6 +40,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final AdsAdapter.MyHolder holder, int position) {
+
 
 
         CategoryModel model = list.get(position);

@@ -119,17 +119,24 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
                             dialog.dismiss();
                             if (response.isSuccessful()&&response.body()!=null)
                             {
-                                userModel.getData().setIs_verified("1");
-                                preferences.create_update_userData(VerifyCodeActivity.this,userModel);
-                                preferences.createSession(VerifyCodeActivity.this, Tags.session_login);
-
-                                if (!out)
+                                if (response.body().isValue())
                                 {
-                                    Intent intent = new Intent(VerifyCodeActivity.this, HomeActivity.class);
-                                    startActivity(intent);
-                                }
+                                    userModel.getData().setIs_verified("1");
+                                    preferences.create_update_userData(VerifyCodeActivity.this,userModel);
+                                    preferences.createSession(VerifyCodeActivity.this, Tags.session_login);
 
-                                finish();
+                                    if (!out)
+                                    {
+                                        Intent intent = new Intent(VerifyCodeActivity.this, HomeActivity.class);
+                                        startActivity(intent);
+                                    }
+
+                                    finish();
+                                }else
+                                    {
+                                        Toast.makeText(VerifyCodeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                    }
+
 
                             }else
                             {
@@ -173,29 +180,74 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
             Log.e("dddd",e.getMessage()+"_");
         }
     }
-
-    private void startCounter()
-    {
-        countDownTimer = new CountDownTimer(60000, 1000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                canResend = false;
-
-                int AllSeconds = (int) (millisUntilFinished / 1000);
-                int seconds= AllSeconds%60;
-                binding.btnResend.setText("00:"+seconds);
-            }
-
-            @Override
-            public void onFinish() {
-                canResend = true;
-                binding.btnResend.setText(getString(R.string.resend));
-            }
-        }.start();
-    }
-
     private void reSendSMSCode() {
+
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+
+        try {
+
+            Api.getService(Tags.base_url)
+                    .reSendSmsCode(userModel.getData().getPhone())
+                    .enqueue(new Callback<ResponseActiveUser>() {
+                        @Override
+                        public void onResponse(Call<ResponseActiveUser> call, Response<ResponseActiveUser> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                if (response.body().isValue())
+                                {
+                                    startCounter();
+
+                                }else
+                                {
+                                    Toast.makeText(VerifyCodeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }else
+                            {
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(VerifyCodeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseActiveUser> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(VerifyCodeActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(VerifyCodeActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e)
+                            {
+                                Log.e("rrr",e.getMessage()+"_");
+
+                            }
+                        }
+                    });
+        }catch (Exception e)
+        {
+            dialog.dismiss();
+            Log.e("dddd",e.getMessage()+"_");
+        }
+
         /*final ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.show();
@@ -262,6 +314,28 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
         }*/
 
     }
+
+    private void startCounter()
+    {
+        countDownTimer = new CountDownTimer(60000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                canResend = false;
+
+                int AllSeconds = (int) (millisUntilFinished / 1000);
+                int seconds= AllSeconds%60;
+                binding.btnResend.setText("00:"+seconds);
+            }
+
+            @Override
+            public void onFinish() {
+                canResend = true;
+                binding.btnResend.setText(getString(R.string.resend));
+            }
+        }.start();
+    }
+
 
 
     @Override

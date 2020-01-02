@@ -22,7 +22,7 @@ import java.util.List;
 public class ProviderSignUpModel extends BaseObservable implements Serializable {
 
     private int type;
-    private int company_type;
+    private String company_type;
     private String name;
     private int country_id;
     private int city_id;
@@ -37,9 +37,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
     private String from_emp;
     private String to_emp;
     private String year;
-    private String edu_primary;
-    private String edu_mid;
-    private String edu_uni;
+
     private String address;
     private String commercial;
     private int ad_dept_id;
@@ -60,9 +58,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
     public ObservableField<String> error_from_emp = new ObservableField<>();
     public ObservableField<String> error_to_emp = new ObservableField<>();
     public ObservableField<String> error_year = new ObservableField<>();
-    public ObservableField<String> error_edu_prim = new ObservableField<>();
-    public ObservableField<String> error_edu_mid = new ObservableField<>();
-    public ObservableField<String> error_edu_uni = new ObservableField<>();
+
     public ObservableField<String> error_address = new ObservableField<>();
     public ObservableField<String> error_commercial = new ObservableField<>();
 
@@ -105,7 +101,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                 return false;
             }
         } else {
-            if (company_type != 0 &&
+            if (!company_type.isEmpty() &&
                     !name.isEmpty()
             ) {
                 error_name.set(null);
@@ -117,7 +113,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                     error_name.set(null);
                 }
 
-                if (company_type == 0) {
+                if (company_type.isEmpty()) {
                     Toast.makeText(context, context.getString(R.string.ch_type), Toast.LENGTH_SHORT).show();
                 }
 
@@ -202,9 +198,6 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
 
             if (!about_me.isEmpty() &&
                     service != 0 &&
-                    !edu_primary.isEmpty() &&
-                    !edu_mid.isEmpty() &&
-                    !edu_uni.isEmpty() &&
                     !address.isEmpty() &&
                     ad_dept_id !=0 &&
                     sub_dept_ids.size()>0
@@ -216,9 +209,6 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                 error_to_emp.set(null);
                 error_year.set(null);
                 error_commercial.set(null);
-                error_edu_prim.set(null);
-                error_edu_mid.set(null);
-                error_edu_uni.set(null);
                 error_address.set(null);
 
                 return true;
@@ -233,23 +223,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
 
 
 
-                if (TextUtils.isEmpty(edu_primary)) {
-                    error_edu_prim.set(context.getString(R.string.field_req));
-                } else {
-                    error_edu_prim.set(null);
-                }
 
-                if (TextUtils.isEmpty(edu_mid)) {
-                    error_edu_mid.set(context.getString(R.string.field_req));
-                } else {
-                    error_edu_mid.set(null);
-                }
-
-                if (TextUtils.isEmpty(edu_uni)) {
-                    error_edu_uni.set(context.getString(R.string.field_req));
-                } else {
-                    error_edu_uni.set(null);
-                }
 
                 if (TextUtils.isEmpty(address)) {
                     error_address.set(context.getString(R.string.field_req));
@@ -279,9 +253,6 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                     !to_emp.isEmpty() &&
                     !year.isEmpty() &&
                     !commercial.isEmpty() &&
-                    !edu_primary.isEmpty() &&
-                    !edu_mid.isEmpty() &&
-                    !edu_uni.isEmpty() &&
                     !address.isEmpty() &&
                     ad_dept_id !=0 &&
                     sub_dept_ids.size()>0
@@ -293,9 +264,6 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                 error_to_emp.set(null);
                 error_year.set(null);
                 error_commercial.set(null);
-                error_edu_prim.set(null);
-                error_edu_mid.set(null);
-                error_edu_uni.set(null);
                 error_address.set(null);
 
                 return true;
@@ -331,23 +299,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
                     error_to_emp.set(null);
                 }
 
-                if (TextUtils.isEmpty(edu_primary)) {
-                    error_edu_prim.set(context.getString(R.string.field_req));
-                } else {
-                    error_edu_prim.set(null);
-                }
 
-                if (TextUtils.isEmpty(edu_mid)) {
-                    error_edu_mid.set(context.getString(R.string.field_req));
-                } else {
-                    error_edu_mid.set(null);
-                }
-
-                if (TextUtils.isEmpty(edu_uni)) {
-                    error_edu_uni.set(context.getString(R.string.field_req));
-                } else {
-                    error_edu_uni.set(null);
-                }
 
                 if (TextUtils.isEmpty(address)) {
                     error_address.set(context.getString(R.string.field_req));
@@ -388,7 +340,7 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
         this.re_password = "";
         notifyPropertyChanged(BR.re_password);
         this.type = 0;
-        this.company_type = 0;
+        this.company_type ="";
         this.city_id = 0;
         this.country_id = 0;
         this.service = 0;
@@ -401,12 +353,6 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
         notifyPropertyChanged(BR.from_emp);
         this.to_emp = "";
         notifyPropertyChanged(BR.to_emp);
-        this.edu_primary = "";
-        notifyPropertyChanged(BR.edu_primary);
-        this.edu_mid = "";
-        notifyPropertyChanged(BR.edu_mid);
-        this.edu_uni = "";
-        notifyPropertyChanged(BR.edu_uni);
         this.address = "";
         notifyPropertyChanged(BR.address);
         this.lat = 0.0;
@@ -481,11 +427,11 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
         this.type = type;
     }
 
-    public int getCompany_type() {
+    public String getCompany_type() {
         return company_type;
     }
 
-    public void setCompany_type(int company_type) {
+    public void setCompany_type(String company_type) {
         this.company_type = company_type;
     }
 
@@ -562,35 +508,6 @@ public class ProviderSignUpModel extends BaseObservable implements Serializable 
         notifyPropertyChanged(BR.year);
     }
 
-    @Bindable
-    public String getEdu_primary() {
-        return edu_primary;
-    }
-
-    public void setEdu_primary(String edu_primary) {
-        this.edu_primary = edu_primary;
-        notifyPropertyChanged(BR.edu_primary);
-    }
-
-    @Bindable
-    public String getEdu_mid() {
-        return edu_mid;
-    }
-
-    public void setEdu_mid(String edu_mid) {
-        this.edu_mid = edu_mid;
-        notifyPropertyChanged(BR.edu_mid);
-    }
-
-    @Bindable
-    public String getEdu_uni() {
-        return edu_uni;
-    }
-
-    public void setEdu_uni(String edu_uni) {
-        this.edu_uni = edu_uni;
-        notifyPropertyChanged(BR.edu_uni);
-    }
 
     @Bindable
     public String getAddress() {

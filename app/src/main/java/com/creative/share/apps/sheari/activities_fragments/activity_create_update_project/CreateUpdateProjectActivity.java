@@ -148,7 +148,6 @@ public class CreateUpdateProjectActivity extends AppCompatActivity implements Li
 
     private void createProject() {
 
-        Log.e("ddd","ffff");
         ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.show();
