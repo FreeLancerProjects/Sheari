@@ -129,7 +129,7 @@ public class TermsActivity extends AppCompatActivity implements Listeners.BackLi
     private void getClientTerms() {
 
         Api.getService(Tags.base_url)
-                .getClientTerms(lang,"bearer "+userModel.getData().getToken())
+                .getClientTerms(lang,"Bearer "+userModel.getData().getToken())
                 .enqueue(new Callback<TermsModel>() {
                     @Override
                     public void onResponse(Call<TermsModel> call, Response<TermsModel> response) {
@@ -182,7 +182,7 @@ public class TermsActivity extends AppCompatActivity implements Listeners.BackLi
     private void getProviderTerms() {
 
         Api.getService(Tags.base_url)
-                .getProviderTerms(lang,"bearer "+userModel.getData().getToken())
+                .getProviderTerms(lang,"Bearer "+userModel.getData().getToken())
                 .enqueue(new Callback<TermsModel>() {
                     @Override
                     public void onResponse(Call<TermsModel> call, Response<TermsModel> response) {

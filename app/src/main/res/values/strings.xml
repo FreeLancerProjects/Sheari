@@ -242,5 +242,12 @@
     <string name="ch_date">Choose date</string>
     <string name="ch_important">Choose important</string>
 
+    <string name="current">Current</string>
+    <string name="previous2">Previous</string>
+    <string name="pending">Pending</string>
+    <string name="order_num">Order-num :</string>
+    <string name="date2">Order date :</string>
+    <string name="order_state">Order state :</string>
+
 
 </resources>

@@ -5,14 +5,21 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.sheari.R;
+import com.creative.share.apps.sheari.activities_fragments.activity_my_orders.fragments.Fragment_Order_Current;
+import com.creative.share.apps.sheari.activities_fragments.activity_my_orders.fragments.Fragment_Order_Pending;
+import com.creative.share.apps.sheari.activities_fragments.activity_my_orders.fragments.Fragment_Order_Previous;
+import com.creative.share.apps.sheari.adapters.ViewPagerAdapter;
 import com.creative.share.apps.sheari.databinding.ActivityMyOrderBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
 import com.creative.share.apps.sheari.models.UserModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
@@ -22,6 +29,9 @@ public class MyOrderActivity extends AppCompatActivity implements Listeners.Back
     private String lang;
     private UserModel userModel;
     private Preferences preferences;
+    private ViewPagerAdapter adapter;
+    private List<Fragment> fragmentList;
+    private List<String> titles;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -36,6 +46,8 @@ public class MyOrderActivity extends AppCompatActivity implements Listeners.Back
     }
 
     private void initView() {
+        fragmentList = new ArrayList<>();
+        titles = new ArrayList<>();
         preferences = Preferences.newInstance();
         userModel = preferences.getUserData(this);
         Paper.init(this);
@@ -43,6 +55,23 @@ public class MyOrderActivity extends AppCompatActivity implements Listeners.Back
         binding.setBackListener(this);
         binding.setLang(lang);
 
+
+
+        titles.add(getString(R.string.pending));
+        titles.add(getString(R.string.current));
+        titles.add(getString(R.string.previous));
+
+        fragmentList.add(Fragment_Order_Pending.newInstance());
+        fragmentList.add(Fragment_Order_Current.newInstance());
+        fragmentList.add(Fragment_Order_Previous.newInstance());
+
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addTitles(titles);
+        adapter.addFragments(fragmentList);
+
+
+        binding.pager.setAdapter(adapter);
+        binding.tab.setupWithViewPager(binding.pager);
 
 
     }

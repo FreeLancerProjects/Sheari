@@ -210,7 +210,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
         try {
 
             Api.getService(Tags.base_url)
-                    .sendOrder(lang,userModel.getData().getToken(),sendOrderModel.getTitle(),sendOrderModel.getDetails(),lat,lng,sendOrderModel.getTime(),sendOrderModel.getDate(),providerModel.getId(),sendOrderModel.getImportant())
+                    .sendOrder(lang,"Bearer "+userModel.getData().getToken(),sendOrderModel.getTitle(),sendOrderModel.getDetails(),lat,lng,sendOrderModel.getTime(),sendOrderModel.getDate(),providerModel.getId(),sendOrderModel.getImportant())
                     .enqueue(new Callback<ResponseActiveUser>() {
                         @Override
                         public void onResponse(Call<ResponseActiveUser> call, Response<ResponseActiveUser> response) {

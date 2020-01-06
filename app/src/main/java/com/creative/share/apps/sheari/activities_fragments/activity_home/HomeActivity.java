@@ -30,6 +30,7 @@ import com.creative.share.apps.sheari.activities_fragments.activity_home.fragmen
 import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Home;
 import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Market;
 import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Search;
+import com.creative.share.apps.sheari.activities_fragments.activity_my_orders.MyOrderActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_payment.PaymentActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_profile.ProfileActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_provider_profile.ProviderProfileActivity;
@@ -262,6 +263,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 navigateToTermsActivity();
                 break;
 
+            case R.id.order:
+                if (userModel!=null)
+                {
+                    navigateToMyOrderActivity();
+
+                }else
+                    {
+                        Intent intent = new Intent(this, SignInActivity.class);
+                        intent.putExtra("from", true);
+                        startActivity(intent);
+                    }
+                break;
+
+
             case R.id.lang:
                 CreateLangDialogAlert();
                 break;
@@ -283,6 +298,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         drawer.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    private void navigateToMyOrderActivity() {
+        new Handler()
+                .postDelayed(() -> {
+                    Intent intent = new Intent(this, MyOrderActivity.class);
+                    startActivity(intent);
+                },500);
     }
 
     private void navigateToUpdateProviderProfile() {

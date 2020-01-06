@@ -6,6 +6,7 @@ import com.creative.share.apps.sheari.models.CommentDataModel;
 import com.creative.share.apps.sheari.models.CommentRespons;
 import com.creative.share.apps.sheari.models.LocationDataModel;
 import com.creative.share.apps.sheari.models.MessageDataModel;
+import com.creative.share.apps.sheari.models.MyOrderDataModel;
 import com.creative.share.apps.sheari.models.OfferDataModel;
 import com.creative.share.apps.sheari.models.PlaceGeocodeData;
 import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
@@ -323,6 +324,44 @@ public interface Service {
                                        @Field("important") String important
 
 
+    );
+
+
+    @GET("api/client/ordered/pending")
+    Call<MyOrderDataModel> getClientPendingOrder(@Header("X-localization") String lang,
+                                                 @Header("Authorization") String user_token,
+                                                 @Query("page") int page
+    );
+
+    @GET("api/client/ordered/accepted")
+    Call<MyOrderDataModel> getClientCurrentOrder(@Header("X-localization") String lang,
+                                                 @Header("Authorization") String user_token,
+                                                 @Query("page") int page
+    );
+
+    @GET("api/client/ordered/finished")
+    Call<MyOrderDataModel> getClientPreviousOrder(@Header("X-localization") String lang,
+                                                  @Header("Authorization") String user_token,
+                                                  @Query("page") int page
+    );
+
+
+    @GET("api/provider/ordered/pending")
+    Call<MyOrderDataModel> getProviderPendingOrder(@Header("X-localization") String lang,
+                                                   @Header("Authorization") String user_token,
+                                                   @Query("page") int page
+    );
+
+    @GET("api/provider/ordered/accepted")
+    Call<MyOrderDataModel> getProviderCurrentOrder(@Header("X-localization") String lang,
+                                                   @Header("Authorization") String user_token,
+                                                   @Query("page") int page
+    );
+
+    @GET("api/provider/ordered/finished")
+    Call<MyOrderDataModel> getProviderPreviousOrder(@Header("X-localization") String lang,
+                                                    @Header("Authorization") String user_token,
+                                                    @Query("page") int page
     );
 
 

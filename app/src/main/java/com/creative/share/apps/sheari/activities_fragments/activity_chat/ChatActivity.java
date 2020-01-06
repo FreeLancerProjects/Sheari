@@ -165,7 +165,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
 
             Api.getService(Tags.base_url)
-                    .sendChatMessage(userModel.getData().getToken(),chatUserModel.getId(),chatUserModel.getOrder_id(),message)
+                    .sendChatMessage("Bearer "+userModel.getData().getToken(),chatUserModel.getId(),chatUserModel.getOrder_id(),message)
                     .enqueue(new Callback<SingleMessageDataModel>() {
                         @Override
                         public void onResponse(Call<SingleMessageDataModel> call, Response<SingleMessageDataModel> response) {
@@ -228,7 +228,8 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
 
 
             Api.getService(Tags.base_url)
-                    .getRoomMessages(userModel.getData().getToken(),chatUserModel.getId(), chatUserModel.getOrder_id(), 1)
+                    .getRoomMessages("Bearer "+userModel.getData().getToken(),chatUserModel.getId(), chatUserModel.getOrder_id(), 1)
+
                     .enqueue(new Callback<MessageDataModel>() {
                         @Override
                         public void onResponse(Call<MessageDataModel> call, Response<MessageDataModel> response) {
@@ -297,7 +298,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         try {
 
             Api.getService(Tags.base_url)
-                    .getRoomMessages(userModel.getData().getToken(),chatUserModel.getId(), chatUserModel.getOrder_id(), 1)
+                    .getRoomMessages("Bearer "+userModel.getData().getToken(),chatUserModel.getId(), chatUserModel.getOrder_id(), 1)
                     .enqueue(new Callback<MessageDataModel>() {
                         @Override
                         public void onResponse(Call<MessageDataModel> call, Response<MessageDataModel> response) {

@@ -11,8 +11,6 @@
 
     <item android:state_selected="false">
         <shape android:shape="rectangle">
-            <corners android:radius="25dp"/>
-            <solid android:color="@color/white"/>
 
         </shape>
     </item>

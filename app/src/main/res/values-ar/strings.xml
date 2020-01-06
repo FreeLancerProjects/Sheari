@@ -253,4 +253,11 @@
     <string name="ch_date">إختر التاريخ</string>
     <string name="ch_important">إختر الاهمية</string>
 
+    <string name="current">الحالية</string>
+    <string name="previous2">السابقة</string>
+    <string name="pending">قيد الانتظار</string>
+    <string name="order_num">رقم الطلب :</string>
+    <string name="date2">تاريخ الطلب :</string>
+    <string name="order_state">حالة الطلب :</string>
+
 </resources>
