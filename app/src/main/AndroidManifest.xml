@@ -23,10 +23,15 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".activities_fragments.activity_create_update_project.CreateUpdateProjectActivity"
+        <activity android:name=".activities_fragments.activity_my_orders.MyOrderActivity"></activity>
+        <activity
+            android:name=".activities_fragments.activity_verification_code_forgot_password.ForgotPasswordCodeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities_fragments.activity_create_update_project.CreateUpdateProjectActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities_fragments.activity_update_provider_profile.UpdateProviderProfileActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

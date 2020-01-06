@@ -57,7 +57,6 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
 
     private void initView() {
         preferences = Preferences.newInstance();
-        userModel = preferences.getUserData(this);
         Paper.init(this);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setBackListener(this);
@@ -111,8 +110,18 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
 
         try {
 
+            String token="";
+            if (userModel.getData()!=null)
+            {
+                token = userModel.getData().getToken();
+
+            }else if (userModel.getUser()!=null)
+            {
+                token = userModel.getUser().getToken();
+            }
+
             Api.getService(Tags.base_url)
-                    .activeUserSmsCode("Bearer "+userModel.getData().getToken(),code,userModel.getData().getPhone())
+                    .activeUserSmsCode("Bearer "+token,code,userModel.getData().getPhone())
                     .enqueue(new Callback<ResponseActiveUser>() {
                         @Override
                         public void onResponse(Call<ResponseActiveUser> call, Response<ResponseActiveUser> response) {
@@ -134,7 +143,15 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
                                     finish();
                                 }else
                                     {
-                                        Toast.makeText(VerifyCodeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                        if (response.body().getMsg()!=null&&!response.body().getMsg().isEmpty())
+                                        {
+                                            Toast.makeText(VerifyCodeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                                        }else if (response.body().getMessage()!=null&&!response.body().getMessage().isEmpty())
+                                        {
+                                            Toast.makeText(VerifyCodeActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        }
                                     }
 
 
@@ -188,21 +205,40 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
 
         try {
 
+            String phone="";
+            if (userModel.getData()!=null)
+            {
+                phone = userModel.getData().getPhone();
+
+            }else if (userModel.getUser()!=null)
+            {
+                phone = userModel.getUser().getPhone();
+            }
+
             Api.getService(Tags.base_url)
-                    .reSendSmsCode(userModel.getData().getPhone())
+                    .reSendSmsCode(phone)
                     .enqueue(new Callback<ResponseActiveUser>() {
                         @Override
                         public void onResponse(Call<ResponseActiveUser> call, Response<ResponseActiveUser> response) {
                             dialog.dismiss();
                             if (response.isSuccessful()&&response.body()!=null)
                             {
+
                                 if (response.body().isValue())
                                 {
                                     startCounter();
 
                                 }else
                                 {
-                                    Toast.makeText(VerifyCodeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                    if (response.body().getMsg()!=null&&!response.body().getMsg().isEmpty())
+                                    {
+                                        Toast.makeText(VerifyCodeActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                                    }else if (response.body().getMessage()!=null&&!response.body().getMessage().isEmpty())
+                                    {
+                                        Toast.makeText(VerifyCodeActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
 
 

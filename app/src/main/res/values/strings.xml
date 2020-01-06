@@ -131,7 +131,7 @@
     <string name="as_client">Client</string>
     <string name="member_in_sheari">Member in sheari</string>
     <string name="visitor">Are you a visitor ?</string>
-    <string name="will_send_email">We will send you a link on your email to reset password</string>
+    <string name="will_send_email">We will send you a code on your number to reset password</string>
     <string name="client_sign_up">Client sign up</string>
     <string name="country_key">Country code</string>
     <string name="re_password">Re-Password</string>
@@ -235,6 +235,12 @@
     <string name="description">Project details</string>
     <string name="create_pro">Create</string>
     <string name="ch_pro_img">Choose project image</string>
+    <string name="new_password">New Password</string>
+    <string name="enter_the_sms_verification_code_below_that_was_sent_to">Enter the SMS verification code below that was sent to</string>
+    <string name="date">Date</string>
+    <string name="ch_time">Choose time</string>
+    <string name="ch_date">Choose date</string>
+    <string name="ch_important">Choose important</string>
 
 
 </resources>

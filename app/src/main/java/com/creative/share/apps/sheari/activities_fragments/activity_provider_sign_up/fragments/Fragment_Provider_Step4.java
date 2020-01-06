@@ -212,6 +212,8 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
             if (providerSignUpModel.step4IsValid(activity))
             {
+                Log.e("ddd","pppp");
+
                 if (providerSignUpModel.getType()==1)
                 {
                     if (providerSignUpModel.getImage_uri()==null)
@@ -225,6 +227,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
                 }else if (providerSignUpModel.getType()==2)
                 {
+                    Log.e("ddd","1");
                     if (providerSignUpModel.getImage_uri()==null)
                     {
                         signUpProviderWithoutImage();
@@ -326,6 +329,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
 
         RequestBody ads_id_part = Common.getRequestBodyText(String.valueOf(providerSignUpModel.getAd_dept_id()));
+        RequestBody job_part = Common.getRequestBodyText("غير متاح");
 
         RequestBody lat_part = Common.getRequestBodyText(String.valueOf(providerSignUpModel.getLat()));
         RequestBody lng_part = Common.getRequestBodyText(String.valueOf(providerSignUpModel.getLng()));
@@ -338,7 +342,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         try {
 
             Api.getService(Tags.base_url)
-                    .clientProviderSignUpWithOutImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,lat_part,lng_part,ids)
+                    .clientProviderSignUpWithOutImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,job_part,lat_part,lng_part,ids)
                     .enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -347,7 +351,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                             {
                                 if (response.body().isStatus())
                                 {
-                                    if (response.body().getData().getIs_verified().equals("0"))
+                                    if (response.body().getUser().getIs_verified().equals("0"))
                                     {
                                         Intent intent = new Intent(activity, VerifyCodeActivity.class);
                                         intent.putExtra("data",response.body());
@@ -371,7 +375,15 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
                                 }else
                                 {
-                                    Toast.makeText(activity,response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    if (response.body().getMsg()!=null&&!response.body().getMsg().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                                    }else if (response.body().getMessage()!=null&&!response.body().getMessage().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
 
 
@@ -464,6 +476,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
 
         RequestBody ads_id_part = Common.getRequestBodyText(String.valueOf(providerSignUpModel.getAd_dept_id()));
+        RequestBody job_part = Common.getRequestBodyText("غير متاح");
 
         RequestBody lat_part = Common.getRequestBodyText(String.valueOf(providerSignUpModel.getLat()));
         RequestBody lng_part = Common.getRequestBodyText(String.valueOf(providerSignUpModel.getLng()));
@@ -480,7 +493,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         try {
 
             Api.getService(Tags.base_url)
-                    .clientProviderSignUpWithImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,lat_part,lng_part,ids,image_part)
+                    .clientProviderSignUpWithImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,job_part,lat_part,lng_part,ids,image_part)
                     .enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -489,7 +502,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                             {
                                 if (response.body().isStatus())
                                 {
-                                    if (response.body().getData().getIs_verified().equals("0"))
+                                    if (response.body().getUser().getIs_verified().equals("0"))
                                     {
                                         Intent intent = new Intent(activity, VerifyCodeActivity.class);
                                         intent.putExtra("data",response.body());
@@ -513,8 +526,15 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
                                 }else
                                 {
-                                    Toast.makeText(activity,response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                    if (response.body().getMsg()!=null&&!response.body().getMsg().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                                    }else if (response.body().getMessage()!=null&&!response.body().getMessage().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }                                }
 
 
                             }else
@@ -608,6 +628,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         RequestBody creation_year_part = Common.getRequestBodyText(providerSignUpModel.getYear());
         RequestBody comercial_part = Common.getRequestBodyText(providerSignUpModel.getCommercial());
 
+        RequestBody job_part = Common.getRequestBodyText("غير متاح");
 
 
         RequestBody ads_id_part = Common.getRequestBodyText(String.valueOf(providerSignUpModel.getAd_dept_id()));
@@ -623,7 +644,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         try {
 
             Api.getService(Tags.base_url)
-                    .companyProviderSignUpWithOutImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,lat_part,lng_part,employee_num_part,creation_year_part,comercial_part,type_part,ids)
+                    .companyProviderSignUpWithOutImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,job_part,lat_part,lng_part,employee_num_part,creation_year_part,comercial_part,type_part,ids)
                     .enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -632,7 +653,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                             {
                                 if (response.body().isStatus())
                                 {
-                                    if (response.body().getData().getIs_verified().equals("0"))
+                                    if (response.body().getUser().getIs_verified().equals("0"))
                                     {
                                         Intent intent = new Intent(activity, VerifyCodeActivity.class);
                                         intent.putExtra("data",response.body());
@@ -656,7 +677,15 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
                                 }else
                                 {
-                                    Toast.makeText(activity,response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    if (response.body().getMsg()!=null&&!response.body().getMsg().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                                    }else if (response.body().getMessage()!=null&&!response.body().getMessage().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
 
 
@@ -708,6 +737,8 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
     private void signUpProviderWithImage() {
 
+        Log.e("ddd","77777");
+
         String provider_type = "one";
         int map = 0;
         int delivery = 0;
@@ -751,6 +782,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         RequestBody creation_year_part = Common.getRequestBodyText(providerSignUpModel.getYear());
         RequestBody comercial_part = Common.getRequestBodyText(providerSignUpModel.getCommercial());
         MultipartBody.Part image_part = Common.getMultiPart(activity,providerSignUpModel.getImage_uri(),"image");
+        RequestBody job_part = Common.getRequestBodyText("غير متاح");
 
 
 
@@ -766,8 +798,9 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         dialog.show();
         try {
 
+
             Api.getService(Tags.base_url)
-                    .companyProviderSignUpWithImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,lat_part,lng_part,employee_num_part,creation_year_part,comercial_part,type_part,ids,image_part)
+                    .companyProviderSignUpWithImage(lang,name_part,email_part,phone_part,region_part,password_part,bio_part,map_part,delivery_part,charitable_part,provider_type_part,ads_id_part,job_part,lat_part,lng_part,employee_num_part,creation_year_part,comercial_part,type_part,ids,image_part)
                     .enqueue(new Callback<UserModel>() {
                         @Override
                         public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -776,7 +809,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                             {
                                 if (response.body().isStatus())
                                 {
-                                    if (response.body().getData().getIs_verified().equals("0"))
+                                    if (response.body().getUser().getIs_verified().equals("0"))
                                     {
                                         Intent intent = new Intent(activity, VerifyCodeActivity.class);
                                         intent.putExtra("data",response.body());
@@ -800,7 +833,15 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
                                 }else
                                 {
-                                    Toast.makeText(activity,response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    if (response.body().getMsg()!=null&&!response.body().getMsg().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                                    }else if (response.body().getMessage()!=null&&!response.body().getMessage().isEmpty())
+                                    {
+                                        Toast.makeText(activity, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
 
 

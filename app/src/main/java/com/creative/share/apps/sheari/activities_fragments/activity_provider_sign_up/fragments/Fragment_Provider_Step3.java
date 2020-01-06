@@ -64,7 +64,7 @@ public class Fragment_Provider_Step3 extends Fragment implements Listeners.ShowC
     private ProviderSignUpModel providerSignUpModel;
     private CodeCountryAdapter codeCountryAdapter;
     private List<CountryCodeModel> countryCodeModelList;
-    private android.app.AlertDialog dialog;
+    private AlertDialog dialog;
 
 
 
@@ -174,7 +174,7 @@ public class Fragment_Provider_Step3 extends Fragment implements Listeners.ShowC
     }
 
     private void createCountryCodeDialog() {
-        dialog = new android.app.AlertDialog.Builder(activity)
+        dialog = new AlertDialog.Builder(activity)
                 .create();
 
         DialogCountryCodeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_country_code, null, false);

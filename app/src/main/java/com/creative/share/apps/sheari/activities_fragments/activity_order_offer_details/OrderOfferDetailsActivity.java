@@ -7,17 +7,21 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
+import com.creative.share.apps.sheari.adapters.CommentAdapter;
 import com.creative.share.apps.sheari.databinding.ActivityOrderOfferDetailsBinding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
+import com.creative.share.apps.sheari.models.CommentDataModel;
 import com.creative.share.apps.sheari.models.CommentRespons;
 import com.creative.share.apps.sheari.models.OfferDataModel;
 import com.creative.share.apps.sheari.models.UserModel;
@@ -27,6 +31,8 @@ import com.creative.share.apps.sheari.share.Common;
 import com.creative.share.apps.sheari.tags.Tags;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
@@ -40,6 +46,9 @@ public class OrderOfferDetailsActivity extends AppCompatActivity implements List
     private OfferDataModel.Data.Provider provider=null;
     private UserModel userModel;
     private Preferences preferences;
+    private CommentAdapter adapter;
+    private List<CommentDataModel.Data.Comment> commentList;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -64,7 +73,10 @@ public class OrderOfferDetailsActivity extends AppCompatActivity implements List
 
 
     private void initView() {
+        commentList = new ArrayList<>();
+
         preferences = Preferences.newInstance();
+        userModel = preferences.getUserData(this);
         Paper.init(this);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setBackListener(this);
@@ -77,12 +89,14 @@ public class OrderOfferDetailsActivity extends AppCompatActivity implements List
             userModel = preferences.getUserData(this);
             if (userModel!=null)
             {
+
                 String comment = binding.edtComment.getText().toString().trim();
                 if (!TextUtils.isEmpty(comment))
                 {
+
                     binding.edtComment.setError(null);
                     Common.CloseKeyBoard(this,binding.edtComment);
-                    addComment();
+                    addComment(comment);
 
                 }else
                     {
@@ -96,14 +110,96 @@ public class OrderOfferDetailsActivity extends AppCompatActivity implements List
                 }
         });
 
+        if (userModel!=null)
+        {
+            getComments();
+
+        }else
+            {
+                binding.progBar.setVisibility(View.GONE);
+            }
+
     }
 
-    private void addComment() {
+    private void getComments() {
+
+        Api.getService(Tags.base_url)
+                .getAllComments("Bearer "+userModel.getData().getToken(),provider.getId())
+                .enqueue(new Callback<CommentDataModel>() {
+                    @Override
+                    public void onResponse(Call<CommentDataModel> call, Response<CommentDataModel> response) {
+                        binding.progBar.setVisibility(View.GONE);
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().isValue()) {
+
+                                updateUI(response.body());
+
+                            } else {
+                                Toast.makeText(OrderOfferDetailsActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else {
+
+                            try {
+
+                                Log.e("error", response.code() + "_" + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (response.code() == 500) {
+                                Toast.makeText(OrderOfferDetailsActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Toast.makeText(OrderOfferDetailsActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CommentDataModel> call, Throwable t) {
+                        try {
+                            binding.progBar.setVisibility(View.GONE);
+                            if (t.getMessage() != null) {
+                                Log.e("error", t.getMessage());
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    Toast.makeText(OrderOfferDetailsActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(OrderOfferDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+    }
+
+    private void updateUI(CommentDataModel body) {
+
+        commentList.clear();
+        commentList.addAll(body.getData().getComments());
+
+        if (adapter==null)
+        {
+            adapter = new CommentAdapter(commentList,this,body.getData().getUser());
+            binding.recView.setLayoutManager(new LinearLayoutManager(this));
+            binding.recView.setAdapter(adapter);
+        }else
+            {
+                adapter.notifyDataSetChanged();
+            }
+
+
+
+    }
+
+    private void addComment(String comment) {
+
         ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
         dialog.show();
 
         Api.getService(Tags.base_url)
-                .addComment(userModel.getData().getToken(),provider.getId())
+                .addComment("Bearer "+userModel.getData().getToken(),provider.getId(),comment)
                 .enqueue(new Callback<CommentRespons>() {
                     @Override
                     public void onResponse(Call<CommentRespons> call, Response<CommentRespons> response) {
@@ -111,6 +207,7 @@ public class OrderOfferDetailsActivity extends AppCompatActivity implements List
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().isValue()) {
 
+                                getComments();
                                 binding.edtComment.setText("");
 
                             } else {

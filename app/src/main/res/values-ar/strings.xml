@@ -142,7 +142,7 @@
     <string name="as_client">كعضو مستفيد</string>
     <string name="member_in_sheari">عضو في شعاري</string>
     <string name="visitor">هل انت زائر ؟</string>
-    <string name="will_send_email">سنرسل لك رابطا على البريد الالكتروني لاستعاده كلمة المرور.</string>
+    <string name="will_send_email">سنرسل لك كود التحقق  لاستعاده كلمة المرور.</string>
     <string name="client_sign_up">تسجيل كعضو (مستفيد)</string>
     <string name="country_key">مفتاح الدولة</string>
     <string name="re_password">إعادة كلمة المرور</string>
@@ -246,5 +246,11 @@
     <string name="description">تفاصيل المشروع</string>
     <string name="create_pro">إنشاء مشروع</string>
     <string name="ch_pro_img">إختر صورة المشروع</string>
+    <string name="new_password">كلمة المرور الجديدة</string>
+    <string name="enter_the_sms_verification_code_below_that_was_sent_to">أرجو منك إدخال الرمز المرسل إلى</string>
+    <string name="date">التاريخ</string>
+    <string name="ch_time">إختر الوقت</string>
+    <string name="ch_date">إختر التاريخ</string>
+    <string name="ch_important">إختر الاهمية</string>
 
 </resources>

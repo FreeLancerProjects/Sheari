@@ -89,6 +89,17 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
         Paper.init(newBase);
         super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang","ar")));
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (providerModel!=null)
+        {
+            updateUi(providerModel);
+
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +119,8 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
     }
 
 
+
+
     private void initView() {
         projectModelList = new ArrayList<>();
 
@@ -118,11 +131,7 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
         binding.setBackListener(this);
         binding.setLang(lang);
 
-        if (providerModel!=null)
-        {
-            updateUi(providerModel);
 
-        }
 
 
 
@@ -189,6 +198,8 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
 
         }
     }
+
+
 
 
     private void CheckPermission() {

@@ -66,7 +66,7 @@ public class UI_General_Method {
 
 
     @BindingAdapter("res")
-    public static void DisplayImageResourse(View view, int res) {
+    public static void DisplayImageResource(View view, int res) {
         if (view instanceof CircleImageView) {
             CircleImageView imageView = (CircleImageView) view;
 

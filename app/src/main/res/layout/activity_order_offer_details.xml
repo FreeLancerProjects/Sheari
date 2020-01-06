@@ -322,6 +322,8 @@
                                 android:tint="@color/white"
                                 android:padding="6dp"
                                 android:rotation='@{lang.equals("en")?180:0}'
+                                android:clickable="false"
+                                android:longClickable="false"
                                 />
 
                             <TextView
@@ -329,7 +331,10 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
                                 android:textSize="15sp"
-                                android:text="@string/add_comment"/>
+                                android:text="@string/add_comment"
+                                android:clickable="false"
+                                android:longClickable="false"
+                                />
                         </LinearLayout>
                     </FrameLayout>
 

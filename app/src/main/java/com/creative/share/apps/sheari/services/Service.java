@@ -2,6 +2,7 @@ package com.creative.share.apps.sheari.services;
 
 
 import com.creative.share.apps.sheari.models.CategoryDataModel;
+import com.creative.share.apps.sheari.models.CommentDataModel;
 import com.creative.share.apps.sheari.models.CommentRespons;
 import com.creative.share.apps.sheari.models.LocationDataModel;
 import com.creative.share.apps.sheari.models.MessageDataModel;
@@ -73,6 +74,7 @@ public interface Service {
                                                      @Part("charitable") RequestBody charitable,
                                                      @Part("provider_type") RequestBody provider_type,
                                                      @Part("ads_category") RequestBody ads_category,
+                                                     @Part("job") RequestBody job,
                                                      @Part("lat") RequestBody lat,
                                                      @Part("lng") RequestBody lng,
                                                      @Part("sub_categories[]") List<RequestBody> ids);
@@ -92,10 +94,11 @@ public interface Service {
                                                   @Part("charitable") RequestBody charitable,
                                                   @Part("provider_type") RequestBody provider_type,
                                                   @Part("ads_category") RequestBody ads_category,
+                                                  @Part("job") RequestBody job,
                                                   @Part("lat") RequestBody lat,
                                                   @Part("lng") RequestBody lng,
                                                   @Part("sub_categories[]") List<RequestBody> ids,
-                                                  @Part("image") MultipartBody.Part image
+                                                  @Part MultipartBody.Part image
     );
 
 
@@ -113,6 +116,7 @@ public interface Service {
                                                       @Part("charitable") RequestBody charitable,
                                                       @Part("provider_type") RequestBody provider_type,
                                                       @Part("ads_category") RequestBody ads_category,
+                                                      @Part("job") RequestBody job,
                                                       @Part("lat") RequestBody lat,
                                                       @Part("lng") RequestBody lng,
                                                       @Part("emp_no") RequestBody emp_no,
@@ -120,7 +124,7 @@ public interface Service {
                                                       @Part("commerical_no") RequestBody commerical_no,
                                                       @Part("provider_company_type") RequestBody provider_company_type,
                                                       @Part("sub_categories[]") List<RequestBody> ids
-                                                      );
+    );
 
 
     @Multipart
@@ -137,6 +141,7 @@ public interface Service {
                                                    @Part("charitable") RequestBody charitable,
                                                    @Part("provider_type") RequestBody provider_type,
                                                    @Part("ads_category") RequestBody ads_category,
+                                                   @Part("job") RequestBody job,
                                                    @Part("lat") RequestBody lat,
                                                    @Part("lng") RequestBody lng,
                                                    @Part("emp_no") RequestBody emp_no,
@@ -144,8 +149,8 @@ public interface Service {
                                                    @Part("commerical_no") RequestBody commerical_no,
                                                    @Part("provider_company_type") RequestBody provider_company_type,
                                                    @Part("sub_categories[]") List<RequestBody> ids,
-                                                   @Part("image") MultipartBody.Part image
-                                                   );
+                                                   @Part MultipartBody.Part image
+    );
 
 
     @GET("api/categories")
@@ -206,7 +211,8 @@ public interface Service {
     @FormUrlEncoded
     @POST("api/market/add/comment/{id}")
     Call<CommentRespons> addComment(@Header("Authorization") String token,
-                                    @Path("id") int id
+                                    @Path("id") int id,
+                                    @Field("comment") String comment
     );
 
 
@@ -281,6 +287,43 @@ public interface Service {
 
     @GET("api/provider/projects/provider-projects")
     Call<ProjectDataModel> getAllProjects(@Header("Authorization") String user_token);
+
+
+    @FormUrlEncoded
+    @POST("api/auth/forget")
+    Call<ResponseActiveUser> forgotPassword(@Field("phone") String phone);
+
+
+    @FormUrlEncoded
+    @POST("api/auth/reset")
+    Call<ResponseActiveUser> sendNewPassword(@Field("reset_code") String reset_code,
+                                             @Field("phone") String phone,
+                                             @Field("password") String password,
+                                             @Field("password_confirmation") String password_confirmation
+    );
+
+
+    @GET("api/market/single/{id}")
+    Call<CommentDataModel> getAllComments(@Header("Authorization") String user_token,
+                                          @Path("id") int id
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/client/ordered/send")
+    Call<ResponseActiveUser> sendOrder(@Header("X-localization") String lang,
+                                       @Header("Authorization") String token,
+                                       @Field("title") String title,
+                                       @Field("details") String details,
+                                       @Field("lat") double lat,
+                                       @Field("lng") double lng,
+                                       @Field("time") String time,
+                                       @Field("date") String date,
+                                       @Field("provider_id") int provider_id,
+                                       @Field("important") String important
+
+
+    );
 
 
 }

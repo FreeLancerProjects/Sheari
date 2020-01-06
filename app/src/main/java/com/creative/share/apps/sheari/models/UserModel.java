@@ -8,11 +8,14 @@ public class UserModel implements Serializable {
     /////// sign up
     private boolean status;
     private String message;
+    private Data user;
 
+/////////////////////////////////////////////
 
     private boolean value;
     private String msg;
     private Data data;
+
 
     public boolean isValue() {
         return value;
@@ -32,6 +35,10 @@ public class UserModel implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    public Data getUser() {
+        return user;
     }
 
     public static class Data implements Serializable
