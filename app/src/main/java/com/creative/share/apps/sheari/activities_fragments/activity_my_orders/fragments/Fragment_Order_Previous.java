@@ -1,5 +1,6 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_my_orders.fragments;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_my_orders.MyOrderActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_order_details.OrderDetailsActivity;
 import com.creative.share.apps.sheari.adapters.MyOrderAdapter;
 import com.creative.share.apps.sheari.databinding.FragmentOrderPendingCurrentPreviousBinding;
 import com.creative.share.apps.sheari.models.MyOrderDataModel;
@@ -88,7 +90,7 @@ public class Fragment_Order_Previous extends Fragment {
                     int total_item = binding.recView.getAdapter().getItemCount();
                     int last_visible_item = manager.findLastCompletelyVisibleItemPosition();
 
-                    if (total_item>=20&&(total_item-last_visible_item)==5&&!isLoading)
+                    if (total_item>=10&&(total_item-last_visible_item)==5&&!isLoading)
                     {
 
                         isLoading = true;
@@ -105,7 +107,7 @@ public class Fragment_Order_Previous extends Fragment {
     }
 
 
-    private void getOrders() {
+    public void getOrders() {
 
         try {
 
@@ -288,5 +290,12 @@ public class Fragment_Order_Previous extends Fragment {
         } catch (Exception e) {
 
         }
+    }
+
+    public void setItemData(MyOrderDataModel.Data.OrderModel model, int adapterPosition) {
+
+        Intent intent = new Intent(activity, OrderDetailsActivity.class);
+        intent.putExtra("data",model);
+        startActivity(intent);
     }
 }

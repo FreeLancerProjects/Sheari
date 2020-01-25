@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +32,8 @@ import com.creative.share.apps.sheari.activities_fragments.activity_home.fragmen
 import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Market;
 import com.creative.share.apps.sheari.activities_fragments.activity_home.fragments.Fragment_Search;
 import com.creative.share.apps.sheari.activities_fragments.activity_my_orders.MyOrderActivity;
-import com.creative.share.apps.sheari.activities_fragments.activity_payment.PaymentActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_notification.NotificationActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_payment.MyPaymentActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_profile.ProfileActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_provider_profile.ProviderProfileActivity;
 import com.creative.share.apps.sheari.activities_fragments.activity_sign_in.SignInActivity;
@@ -41,18 +43,26 @@ import com.creative.share.apps.sheari.activities_fragments.activity_update_provi
 import com.creative.share.apps.sheari.adapters.ViewPagerAdapter;
 import com.creative.share.apps.sheari.databinding.DialogLanguageBinding;
 import com.creative.share.apps.sheari.language.LanguageHelper;
+import com.creative.share.apps.sheari.models.ResponseActiveUser;
 import com.creative.share.apps.sheari.models.UserModel;
 import com.creative.share.apps.sheari.preferences.Preferences;
+import com.creative.share.apps.sheari.remote.Api;
+import com.creative.share.apps.sheari.tags.Tags;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -118,9 +128,68 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         adapter.addTitles(titles);
         pager.setAdapter(adapter);
 
+
+        if(userModel!=null)
+        {
+            updateFireBaseToken();
+        }
         updateUi();
 
 
+    }
+
+    private void updateFireBaseToken() {
+
+        FirebaseInstanceId.getInstance()
+                .getInstanceId().addOnCompleteListener(task -> {
+            if (task.isSuccessful())
+            {
+                String token = task.getResult().getToken();
+
+                try {
+
+                    Api.getService(Tags.base_url)
+                            .updateUserToken("Bearer "+userModel.getData().getToken(),token)
+                            .enqueue(new Callback<ResponseActiveUser>() {
+                                @Override
+                                public void onResponse(Call<ResponseActiveUser> call, Response<ResponseActiveUser> response) {
+                                    if (response.isSuccessful() && response.body() != null &&response.body().isStatus())
+                                    {
+                                        Log.e("token","updated successfully");
+                                    } else {
+                                        try {
+
+                                            Log.e("error", response.code() + "_" + response.errorBody().string());
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseActiveUser> call, Throwable t) {
+                                    try {
+
+                                        if (t.getMessage() != null) {
+                                            Log.e("error", t.getMessage());
+                                            if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                                Toast.makeText(HomeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            });
+                } catch (Exception e) {
+
+
+                }
+
+            }
+        });
     }
 
     @Override
@@ -136,9 +205,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             if (userModel.getData() != null && userModel.getData().getRole().equals("client")) {
                 navigationView.getMenu().getItem(1).setVisible(false);
-                navigationView.getMenu().getItem(5).setVisible(false);
+                Log.e("issss",userModel.getData().getIs_special()+"__");
+                if (userModel.getData().getIs_special().equals("1"))
+                {
+                    navigationView.getMenu().getItem(5).setVisible(false);
+
+                }
             } else if (userModel.getData() != null && userModel.getData().getRole().equals("provider")) {
-                navigationView.getMenu().getItem(2).setVisible(false);
+                navigationView.getMenu().getItem(5).setVisible(false);
+
 
             }
 
@@ -205,7 +280,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     Intent intent = new Intent(this, SignInActivity.class);
                     intent.putExtra("from", true);
-                    startActivity(intent);
+                    startActivityForResult(intent,400);
                 }
                 break;
 
@@ -217,7 +292,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     Intent intent = new Intent(this, SignInActivity.class);
                     intent.putExtra("from", true);
-                    startActivity(intent);
+                    startActivityForResult(intent,400);
                 }
                 break;
 
@@ -227,15 +302,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     if (userModel.getData() != null && userModel.getData().getRole().equals("client")) {
                         navigateToUpdateClientProfileActivity();
 
-                    } else {
-
-
                     }
 
                 } else {
                     Intent intent = new Intent(this, SignInActivity.class);
                     intent.putExtra("from", true);
-                    startActivity(intent);
+                    startActivityForResult(intent,400);
                 }
                 break;
 
@@ -245,9 +317,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.upgrade:
+
                 if (userModel != null) {
+                    Log.e("ddddd",userModel.getData().getIs_special()+"_");
                     if (userModel.getData() != null && userModel.getData().getRole().equals("provider")) {
+                        if (userModel.getData().getIs_special().equals("0"))
+                        {
+
+                        }
+
                         navigateToPaymentActivity();
+
 
                     } else {
                         Toast.makeText(this, R.string.prov_only, Toast.LENGTH_SHORT).show();
@@ -256,7 +336,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     Intent intent = new Intent(this, SignInActivity.class);
                     intent.putExtra("from", true);
-                    startActivity(intent);
+                    startActivityForResult(intent,400);
                 }
                 break;
             case R.id.terms:
@@ -272,8 +352,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     {
                         Intent intent = new Intent(this, SignInActivity.class);
                         intent.putExtra("from", true);
-                        startActivity(intent);
+                        startActivityForResult(intent,400);
                     }
+                break;
+
+            case R.id.notification:
+                if (userModel!=null)
+                {
+                    navigateToNotificationActivity();
+
+                }else
+                {
+                    Intent intent = new Intent(this, SignInActivity.class);
+                    intent.putExtra("from", true);
+                    startActivityForResult(intent,400);
+                }
                 break;
 
 
@@ -349,7 +442,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         new Handler()
                 .postDelayed(() -> {
-                    Intent intent = new Intent(this, PaymentActivity.class);
+                    Intent intent = new Intent(this, MyPaymentActivity.class);
                     startActivity(intent);
 
                 },500);
@@ -452,6 +545,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void navigateToNotificationActivity() {
+        new Handler()
+                .postDelayed(() -> {
+                    Intent intent = new Intent(this, NotificationActivity.class);
+                    startActivity(intent);
+                }, 500);
+
+    }
+
 
     private void navigateToSignInActivity() {
         Intent intent = new Intent(this, SignInActivity.class);
@@ -472,9 +574,52 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private void logout() {
 
-        preferences.clear(this);
-        userModel = null;
-        navigateToSignInActivity();
+
+        try {
+
+            Api.getService(Tags.base_url)
+                    .logout("Bearer "+userModel.getData().getToken())
+                    .enqueue(new Callback<ResponseActiveUser>() {
+                        @Override
+                        public void onResponse(Call<ResponseActiveUser> call, Response<ResponseActiveUser> response) {
+                            if (response.isSuccessful() && response.body() != null &&response.body().isValue())
+                            {
+                                preferences.clear(HomeActivity.this);
+                                userModel = null;
+                                navigateToSignInActivity();
+
+                            } else {
+                                try {
+
+                                    Log.e("error", response.code() + "_" + response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseActiveUser> call, Throwable t) {
+                            try {
+
+                                if (t.getMessage() != null) {
+                                    Log.e("error", t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                        Toast.makeText(HomeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+
+
+        }
+
 
     }
 
@@ -513,6 +658,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             userModel = preferences.getUserData(this);
             updateUi();
         } else if (requestCode == 300 && resultCode == RESULT_OK && data != null) {
+            userModel = preferences.getUserData(this);
+            updateUi();
+        }else if (requestCode == 400 && resultCode == RESULT_OK && data != null) {
             userModel = preferences.getUserData(this);
             updateUi();
         }

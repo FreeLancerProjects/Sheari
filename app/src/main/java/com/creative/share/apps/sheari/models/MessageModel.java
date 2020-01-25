@@ -14,6 +14,20 @@ public class MessageModel implements Serializable {
     private Sender receiver;
 
 
+    public MessageModel() {
+    }
+
+    public MessageModel(int id, String order_id, String order_status, String sender_id, String receiver_id, String message, Sender sender, Sender receiver) {
+        this.id = id;
+        this.order_id = order_id;
+        this.order_status = order_status;
+        this.sender_id = sender_id;
+        this.receiver_id = receiver_id;
+        this.message = message;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+
     public int getId() {
         return id;
     }

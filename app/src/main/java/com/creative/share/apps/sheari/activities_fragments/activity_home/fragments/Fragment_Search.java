@@ -563,10 +563,14 @@ public class Fragment_Search extends Fragment implements OnMapReadyCallback, Goo
 
         for (ProviderModel providerModel: providerModelList)
         {
-            double lat = Double.parseDouble(providerModel.getLat());
-            double lng = Double.parseDouble(providerModel.getLng());
-            AddMarker(lat,lng,providerModel);
-            builder.include(new LatLng(lat,lng));
+            if (providerModel.getLat()!=null&&!providerModel.getLat().isEmpty()&&providerModel.getLng()!=null&&!providerModel.getLng().isEmpty())
+            {
+                double lat = Double.parseDouble(providerModel.getLat());
+                double lng = Double.parseDouble(providerModel.getLng());
+                AddMarker(lat,lng,providerModel);
+                builder.include(new LatLng(lat,lng));
+            }
+
         }
 
         if (mMap!=null)

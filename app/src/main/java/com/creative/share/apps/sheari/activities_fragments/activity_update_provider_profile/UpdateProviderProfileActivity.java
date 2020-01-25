@@ -2,6 +2,7 @@ package com.creative.share.apps.sheari.activities_fragments.activity_update_prov
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,7 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_create_update_project.CreateUpdateProjectActivity;
-import com.creative.share.apps.sheari.activities_fragments.activity_payment.PaymentActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_payment.MyPaymentActivity;
 import com.creative.share.apps.sheari.adapters.LocationSpinnerAdapter;
 import com.creative.share.apps.sheari.adapters.MyFieldAdapter2;
 import com.creative.share.apps.sheari.adapters.ProjectAdapter;
@@ -48,13 +49,14 @@ import com.creative.share.apps.sheari.tags.Tags;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -139,20 +141,19 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
 
         regionSpinnerAdapter = new LocationSpinnerAdapter(this,regionList);
         binding.spinnerRegion.setAdapter(regionSpinnerAdapter);
-
-
-
         if (userModel!=null)
         {
             binding.edtName.setText(userModel.getData().getName());
             binding.edtEmail.setText(userModel.getData().getEmail());
-            binding.edtPhone.setText(userModel.getData().getPhone());
+           /* binding.edtPhone.setText(userModel.getData().getPhone());
             binding.edtAbout.setText(userModel.getData().getBio());
 
-            updateProviderModel.setName(userModel.getData().getName());
+            */
+           updateProviderModel.setName(userModel.getData().getName());
             updateProviderModel.setEmail(userModel.getData().getEmail());
-            updateProviderModel.setPhone(userModel.getData().getPhone());
-            updateProviderModel.setAbout_me(userModel.getData().getBio());
+            updateProviderModel.setRegion_id(userModel.getData().getRegion_id());
+            //updateProviderModel.setPhone(userModel.getData().getPhone());
+            //updateProviderModel.setAbout_me(userModel.getData().getBio());
 
 
             binding.setModel(updateProviderModel);
@@ -182,6 +183,8 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
 
             updateBtnUi();
         }
+
+
 
 
         try {
@@ -262,6 +265,7 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
         binding.btnUpdate.setOnClickListener(view -> {
             if (updateProviderModel.isValid(this))
             {
+
                 update();
             }
         });
@@ -270,9 +274,10 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
         {
             userModel = preferences.getUserData(this);
 
+
             if (userModel.getData().getIs_special().equals("0"))
             {
-                Intent intent = new Intent(this, PaymentActivity.class);
+                Intent intent = new Intent(this, MyPaymentActivity.class);
                 startActivity(intent);
             }else if (userModel.getData().getIs_special().equals("1"))
             {
@@ -286,7 +291,8 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
                     {
                         binding.edtDiscount.setError(null);
                         Common.CloseKeyBoard(this,binding.edtDiscount);
-                        update();
+
+                        updateDiscount(discount);
 
                     }
             }
@@ -299,6 +305,8 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
         });
         getCountry();
     }
+
+
 
     private void getAllProject() {
 
@@ -578,19 +586,245 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
             if (userModel.getData().getRegion_id()==regionList.get(i).getId())
             {
                 binding.spinnerRegion.setSelection(i);
+
                 return;
             }
         }
     }
 
+
+
     private void update()
     {
 
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
 
+
+        RequestBody name_part = Common.getRequestBodyText(updateProviderModel.getName());
+        RequestBody email_part = Common.getRequestBodyText(updateProviderModel.getEmail());
+        RequestBody region_part = Common.getRequestBodyText(String.valueOf(updateProviderModel.getRegion_id()));
+
+        try {
+
+            Api.getService(Tags.base_url)
+                    .updateProviderProfile("Bearer "+userModel.getData().getToken(),name_part,email_part,region_part)
+                    .enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                if (response.body().isValue())
+                                {
+                                    preferences.create_update_userData(UpdateProviderProfileActivity.this,response.body());
+
+                                    Intent intent = getIntent();
+                                    setResult(RESULT_OK,intent);
+                                    finish();
+
+                                }else
+                                    {
+                                        Toast.makeText(UpdateProviderProfileActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                            }else
+                            {
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+                                }else
+                                {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(UpdateProviderProfileActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(UpdateProviderProfileActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
 
     }
 
+    private void updateImage() {
 
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+
+        MultipartBody.Part image = Common.getMultiPart(this,imgUri1,"image");
+        try {
+
+            Api.getService(Tags.base_url)
+                    .updateProviderProfileImage("Bearer "+userModel.getData().getToken(),image)
+                    .enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                if (response.body().isValue())
+                                {
+                                    preferences.create_update_userData(UpdateProviderProfileActivity.this,response.body());
+
+                                    Intent intent = getIntent();
+                                    setResult(RESULT_OK,intent);
+                                    finish();
+
+                                }else
+                                {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }else
+                            {
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+                                }else
+                                {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(UpdateProviderProfileActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(UpdateProviderProfileActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+    }
+
+    private void updateDiscount(String discount) {
+
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+
+        RequestBody discount_part = Common.getRequestBodyText(discount);
+        try {
+
+            Api.getService(Tags.base_url)
+                    .updateProviderDiscount("Bearer "+userModel.getData().getToken(),discount_part)
+                    .enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                if (response.body().isValue())
+                                {
+                                    preferences.create_update_userData(UpdateProviderProfileActivity.this,response.body());
+
+                                    Intent intent = getIntent();
+                                    setResult(RESULT_OK,intent);
+                                    finish();
+
+                                }else
+                                {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }else
+                            {
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+                                }else
+                                {
+                                    Toast.makeText(UpdateProviderProfileActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(UpdateProviderProfileActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(UpdateProviderProfileActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+
+    }
     private void CreateImageAlertDialog(final int img_req)
     {
 
@@ -722,8 +956,9 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
             {
                 imgUri1 = data.getData();
                 updateProviderModel.setImage(imgUri1);
-                File file = new File(Common.getImagePath(this, imgUri1));
-                Picasso.with(this).load(file).fit().into(binding.image);
+
+                updateImage();
+
             }else if (selectedType ==2)
             {
 
@@ -732,17 +967,7 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
                 imgUri1 = getUriFromBitmap(bitmap);
                 updateProviderModel.setImage(imgUri1);
 
-                if (imgUri1 != null) {
-                    String path = Common.getImagePath(this, imgUri1);
-
-                    if (path != null) {
-                        Picasso.with(this).load(new File(path)).fit().into(binding.image);
-
-                    } else {
-                        Picasso.with(this).load(imgUri1).fit().into(binding.image);
-
-                    }
-                }
+                updateImage();
             }
 
 
@@ -769,6 +994,8 @@ public class UpdateProviderProfileActivity extends AppCompatActivity implements 
         }
 
     }
+
+
 
     private Uri getUriFromBitmap(Bitmap bitmap) {
         String path = "";

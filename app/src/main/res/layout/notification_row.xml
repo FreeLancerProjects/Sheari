@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.creative.share.apps.sheari.models.NotificationDataModel.Data.NotificationModel" />
+    </data>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginStart="10dp"
+       android:layout_marginEnd="10dp"
+       android:layout_marginTop="3dp"
+       android:layout_marginBottom="2dp"
+       android:orientation="vertical"
+
+       >
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@drawable/small_round_bg"
+           android:padding="10dp"
+
+           >
+           <com.makeramen.roundedimageview.RoundedImageView
+               android:id="@+id/logo"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               app:riv_corner_radius="25dp"
+               app:riv_border_color="@color/gray6"
+               app:riv_mutate_background="true"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               android:background="@color/colorPrimary"
+               android:src="@drawable/logo"
+               />
+
+           <View
+               android:id="@+id/v"
+               android:layout_width="10dp"
+               android:layout_height="10dp"
+               android:background="@drawable/online_bg"
+               app:layout_constraintTop_toTopOf="@id/tvName"
+               app:layout_constraintBottom_toBottomOf="@id/tvName"
+               app:layout_constraintStart_toEndOf="@id/logo"
+               android:layout_marginStart="10dp"
+               android:layout_marginEnd="10dp"
+               />
+           <TextView
+               android:id="@+id/tvName"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               app:layout_constraintStart_toEndOf="@id/v"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintHorizontal_bias="0"
+               app:layout_constraintWidth_default="wrap"
+               android:layout_marginStart="5dp"
+               android:layout_marginEnd="5dp"
+               android:textColor="@color/black"
+               android:textSize="14sp"
+               android:textStyle="bold"
+               android:text='@{model.user_name}'
+               />
+
+
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               app:layout_constraintStart_toEndOf="@id/tvName"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/tvName"
+               app:layout_constraintHorizontal_bias="0"
+               app:layout_constraintWidth_default="wrap"
+               android:textColor="@color/gray6"
+               android:textSize="13sp"
+               android:textStyle="bold"
+               android:text='@{model.title}'
+               android:layout_marginTop="10dp"
+
+               />
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="35dp"
+           android:background="@drawable/rounded_gray_dark"
+           android:layout_marginStart="40dp"
+           android:layout_marginEnd="40dp"
+           android:gravity="center"
+           android:paddingStart="15dp"
+           android:paddingEnd="15dp"
+           android:textColor="@color/colorPrimary"
+           android:textSize="12sp"
+           android:text='@{model.created_at.date}'
+           />
+   </LinearLayout>
+</layout>

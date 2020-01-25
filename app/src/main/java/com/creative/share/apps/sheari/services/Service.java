@@ -7,7 +7,9 @@ import com.creative.share.apps.sheari.models.CommentRespons;
 import com.creative.share.apps.sheari.models.LocationDataModel;
 import com.creative.share.apps.sheari.models.MessageDataModel;
 import com.creative.share.apps.sheari.models.MyOrderDataModel;
+import com.creative.share.apps.sheari.models.NotificationDataModel;
 import com.creative.share.apps.sheari.models.OfferDataModel;
+import com.creative.share.apps.sheari.models.PayPalLinkModel;
 import com.creative.share.apps.sheari.models.PlaceGeocodeData;
 import com.creative.share.apps.sheari.models.PlaceMapDetailsData;
 import com.creative.share.apps.sheari.models.ProjectDataModel;
@@ -247,12 +249,32 @@ public interface Service {
                                         @Field("phone") String phone
     );
 
+    @Multipart
+    @POST("api/user/update/profile")
+    Call<UserModel> updateProviderProfile(@Header("Authorization") String user_token,
+                                          @Part("name") RequestBody name,
+                                          @Part("email") RequestBody email,
+                                          @Part("region_id") RequestBody region_id
+    );
+
+    @Multipart
+    @POST("api/user/update/profile")
+    Call<UserModel> updateProviderProfileImage(@Header("Authorization") String user_token,
+                                               @Part MultipartBody.Part image
+    );
+
     @FormUrlEncoded
-    @POST("api/inbox")
+    @POST("api/user/update/profile")
+    Call<UserModel> updateProviderDiscount(@Header("Authorization") String user_token,
+                                           @Part("discount") RequestBody discount
+    );
+
+
+    @GET("api/inbox")
     Call<MessageDataModel> getRoomMessages(@Header("Authorization") String user_token,
-                                           @Field("receiver_id") int receiver_id,
-                                           @Field("order_id") int order_id,
-                                           @Field("page") int page
+                                           @Query("receiver_id") int receiver_id,
+                                           @Query("order_id") int order_id,
+                                           @Query("page") int page
     );
 
 
@@ -321,7 +343,9 @@ public interface Service {
                                        @Field("time") String time,
                                        @Field("date") String date,
                                        @Field("provider_id") int provider_id,
-                                       @Field("important") String important
+                                       @Field("important") String important,
+                                       @Field("expected_time") String expected_time,
+                                       @Field("expected_money") String expected_money
 
 
     );
@@ -365,6 +389,59 @@ public interface Service {
     );
 
 
+    @FormUrlEncoded
+    @POST("api/provider/ordered/accept")
+    Call<ResponseActiveUser> acceptOrder(@Header("X-localization") String lang,
+                                         @Header("Authorization") String user_token,
+                                         @Field("order_id") int order_id
+    );
+
+    @FormUrlEncoded
+    @POST("api/provider/ordered/cancel")
+    Call<ResponseActiveUser> refuseOrder(@Header("X-localization") String lang,
+                                         @Header("Authorization") String user_token,
+                                         @Field("order_id") int order_id,
+                                         @Field("reason") String reason
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/provider/ordered/finish")
+    Call<ResponseActiveUser> finishOrder(@Header("X-localization") String lang,
+                                         @Header("Authorization") String user_token,
+                                         @Field("order_id") int order_id
+    );
+
+
+    @GET("api/client/ordered/notifications")
+    Call<NotificationDataModel> getClientNotification(@Header("Authorization") String user_token,
+                                                      @Query("page") int page
+    );
+
+
+    @GET("api/provider/ordered/notifications")
+    Call<NotificationDataModel> getProviderNotification(@Header("Authorization") String user_token,
+                                                        @Query("page") int page
+    );
+
+    @FormUrlEncoded
+    @POST("api/user/update_fcm_token")
+    Call<ResponseActiveUser> updateUserToken(@Header("Authorization") String user_token,
+                                             @Field("fcm_token_android") String fcm_token_android
+    );
+
+
+    @GET("api/user/logout")
+    Call<ResponseActiveUser> logout(@Header("Authorization") String user_token
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/user/upgrade/paypal")
+    Call<PayPalLinkModel> getPayPalLink(@Header("Authorization") String user_token,
+                                        @Field("data") String data
+    );
 }
+
 
 

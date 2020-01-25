@@ -6,8 +6,26 @@ import java.util.List;
 public class MessageDataModel implements Serializable {
     private boolean value;
     private String msg;
-    private Paginate paginate;
-    private List<MessageModel> inbox;
+    private Data data;
+
+
+
+
+
+
+    public class Data implements Serializable
+    {
+        private List<MessageModel> inbox;
+        private Paginate paginate;
+
+        public Paginate getPaginate() {
+            return paginate;
+        }
+
+        public List<MessageModel> getInbox() {
+            return inbox;
+        }
+    }
 
     public boolean isValue() {
         return value;
@@ -17,12 +35,8 @@ public class MessageDataModel implements Serializable {
         return msg;
     }
 
-    public Paginate getPaginate() {
-        return paginate;
-    }
-
-    public List<MessageModel> getInbox() {
-        return inbox;
+    public Data getData() {
+        return data;
     }
 
     public class Paginate implements Serializable

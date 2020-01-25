@@ -30,7 +30,7 @@ public class SendOrderModel extends BaseObservable implements Serializable {
     public ObservableField<String> error_important = new ObservableField<>();
     public ObservableField<String> error_duration = new ObservableField<>();
     public ObservableField<String> error_budget = new ObservableField<>();
-    public ObservableField<String> error_description = new ObservableField<>();
+    //public ObservableField<String> error_description = new ObservableField<>();
 
 
     public SendOrderModel() {
@@ -41,7 +41,7 @@ public class SendOrderModel extends BaseObservable implements Serializable {
         this.important = "";
         this.duration = "";
         this.budget = "";
-        this.description = "";
+        //this.description = "";
 
 
     }
@@ -59,7 +59,7 @@ public class SendOrderModel extends BaseObservable implements Serializable {
             error_title.set(null);
             error_budget.set(null);
             error_date.set(null);
-            error_description.set(null);
+            //error_description.set(null);
             error_details.set(null);
             error_duration.set(null);
             error_time.set(null);
@@ -203,7 +203,7 @@ public class SendOrderModel extends BaseObservable implements Serializable {
 
     }
 
-    @Bindable
+    /*@Bindable
     public String getDescription() {
         return description;
     }
@@ -212,5 +212,5 @@ public class SendOrderModel extends BaseObservable implements Serializable {
         this.description = description;
         notifyPropertyChanged(BR.budget);
 
-    }
+    }*/
 }

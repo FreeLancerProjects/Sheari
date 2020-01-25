@@ -1,5 +1,6 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_sign_in.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Fragment_Sign_In extends Fragment implements Listeners.LoginListener {
+
     private static final String TAG = "OUT";
     private FragmentSignInBinding binding;
     private SignInActivity activity;
@@ -54,14 +56,15 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false);
         View view = binding.getRoot();
         initView();
         return view;
     }
-
-    private void initView() {
+    private void initView()
+    {
         preferences = Preferences.newInstance();
         loginModel = new LoginModel();
         activity = (SignInActivity) getActivity();
@@ -95,18 +98,17 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
 
     }
-
-
     @Override
-    public void checkDataLogin() {
+    public void checkDataLogin()
+    {
 
         if (loginModel.isDataValid(activity)) {
             Common.CloseKeyBoard(activity, binding.edtEmail);
             login(loginModel);
         }
     }
-
-    private void login(LoginModel loginModel) {
+    private void login(LoginModel loginModel)
+    {
 
         ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
         dialog.setCancelable(false);
@@ -140,7 +142,10 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
                                                 Intent intent = new Intent(activity,HomeActivity.class);
                                                 startActivity(intent);
 
-                                            }
+                                            }else {
+                                                    Intent intent = activity.getIntent();
+                                                    activity.setResult(Activity.RESULT_OK,intent);
+                                                }
                                             activity.finish();
                                         }
 
@@ -195,6 +200,7 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
         }
     }
+
 
 
 }

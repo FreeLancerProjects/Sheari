@@ -25,7 +25,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.creative.share.apps.sheari.R;
-import com.creative.share.apps.sheari.activities_fragments.activity_make_order.FragmentMapTouchListener;
 import com.creative.share.apps.sheari.databinding.ActivityMakeOrder2Binding;
 import com.creative.share.apps.sheari.interfaces.Listeners;
 import com.creative.share.apps.sheari.language.LanguageHelper;
@@ -210,7 +209,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
         try {
 
             Api.getService(Tags.base_url)
-                    .sendOrder(lang,"Bearer "+userModel.getData().getToken(),sendOrderModel.getTitle(),sendOrderModel.getDetails(),lat,lng,sendOrderModel.getTime(),sendOrderModel.getDate(),providerModel.getId(),sendOrderModel.getImportant())
+                    .sendOrder(lang,"Bearer "+userModel.getData().getToken(),sendOrderModel.getTitle(),sendOrderModel.getDetails(),lat,lng,sendOrderModel.getTime(),sendOrderModel.getDate(),providerModel.getId(),sendOrderModel.getImportant(),sendOrderModel.getDuration(),sendOrderModel.getBudget())
                     .enqueue(new Callback<ResponseActiveUser>() {
                         @Override
                         public void onResponse(Call<ResponseActiveUser> call, Response<ResponseActiveUser> response) {
@@ -293,7 +292,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
 
     private void createTimePickerDialog() {
         Calendar calendar = Calendar.getInstance();
-        timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+        timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
         timePickerDialog.dismissOnPause(true);
         timePickerDialog.setAccentColor(ActivityCompat.getColor(this, R.color.colorPrimary));
         timePickerDialog.setCancelColor(ActivityCompat.getColor(this, R.color.gray4));
@@ -333,7 +332,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, second);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
         time = dateFormat.format(new Date(calendar.getTimeInMillis()));
 
         binding.tvTime.setText(time);
@@ -417,7 +416,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
         iconGenerator.setContentView(view);
         iconGenerator.setBackground(null);
 
-        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(address).icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon())));
+        marker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(address).icon(BitmapDescriptorFactory.fromBitmap(iconGenerator.makeIcon())));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),zoom));
 
     }
@@ -475,6 +474,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
 
                             if (response.body().getCandidates().size() > 0) {
                                 address = response.body().getCandidates().get(0).getFormatted_address().replace("Unnamed Road,", "");
+
                                 lat = response.body().getCandidates().get(0).getGeometry().getLocation().getLat();
                                 lng = response.body().getCandidates().get(0).getGeometry().getLocation().getLng();
                                 AddMarker(response.body().getCandidates().get(0).getGeometry().getLocation().getLat(), response.body().getCandidates().get(0).getGeometry().getLocation().getLng(),address);
@@ -571,7 +571,7 @@ public class MakeOrder2Activity extends AppCompatActivity implements Listeners.B
         lng = location.getLongitude();
 
         AddMarker(lat, lng, address);
-        //getGeoData(lat, lng);
+        getGeoData(lat, lng);
         LocationServices.getFusedLocationProviderClient(this)
                 .removeLocationUpdates(locationCallback);
         googleApiClient.disconnect();

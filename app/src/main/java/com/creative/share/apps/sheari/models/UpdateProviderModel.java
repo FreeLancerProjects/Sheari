@@ -19,8 +19,6 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
 
     private String name;
     private String email;
-    private String phone;
-    private String about_me;
     private Uri image;
     private int region_id;
 
@@ -34,7 +32,6 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
     public boolean isValid(Context context)
     {
         if (!TextUtils.isEmpty(name)&&
-                !TextUtils.isEmpty(phone)&&
                 !TextUtils.isEmpty(email)&&
                 Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
@@ -71,13 +68,13 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
             }
 
 
-            if (phone.isEmpty())
+           /* if (phone.isEmpty())
             {
                 error_phone.set(context.getString(R.string.field_req));
             }else
             {
                 error_phone.set(null);
-            }
+            }*/
 
 
 
@@ -94,8 +91,8 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
 
 
     public UpdateProviderModel() {
-        this.phone="";
-        notifyPropertyChanged(BR.phone);
+        //this.phone="";
+        //notifyPropertyChanged(BR.phone);
         this.name = "";
         notifyPropertyChanged(BR.name);
         this.email = "";
@@ -131,7 +128,7 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
 
     }
 
-    @Bindable
+    /*@Bindable
     public String getAbout_me() {
         return about_me;
     }
@@ -139,7 +136,7 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
     public void setAbout_me(String about_me) {
         this.about_me = about_me;
         notifyPropertyChanged(BR.about_me);
-    }
+    }*/
 
     public Uri getImage() {
         return image;
@@ -157,7 +154,7 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
         this.region_id = region_id;
     }
 
-    @Bindable
+    /*@Bindable
     public String getPhone() {
         return phone;
     }
@@ -167,6 +164,6 @@ public class UpdateProviderModel extends BaseObservable implements Serializable 
         notifyPropertyChanged(BR.phone);
 
     }
-
+*/
 
 }

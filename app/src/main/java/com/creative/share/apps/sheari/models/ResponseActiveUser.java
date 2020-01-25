@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class ResponseActiveUser implements Serializable {
 
+    private boolean status;
+
     private boolean value;
     private String msg;
     ////////////////////////////////
@@ -19,5 +21,9 @@ public class ResponseActiveUser implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    public boolean isStatus() {
+        return status;
     }
 }

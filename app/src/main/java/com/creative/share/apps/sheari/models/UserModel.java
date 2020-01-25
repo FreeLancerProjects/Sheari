@@ -73,6 +73,11 @@ public class UserModel implements Serializable {
         private int city_id;
         private int country_id;
 
+
+        public void setIs_special(String is_special) {
+            this.is_special = is_special;
+        }
+
         private List<SubCategory> sub_categories;
 
         public boolean isOnline() {

@@ -41,6 +41,8 @@ public class MyOrderDataModel implements Serializable {
         public class OrderModel implements Serializable
         {
             private int id;
+            private int user_id;
+            private int provider_id;
             private String title;
             private String name;
             private String client_image;
@@ -49,6 +51,7 @@ public class MyOrderDataModel implements Serializable {
             private String status;
             private String full_date;
             private String category_id;
+
             private String important;
             private String expected_time;
             private String expected_money;
@@ -120,6 +123,14 @@ public class MyOrderDataModel implements Serializable {
 
             public String getRate() {
                 return rate;
+            }
+
+            public int getUser_id() {
+                return user_id;
+            }
+
+            public int getProvider_id() {
+                return provider_id;
             }
         }
     }

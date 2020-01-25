@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -77,7 +76,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     {
         Intent intent = getIntent();
         if (intent != null) {
-            chatUserModel = (ChatUserModel) intent.getSerializableExtra("chat_user_data");
+            chatUserModel = (ChatUserModel) intent.getSerializableExtra("data");
         }
     }
     private void initView()
@@ -126,12 +125,6 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         removeNotificationFromBackGround();
         getChatMessages();
 
-        binding.imageCall.setOnClickListener((v)->{
-            String phone = chatUserModel.getPhone();
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
-            startActivity(intent);
-
-        });
 
 
         binding.imageSend.setOnClickListener((v) -> {
@@ -144,7 +137,14 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         });
 
 
+        saveChatUser();
 
+
+    }
+
+    private void saveChatUser() {
+
+        preferences.create_update_ChatUserData(this,chatUserModel);
     }
 
     private void removeNotificationFromBackGround() {
@@ -171,16 +171,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                         public void onResponse(Call<SingleMessageDataModel> call, Response<SingleMessageDataModel> response) {
                             if (response.isSuccessful() && response.body() != null) {
 
-                                if (response.body().isValue())
+                                if (response.body().isStatus())
                                 {
                                     hasNewMsg =  true;
                                     messageModelList.add(response.body().getData());
                                     adapter.notifyItemInserted(messageModelList.size()-1);
                                     scrollToLastPosition();
-                                }else
-                                    {
-                                        Toast.makeText(ChatActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                                    }
+                                }
 
 
                             } else {
@@ -226,6 +223,12 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     private void getChatMessages() {
         try {
 
+            Log.e("id",chatUserModel.getId()+"__");
+
+            Log.e("order_id",chatUserModel.getOrder_id()+"__");
+
+
+
 
             Api.getService(Tags.base_url)
                     .getRoomMessages("Bearer "+userModel.getData().getToken(),chatUserModel.getId(), chatUserModel.getOrder_id(), 1)
@@ -239,7 +242,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                                 if (response.body().isValue())
                                 {
                                     messageModelList.clear();
-                                    messageModelList.addAll(response.body().getInbox());
+                                    messageModelList.addAll(response.body().getData().getInbox());
                                     adapter.notifyDataSetChanged();
                                     scrollToLastPosition();
                                 }else
@@ -298,7 +301,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
         try {
 
             Api.getService(Tags.base_url)
-                    .getRoomMessages("Bearer "+userModel.getData().getToken(),chatUserModel.getId(), chatUserModel.getOrder_id(), 1)
+                    .getRoomMessages("Bearer "+userModel.getData().getToken(),chatUserModel.getId(), chatUserModel.getOrder_id(), next_page)
                     .enqueue(new Callback<MessageDataModel>() {
                         @Override
                         public void onResponse(Call<MessageDataModel> call, Response<MessageDataModel> response) {
@@ -307,16 +310,13 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                             adapter.notifyItemRemoved(0);
                             if (response.isSuccessful() && response.body() != null) {
 
-                                if (response.body().isValue())
+                                if (response.body().isValue()&&response.body().getData().getInbox().size()>0)
                                 {
-                                    current_page = response.body().getPaginate().getCount();
-                                    messageModelList.addAll(0, response.body().getInbox());
-                                    adapter.notifyItemRangeInserted(0, response.body().getInbox().size());
+                                    current_page = response.body().getData().getPaginate().getCount();
+                                    messageModelList.addAll(0, response.body().getData().getInbox());
+                                    adapter.notifyItemRangeInserted(0, response.body().getData().getInbox().size());
 
-                                }else
-                                    {
-                                        Toast.makeText(ChatActivity.this, response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                                    }
+                                }
 
 
                             } else {
@@ -382,11 +382,11 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
     @Override
     public void back() {
 
-        Back();
+        finish();
     }
 
     private void Back() {
-        if (hasNewMsg)
+        /*if (hasNewMsg)
         {
             Intent intent = getIntent();
             if (intent!=null&&hasNewMsg)
@@ -396,7 +396,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                 setResult(RESULT_OK,intent);
             }
         }
-        finish();
+        finish();*/
     }
 
     @Override

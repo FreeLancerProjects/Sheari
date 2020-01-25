@@ -174,7 +174,10 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
                     binding.btnNext.setVisibility(View.VISIBLE);
 
                 }
-        }
+        }else
+            {
+                binding.btnNext.setVisibility(View.GONE);
+            }
         if (this.providerModel.getSub_categories().size()>0)
         {
             adapter = new MyFieldAdapter(providerModel.getSub_categories(),this);
@@ -237,9 +240,11 @@ public class CreateOrderActivity extends AppCompatActivity implements Listeners.
                // getGeoData(lat, lng);
             });*/
 
-            if (providerModel!=null)
+            if (providerModel!=null&&providerModel.getLat()!=null&&!providerModel.getLat().isEmpty()&&providerModel.getLng()!=null&&!providerModel.getLng().isEmpty())
             {
+
                 String address = providerModel.getName()+"/"+providerModel.getCountry_name()+"-"+providerModel.getCity_name()+"-"+providerModel.getRegion_name();
+
 
                 AddMarker(Double.parseDouble(providerModel.getLat()),Double.parseDouble(providerModel.getLng()),address);
 

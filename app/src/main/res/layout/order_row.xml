@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/mdtp_light_gray"
                     android:textSize="12sp"
-                    android:text='@{model.title??""}'
+                    android:text='@{String.valueOf(model.id)??""}'
                     android:singleLine="true"
 
                     />
@@ -110,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/green"
                     android:textSize="12sp"
-                    android:text='@{model.status.equals("pending")?@string/pending:(model.status.equals("current")?@string/pending:@string/previous2)}'
+                    android:text='@{model.status.equals("pending")?@string/pending:(model.status.equals("accepted")?@string/current:@string/previous2)}'
                     android:background="@drawable/state_bg"
                     android:padding="5dp"
                     android:singleLine="true"

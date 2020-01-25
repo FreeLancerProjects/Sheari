@@ -1,5 +1,6 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_client_sign_up.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -146,7 +147,7 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
                             {
                                 if (response.body().isStatus())
                                 {
-                                    if (response.body().getData().getIs_verified().equals("0"))
+                                    if (response.body().getUser().getIs_verified().equals("0"))
                                     {
                                         Intent intent = new Intent(activity, VerifyCodeActivity.class);
                                         intent.putExtra("data",response.body());
@@ -163,6 +164,10 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
                                             Intent intent = new Intent(activity, HomeActivity.class);
                                             startActivity(intent);
 
+                                        }else
+                                        {
+                                            Intent intent = activity.getIntent();
+                                            activity.setResult(Activity.RESULT_OK,intent);
                                         }
                                         activity.finish();
                                     }
@@ -170,7 +175,15 @@ public class Fragment_Client_Sign_Up_Step2 extends Fragment {
 
                                 }else
                                 {
-                                    Toast.makeText(activity,response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    if (!response.body().getMessage().isEmpty()&&response.body().getMessage()!=null)
+                                    {
+                                        Toast.makeText(activity,response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    }else if (response.body().getMsg().isEmpty()&&response.body().getMsg()!=null)
+                                    {
+                                        Toast.makeText(activity,response.body().getMsg(), Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
 
 

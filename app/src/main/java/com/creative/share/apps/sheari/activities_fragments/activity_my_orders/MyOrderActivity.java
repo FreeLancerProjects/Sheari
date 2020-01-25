@@ -59,7 +59,7 @@ public class MyOrderActivity extends AppCompatActivity implements Listeners.Back
 
         titles.add(getString(R.string.pending));
         titles.add(getString(R.string.current));
-        titles.add(getString(R.string.previous));
+        titles.add(getString(R.string.previous2));
 
         fragmentList.add(Fragment_Order_Pending.newInstance());
         fragmentList.add(Fragment_Order_Current.newInstance());
@@ -73,10 +73,22 @@ public class MyOrderActivity extends AppCompatActivity implements Listeners.Back
         binding.pager.setAdapter(adapter);
         binding.tab.setupWithViewPager(binding.pager);
 
+        binding.pager.setOffscreenPageLimit(fragmentList.size());
 
     }
 
 
+    public void  updateFragmentCurrent()
+    {
+        Fragment_Order_Current fragment_order_current = (Fragment_Order_Current) adapter.getItem(1);
+        fragment_order_current.getOrders();
+    }
+
+    public void  updateFragmentPrevious()
+    {
+        Fragment_Order_Previous fragment_order_previous = (Fragment_Order_Previous) adapter.getItem(2);
+        fragment_order_previous.getOrders();
+    }
     @Override
     public void back() {
         finish();

@@ -73,20 +73,7 @@
 
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/tvCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="37dp"
-                    android:textColor="@color/gray4"
-                    android:textSize="15sp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/rounder_gray"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    error="@{signUpModel.error_phone_code}"
 
-                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,24 +83,66 @@
                     android:text="@string/phone"
                     android:layout_marginTop="5dp"
                     />
-                <EditText
-                    android:id="@+id/edtPhone"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray4"
-                    android:textSize="14sp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    android:inputType="number"
-                    tools:ignore="TextFields"
-                    android:text="@={signUpModel.phone}"
-                    error="@{signUpModel.error_phone}"
 
+                    >
+                    <TextView
+                        android:id="@+id/tvCode"
+                        android:layout_width="0dp"
+                        android:layout_weight=".2"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/gray4"
+                        android:textSize="15sp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="+966"
+                        error="@{signUpModel.error_phone_code}"
+
+                        />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/gray4"/>
+
+                    <EditText
+                        android:id="@+id/edtPhone"
+                        android:layout_width="0dp"
+                        android:layout_weight=".8"
+                        android:layout_height="37dp"
+                        android:layout_gravity="center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray4"
+                        android:textSize="14sp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:inputType="number"
+                        tools:ignore="TextFields"
+                        android:background="@color/white"
+                        android:text="@={signUpModel.phone}"
+                        error="@{signUpModel.error_phone}"
+
+                        />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray5"
                     />
+
 
                 <TextView
                     android:layout_width="wrap_content"

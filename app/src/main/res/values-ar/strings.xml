@@ -197,7 +197,7 @@
     <string name="important">الاهمية :</string>
     <string name="expected_period">المدة المتوقعة</string>
     <string name="cash_budget">الميزانية النقدية :</string>
-    <string name="describe_order_optional">وصف الطلب (إختياري)</string>
+    <string name="describe_order_optional">وصف الطلب</string>
     <string name="country2">الدولة</string>
     <string name="city2">المدينة</string>
     <string name="dept2">القسم</string>
@@ -259,5 +259,12 @@
     <string name="order_num">رقم الطلب :</string>
     <string name="date2">تاريخ الطلب :</string>
     <string name="order_state">حالة الطلب :</string>
+    <string name="order_details">تفاصيل الطلب</string>
+    <string name="title2">العنوان :</string>
+    <string name="period">المدة :</string>
+    <string name="details2">التفاصيل :</string>
+    <string name="accept">قبول</string>
+    <string name="refuse">رفض</string>
+    <string name="done2">تم التنفيذ</string>
 
 </resources>

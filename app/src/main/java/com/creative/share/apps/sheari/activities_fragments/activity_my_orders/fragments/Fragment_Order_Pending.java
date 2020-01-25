@@ -1,5 +1,7 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_my_orders.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.sheari.R;
 import com.creative.share.apps.sheari.activities_fragments.activity_my_orders.MyOrderActivity;
+import com.creative.share.apps.sheari.activities_fragments.activity_order_details.OrderDetailsActivity;
 import com.creative.share.apps.sheari.adapters.MyOrderAdapter;
 import com.creative.share.apps.sheari.databinding.FragmentOrderPendingCurrentPreviousBinding;
 import com.creative.share.apps.sheari.models.MyOrderDataModel;
@@ -46,6 +50,7 @@ public class Fragment_Order_Pending extends Fragment {
     private LinearLayoutManager manager;
     private List<MyOrderDataModel.Data.OrderModel> orderModelList;
     private MyOrderAdapter adapter;
+    private int selected_pos=-1;
 
 
     public static Fragment_Order_Pending newInstance() {
@@ -87,7 +92,7 @@ public class Fragment_Order_Pending extends Fragment {
                     int total_item = binding.recView.getAdapter().getItemCount();
                     int last_visible_item = manager.findLastCompletelyVisibleItemPosition();
 
-                    if (total_item>=20&&(total_item-last_visible_item)==5&&!isLoading)
+                    if (total_item>=10&&(total_item-last_visible_item)==5&&!isLoading)
                     {
 
                         isLoading = true;
@@ -293,4 +298,38 @@ public class Fragment_Order_Pending extends Fragment {
     }
 
 
+    public void setItemData(MyOrderDataModel.Data.OrderModel model, int adapterPosition) {
+
+        this.selected_pos = adapterPosition;
+        Intent intent = new Intent(activity, OrderDetailsActivity.class);
+        intent.putExtra("data",model);
+        startActivityForResult(intent,100);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100&&resultCode== Activity.RESULT_OK&&data!=null)
+        {
+            if (selected_pos!=-1)
+            {
+                orderModelList.remove(selected_pos);
+                adapter.notifyItemRemoved(selected_pos);
+                selected_pos =-1;
+
+                if (orderModelList.size()==0)
+                {
+                    binding.tvNoOrder.setVisibility(View.VISIBLE);
+                }else
+                    {
+                        binding.tvNoOrder.setVisibility(View.GONE);
+
+                    }
+            }
+            activity.updateFragmentCurrent();
+
+
+        }
+    }
 }

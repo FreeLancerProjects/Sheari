@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -212,7 +211,6 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
 
             if (providerSignUpModel.step4IsValid(activity))
             {
-                Log.e("ddd","pppp");
 
                 if (providerSignUpModel.getType()==1)
                 {
@@ -368,6 +366,10 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                                             Intent intent = new Intent(activity, HomeActivity.class);
                                             startActivity(intent);
 
+                                        }else
+                                        {
+                                            Intent intent = activity.getIntent();
+                                            activity.setResult(Activity.RESULT_OK,intent);
                                         }
                                         activity.finish();
                                     }
@@ -519,6 +521,10 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                                             Intent intent = new Intent(activity, HomeActivity.class);
                                             startActivity(intent);
 
+                                        }else
+                                        {
+                                            Intent intent = activity.getIntent();
+                                            activity.setResult(Activity.RESULT_OK,intent);
                                         }
                                         activity.finish();
                                     }
@@ -670,6 +676,10 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                                             Intent intent = new Intent(activity, HomeActivity.class);
                                             startActivity(intent);
 
+                                        }else
+                                        {
+                                            Intent intent = activity.getIntent();
+                                            activity.setResult(Activity.RESULT_OK,intent);
                                         }
                                         activity.finish();
                                     }
@@ -736,8 +746,6 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
     }
 
     private void signUpProviderWithImage() {
-
-        Log.e("ddd","77777");
 
         String provider_type = "one";
         int map = 0;
@@ -826,6 +834,10 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
                                             Intent intent = new Intent(activity, HomeActivity.class);
                                             startActivity(intent);
 
+                                        }else
+                                        {
+                                            Intent intent = activity.getIntent();
+                                            activity.setResult(Activity.RESULT_OK,intent);
                                         }
                                         activity.finish();
                                     }
@@ -1102,12 +1114,7 @@ public class Fragment_Provider_Step4 extends Fragment implements  OnMapReadyCall
         dialog.setCanceledOnTouchOutside(false);
         dialog.setView(binding.getRoot());
         dialog.show();
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = 550;
-        lp.height = 850;
-        dialog.getWindow().setAttributes(lp);
 
     }
 

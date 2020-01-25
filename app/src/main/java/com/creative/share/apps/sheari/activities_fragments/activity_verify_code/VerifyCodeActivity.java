@@ -1,5 +1,6 @@
 package com.creative.share.apps.sheari.activities_fragments.activity_verify_code;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -138,6 +139,10 @@ public class VerifyCodeActivity extends AppCompatActivity implements Listeners.B
                                     {
                                         Intent intent = new Intent(VerifyCodeActivity.this, HomeActivity.class);
                                         startActivity(intent);
+                                    }else
+                                    {
+                                        Intent intent = getIntent();
+                                        setResult(Activity.RESULT_OK,intent);
                                     }
 
                                     finish();

@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <variable
+            name="lang"
+            type="String" />
+        <variable
+            name="model"
+            type="com.creative.share.apps.sheari.models.MyOrderDataModel.Data.OrderModel" />
+        <variable
+            name="backListener"
+            type="com.creative.share.apps.sheari.interfaces.Listeners.BackListener" />
+        <variable
+            name="user"
+            type="com.creative.share.apps.sheari.models.UserModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    app:contentInsetStart="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetEnd="0dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:onClick="@{()->backListener.back()}"
+                        >
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_left_arrow"
+                            android:tint="@color/white"
+                            android:padding="10dp"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/back"
+                            android:textSize="15sp"
+                            android:textColor="@color/white"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            />
+                    </LinearLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".activities_fragments.activity_terms.TermsActivity"
+                    android:fitsSystemWindows="true"
+                    android:fillViewport="true"
+
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <FrameLayout
+                            android:id="@+id/flLogo"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:background="@drawable/top_bg"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="120dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/logo" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|bottom"
+                                android:layout_marginBottom="10dp"
+                                android:text="@string/order_details"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_marginTop="30dp"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".65"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:text="@string/order_num"
+                                    android:textStyle="bold"
+
+                                    />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.35"
+                                    android:background="@drawable/small_rounded_gray"
+                                    android:padding="5dp"
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/gray6"
+                                        android:textSize="12sp"
+                                        android:text="@{String.valueOf(model.id)}"
+
+
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_marginTop="10dp"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".65"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:text="@string/title2"
+                                    android:textStyle="bold"
+
+                                    />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.35"
+                                    android:background="@drawable/small_rounded_gray"
+                                    android:padding="5dp"
+
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/gray6"
+                                        android:textSize="12sp"
+                                        android:text='@{model.title??""}'
+
+
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_marginTop="10dp"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".65"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:text="@string/date2"
+                                    android:textStyle="bold"
+
+                                    />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.35"
+                                    android:background="@drawable/small_rounded_gray"
+                                    android:padding="5dp"
+
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/gray6"
+                                        android:textSize="12sp"
+                                        android:text='@{model.full_date??""}'
+
+
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_marginTop="10dp"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".65"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:text="@string/order_state"
+                                    android:textStyle="bold"
+
+                                    />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.35"
+                                    android:background="@drawable/small_rounded_gray"
+                                    android:padding="5dp"
+
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/gray6"
+                                        android:textSize="12sp"
+                                        android:text='@{model.status.equals("pending")?@string/pending:(model.status.equals("accepted")?@string/current:@string/previous2)}'
+
+
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_marginTop="10dp"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".65"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:text="@string/period"
+                                    android:textStyle="bold"
+
+                                    />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.35"
+                                    android:background="@drawable/small_rounded_gray"
+                                    android:padding="5dp"
+
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/gray6"
+                                        android:textSize="12sp"
+                                        android:text='@{model.expected_time??""}'
+
+
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_marginTop="10dp"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".65"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:text="@string/cash_budget"
+                                    android:textStyle="bold"
+
+                                    />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.35"
+                                    android:background="@drawable/small_rounded_gray"
+                                    android:padding="5dp"
+
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/gray6"
+                                        android:textSize="12sp"
+                                        android:text='@{model.expected_money??""}'
+
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_marginTop="10dp"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".65"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:text="@string/details2"
+                                    android:textStyle="bold"
+
+                                    />
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.35"
+                                    android:background="@drawable/small_rounded_gray"
+                                    android:padding="5dp"
+
+                                    >
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/gray6"
+                                        android:textSize="12sp"
+                                        android:text='@{model.details??""}'
+
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:visibility='@{user.data.role.equals("provider")?(model.status.equals("pending")?View.VISIBLE:View.GONE):View.GONE,default=gone}'
+
+                                >
+                                <Button
+                                    android:id="@+id/btnAccept"
+                                    android:layout_width="0dp"
+                                    android:layout_height="35dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:text="@string/accept"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    />
+
+                                <Button
+                                    android:id="@+id/btnRefuse"
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="35dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray6"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:text="@string/refuse"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginEnd="5dp"
+                                    />
+                            </LinearLayout>
+
+
+                            <Button
+                                android:id="@+id/btnDone"
+                                android:layout_width="200dp"
+                                android:layout_height="35dp"
+                                android:background="@color/menu_color"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:text="@string/done2"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_gravity="center_horizontal"
+
+                                android:visibility='@{user.data.role.equals("provider")?(model.status.equals("accepted")?View.VISIBLE:View.GONE):View.GONE,default=gone}'
+
+
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageChat"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle_gradient"
+            app:layout_anchor="@id/flLogo"
+            app:layout_anchorGravity="bottom"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_chat"
+            android:padding="10dp"
+            android:tint="@color/white"
+
+            android:visibility='@{model.status.equals("pending")?View.GONE:View.VISIBLE,default=gone}'
+
+
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

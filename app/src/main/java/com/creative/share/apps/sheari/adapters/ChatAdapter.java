@@ -76,8 +76,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
 
         } else if (holder instanceof LoadMoreHolder) {
-            LoadMoreHolder typingHolder = (LoadMoreHolder) holder;
-
+            LoadMoreHolder loadMoreHolder = (LoadMoreHolder) holder;
+            loadMoreHolder.binding.progBar.setIndeterminate(true);
 
         }
 
